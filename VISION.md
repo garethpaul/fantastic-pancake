@@ -42,3 +42,6 @@ temperatures, storage guidance, or sourcing as appropriate.
 - Unsourced bulk content dumps
 - Generated images or assets without purpose and provenance
 - Recipe or food-safety claims that are vague or misleading
+
+This list is a roadmap guardrail, not a permanent rule.
+Strong user demand and strong technical rationale can change it.
