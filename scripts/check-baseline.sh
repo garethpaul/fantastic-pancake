@@ -44,7 +44,8 @@ for heading in \
   "## Types of Pancakes" \
   "## Pancake Tips" \
   "## Pancake-Related Events and Traditions" \
-  "## Creative Pancake Ideas"; do
+  "## Creative Pancake Ideas" \
+  "## Source and Safety Notes"; do
   if ! grep -Fq "$heading" "$ROOT_DIR/pancakes.md"; then
     printf '%s\n' "Missing pancake content heading: $heading" >&2
     exit 1
@@ -59,6 +60,13 @@ fi
 
 if grep -Eq '^(---|### \*\*)' "$ROOT_DIR/pancakes.md"; then
   printf '%s\n' "pancakes.md should use clean Markdown headings, not placeholder separators." >&2
+  exit 1
+fi
+
+if ! grep -Fq "FoodSafety.gov" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "https://www.foodsafety.gov/blog/leftovers-gift-keeps-giving" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "2 hours" "$ROOT_DIR/pancakes.md"; then
+  printf '%s\n' "pancakes.md must keep source-backed food-safety guidance." >&2
   exit 1
 fi
 

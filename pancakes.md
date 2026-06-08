@@ -33,3 +33,12 @@ for breakfast, brunch, dessert, or community events.
 - Use buckwheat flour for a nutty flavor that pairs well with apples.
 - Make silver-dollar pancakes for kids, parties, or tasting several toppings.
 - Serve with yogurt, fruit, and toasted nuts instead of only syrup.
+
+## Source and Safety Notes
+
+- Use official food-safety guidance when adding recipe, storage, or event
+  serving advice; FoodSafety.gov's leftover guidance is a good starting point:
+  https://www.foodsafety.gov/blog/leftovers-gift-keeps-giving
+- Do not leave perishable pancake toppings or cooked leftovers at room
+  temperature for more than 2 hours, or more than 1 hour above 90 degrees F.
+- Label common allergens clearly for pancake bars or community breakfasts.

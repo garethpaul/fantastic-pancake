@@ -7,3 +7,4 @@
 - Added `make check` and `scripts/check-baseline.sh` to verify the content-only
   repository baseline.
 - Documented the maintenance plan in `docs/plans/`.
+- Added source-backed food-safety notes for future recipe or serving guidance.

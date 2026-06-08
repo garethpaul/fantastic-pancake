@@ -57,7 +57,8 @@ make check
 
 The baseline verifies that the repository remains content-only, README/VISION
 stay linked to `pancakes.md`, the overview image targets this repo, and the
-pancake document keeps real sections instead of placeholder separators.
+pancake document keeps real sections instead of placeholder separators. It also
+keeps food-safety notes tied to an official FoodSafety.gov source.
 
 When the required SDK or runtime is unavailable, use static checks and source review first, then verify on a machine that has the matching platform toolchain.
 
@@ -68,6 +69,8 @@ When the required SDK or runtime is unavailable, use static checks and source re
 ## Security and Privacy Notes
 
 - The scan did not identify production authentication, payment, or secret-management code. Treat future additions in those areas as security-sensitive.
+- Food-safety guidance should cite official sources and avoid vague storage or
+  serving claims.
 
 ## Maintenance Notes
 

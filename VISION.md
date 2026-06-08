@@ -25,6 +25,8 @@ Current baseline:
   repository shape.
 - `pancakes.md` uses clean Markdown headings and enough specific bullets to
   avoid placeholder-only sections.
+- Food-safety notes cite FoodSafety.gov before making storage or serving
+  recommendations.
 - README and VISION document the no-scaffold boundary until there is a concrete
   publishing need.
 

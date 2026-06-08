@@ -18,6 +18,8 @@ without guessing what "done" means.
 - Updated README and VISION so the repository is explicitly maintained as a
   content-only project.
 - Added a change log entry for the baseline.
+- Added FoodSafety.gov-backed safety notes so future recipe or event guidance
+  has a clear source boundary.
 
 ## Verification
 
