@@ -7,19 +7,25 @@
 
 `garethpaul/fantastic-pancake` is a public sample, documentation, or utility project. a repo about pancakes
 
-This README is based on the checked-in source, manifests, scripts, and repository metadata on the `main` branch. The project language mix found during review was: no dominant source language detected.
+This is maintained as a content-only pancake notes repository. It should stay
+small until there is a concrete publishing need for a site, app, or data
+pipeline.
 
 ## Repository Contents
 
 - `SECURITY.md` - security reporting and disclosure guidance
+- `CHANGES.md` - concise history of repository maintenance changes
+- `Makefile` - local check entry point
 - `VISION.md` - project direction and maintenance guardrails
+- `docs/readme-overview.svg` - README overview image
+- `pancakes.md` - pancake content outline
 
 Additional scan context:
 
 - Source directories: no top-level source directories detected
 - Dependency and build manifests: none detected
 - Entry points or build surfaces: none detected
-- Test-looking files: no obvious test files detected
+- Test-looking files: `scripts/check-baseline.sh`
 
 ## Getting Started
 
@@ -38,11 +44,20 @@ The setup commands above are derived from repository files. Legacy mobile, Pytho
 
 ## Running or Using the Project
 
-- No single runtime entry point was identified. Start by reading the source files and manifests listed above.
+- Read `pancakes.md`.
+- Keep future edits plain Markdown unless a publishing workflow becomes necessary.
 
 ## Testing and Verification
 
-- No dedicated automated test command was identified from the checked-in files. Verify changes by running the relevant build or manually exercising the sample.
+Run the content baseline:
+
+```bash
+make check
+```
+
+The baseline verifies that the repository remains content-only, README/VISION
+stay linked to `pancakes.md`, the overview image targets this repo, and the
+pancake document keeps real sections instead of placeholder separators.
 
 When the required SDK or runtime is unavailable, use static checks and source review first, then verify on a machine that has the matching platform toolchain.
 
@@ -56,6 +71,7 @@ When the required SDK or runtime is unavailable, use static checks and source re
 
 ## Maintenance Notes
 
+- Run `make check` before pushing content or documentation changes.
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.
 - See `VISION.md` for project direction and contribution guardrails.
 

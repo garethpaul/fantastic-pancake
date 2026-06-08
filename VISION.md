@@ -19,10 +19,19 @@ Priority:
 - Avoid generated filler that does not improve the document
 - Make future scope clear before adding code or site tooling
 
+Current baseline:
+
+- `scripts/check-baseline.sh` and `make check` verify the content-only
+  repository shape.
+- `pancakes.md` uses clean Markdown headings and enough specific bullets to
+  avoid placeholder-only sections.
+- README and VISION document the no-scaffold boundary until there is a concrete
+  publishing need.
+
 Next priorities:
 
 - Expand `pancakes.md` with concise, useful sections
-- Add a README if the repository grows beyond one content file
+- Keep README and VISION aligned with any new content sections
 - Decide whether this remains notes-only or becomes a small static page
 - Add sources or attribution for factual culinary claims when needed
 
