@@ -36,7 +36,7 @@ Recipes, food handling, or event information should be accurate and practical.
 If future content includes safety-sensitive cooking guidance, include clear
 temperatures, storage guidance, or sourcing as appropriate.
 
-## What We Will Not Merge For Now
+## What We Will Not Merge (For Now)
 
 - App scaffolding without a publishing goal
 - Unsourced bulk content dumps
