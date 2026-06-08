@@ -32,6 +32,11 @@ Contribution rules:
 
 ## Security And Responsible Use
 
+Canonical security policy and reporting:
+
+- [`SECURITY.md`](SECURITY.md)
+
+
 Recipes, food handling, or event information should be accurate and practical.
 If future content includes safety-sensitive cooking guidance, include clear
 temperatures, storage guidance, or sourcing as appropriate.
