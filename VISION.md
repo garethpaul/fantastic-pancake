@@ -30,7 +30,7 @@ Contribution rules:
 - Avoid large generated rewrites without review.
 - Do not add a build system until there is a real publishing need.
 
-## Content Quality
+## Security And Responsible Use
 
 Recipes, food handling, or event information should be accurate and practical.
 If future content includes safety-sensitive cooking guidance, include clear
