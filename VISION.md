@@ -1,5 +1,8 @@
 ## Fantastic Pancake Vision
 
+This document explains the current state and direction of the project.
+Project overview and developer docs: [`README.md`](README.md)
+
 Fantastic Pancake is a lightweight repository about pancakes. It currently
 contains a simple `pancakes.md` outline covering pancake types, tips, traditions,
 and creative ideas.
