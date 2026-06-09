@@ -13,6 +13,8 @@ without guessing what "done" means.
 
 - Replaced placeholder separators in `pancakes.md` with concise, reviewable
   pancake content.
+- Added a basic method section so the document covers preparation flow as well
+  as types, tips, traditions, and serving ideas.
 - Added `scripts/check-baseline.sh` and `make check` for static content and
   documentation verification.
 - Updated README and VISION so the repository is explicitly maintained as a

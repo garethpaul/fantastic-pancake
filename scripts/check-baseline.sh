@@ -41,6 +41,7 @@ fi
 
 for heading in \
   "# Pancakes" \
+  "## Basic Pancake Method" \
   "## Types of Pancakes" \
   "## Pancake Tips" \
   "## Pancake-Related Events and Traditions" \

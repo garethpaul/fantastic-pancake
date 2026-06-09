@@ -3,6 +3,14 @@
 Pancakes are a flexible griddle bread: quick to mix, easy to vary, and useful
 for breakfast, brunch, dessert, or community events.
 
+## Basic Pancake Method
+
+- Whisk dry ingredients first so salt, leavening, and flour are evenly mixed.
+- Combine wet ingredients separately, then stir them into the dry bowl gently.
+- Let the batter rest briefly while the griddle heats.
+- Cook the first pancake as a test for heat, browning, and batter thickness.
+- Serve pancakes soon after cooking, or hold them warm in a single layer.
+
 ## Types of Pancakes
 
 - Buttermilk pancakes: fluffy, lightly tangy, and best served soon after cooking.

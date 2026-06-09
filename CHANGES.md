@@ -2,6 +2,7 @@
 
 ## 2026-06-08
 
+- Added a basic pancake method section to make the content outline more useful.
 - Replaced placeholder pancake headings with concise content covering types,
   tips, traditions, and creative ideas.
 - Added `make check` and `scripts/check-baseline.sh` to verify the content-only

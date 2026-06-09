@@ -18,7 +18,7 @@ pipeline.
 - `Makefile` - local check entry point
 - `VISION.md` - project direction and maintenance guardrails
 - `docs/readme-overview.svg` - README overview image
-- `pancakes.md` - pancake content outline
+- `pancakes.md` - pancake method, tips, and content outline
 
 Additional scan context:
 

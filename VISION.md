@@ -4,8 +4,8 @@ This document explains the current state and direction of the project.
 Project overview and developer docs: [`README.md`](README.md)
 
 Fantastic Pancake is a lightweight repository about pancakes. It currently
-contains a simple `pancakes.md` outline covering pancake types, tips, traditions,
-and creative ideas.
+contains a simple `pancakes.md` outline covering a basic method, pancake types,
+tips, traditions, and creative ideas.
 
 The goal is to keep the repository as a small, readable content project rather
 than adding unnecessary application scaffolding.
