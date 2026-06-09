@@ -18,7 +18,7 @@ pipeline.
 - `Makefile` - local check entry point
 - `VISION.md` - project direction and maintenance guardrails
 - `docs/readme-overview.svg` - README overview image
-- `pancakes.md` - pancake method, tips, troubleshooting, and content outline
+- `pancakes.md` - pancake method, basic ratio, tips, troubleshooting, and content outline
 
 Additional scan context:
 
@@ -58,12 +58,12 @@ make check
 The baseline verifies that the repository remains content-only, README/VISION
 stay linked to `pancakes.md`, the overview image targets this repo, and the
 pancake document keeps real sections instead of placeholder separators. It also
-keeps practical troubleshooting notes, keeps food-safety notes tied to an
-official FoodSafety.gov source, and enforces a no-scaffold contract so app
-manifests, dependency lockfiles, source directories, and generated dependency
-directories do not appear without a new plan. Event serving notes must keep
-source-backed allergen guidance, separate utensil language, and avoid
-unsupported allergen-free claims.
+keeps a practical basic pancake ratio, keeps troubleshooting notes, keeps
+food-safety notes tied to an official FoodSafety.gov source, and enforces a
+no-scaffold contract so app manifests, dependency lockfiles, source directories,
+and generated dependency directories do not appear without a new plan. Event
+serving notes must keep source-backed allergen guidance, separate utensil
+language, and avoid unsupported allergen-free claims.
 
 When the required SDK or runtime is unavailable, use static checks and source review first, then verify on a machine that has the matching platform toolchain.
 

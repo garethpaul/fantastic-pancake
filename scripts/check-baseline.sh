@@ -6,6 +6,7 @@ PLAN="$ROOT_DIR/docs/plans/2026-06-08-fantastic-pancake-content-baseline.md"
 NO_SCAFFOLD_PLAN="$ROOT_DIR/docs/plans/2026-06-09-no-scaffold-contract.md"
 ALLERGEN_PLAN="$ROOT_DIR/docs/plans/2026-06-09-allergen-event-serving-notes.md"
 TROUBLESHOOTING_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-troubleshooting-section.md"
+RATIO_PLAN="$ROOT_DIR/docs/plans/2026-06-09-basic-pancake-ratio.md"
 
 require_file() {
   path=$1
@@ -25,6 +26,7 @@ for path in \
   "pancakes.md" \
   "docs/plans/2026-06-08-fantastic-pancake-content-baseline.md" \
   "docs/plans/2026-06-09-allergen-event-serving-notes.md" \
+  "docs/plans/2026-06-09-basic-pancake-ratio.md" \
   "docs/plans/2026-06-09-pancake-troubleshooting-section.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md"; do
   require_file "$path"
@@ -77,6 +79,7 @@ fi
 for heading in \
   "# Pancakes" \
   "## Basic Pancake Method" \
+  "## Basic Pancake Ratio" \
   "## Types of Pancakes" \
   "## Pancake Tips" \
   "## Troubleshooting Pancakes" \
@@ -98,6 +101,14 @@ fi
 
 if grep -Eq '^(---|### \*\*)' "$ROOT_DIR/pancakes.md"; then
   printf '%s\n' "pancakes.md should use clean Markdown headings, not placeholder separators." >&2
+  exit 1
+fi
+
+if ! grep -Fq "1 cup flour" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "2 teaspoons baking" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "1 egg" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "Scale dry and wet ingredients together" "$ROOT_DIR/pancakes.md"; then
+  printf '%s\n' "pancakes.md must keep a practical basic pancake ratio." >&2
   exit 1
 fi
 
@@ -151,6 +162,11 @@ fi
 
 if ! grep -Fq "status: completed" "$TROUBLESHOOTING_PLAN"; then
   printf '%s\n' "Troubleshooting plan must be marked completed." >&2
+  exit 1
+fi
+
+if ! grep -Fq "status: completed" "$RATIO_PLAN"; then
+  printf '%s\n' "Basic pancake ratio plan must be marked completed." >&2
   exit 1
 fi
 

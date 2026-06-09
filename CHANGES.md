@@ -2,6 +2,7 @@
 
 ## 2026-06-09
 
+- Added a basic pancake ratio section with starting quantities and scaling notes.
 - Added a practical troubleshooting section for flat, tough, pale, burnt,
   gummy, and uneven pancakes.
 - Extended the content baseline and plan docs to guard the new section.

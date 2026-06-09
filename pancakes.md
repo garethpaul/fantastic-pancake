@@ -11,6 +11,16 @@ for breakfast, brunch, dessert, or community events.
 - Cook the first pancake as a test for heat, browning, and batter thickness.
 - Serve pancakes soon after cooking, or hold them warm in a single layer.
 
+## Basic Pancake Ratio
+
+- For about 8 medium pancakes, start with 1 cup flour, 2 teaspoons baking
+  powder, 1 tablespoon sugar, and 1/4 teaspoon salt.
+- Whisk in 1 cup milk, 1 egg, and 2 tablespoons melted butter or neutral oil.
+- Use a little extra milk for thinner pancakes, or a spoonful less for taller,
+  thicker pancakes.
+- Scale dry and wet ingredients together when cooking for a group, then adjust
+  thickness after the batter rests.
+
 ## Types of Pancakes
 
 - Buttermilk pancakes: fluffy, lightly tangy, and best served soon after cooking.
