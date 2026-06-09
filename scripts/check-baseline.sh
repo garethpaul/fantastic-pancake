@@ -11,6 +11,7 @@ STORAGE_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-storage-reheating.md"
 GRIDDLE_PLAN="$ROOT_DIR/docs/plans/2026-06-09-griddle-heat-doneness.md"
 BATTER_PLAN="$ROOT_DIR/docs/plans/2026-06-09-batter-consistency-resting.md"
 PORTION_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-portioning-batch-size.md"
+MIX_INS_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-mix-ins-toppings.md"
 
 require_file() {
   path=$1
@@ -33,6 +34,7 @@ for path in \
   "docs/plans/2026-06-09-batter-consistency-resting.md" \
   "docs/plans/2026-06-09-basic-pancake-ratio.md" \
   "docs/plans/2026-06-09-griddle-heat-doneness.md" \
+  "docs/plans/2026-06-09-pancake-mix-ins-toppings.md" \
   "docs/plans/2026-06-09-pancake-portioning-batch-size.md" \
   "docs/plans/2026-06-09-pancake-storage-reheating.md" \
   "docs/plans/2026-06-09-pancake-troubleshooting-section.md" \
@@ -71,7 +73,8 @@ if ! grep -Fq "make check" "$ROOT_DIR/README.md" ||
   ! grep -Fq "pancakes.md" "$ROOT_DIR/README.md" ||
   ! grep -Fq "docs/readme-overview.svg" "$ROOT_DIR/README.md" ||
   ! grep -Fq "content-only" "$ROOT_DIR/README.md" ||
-  ! grep -Fq "no-scaffold" "$ROOT_DIR/README.md"; then
+  ! grep -Fq "no-scaffold" "$ROOT_DIR/README.md" ||
+  ! grep -Fq "Mix-ins and toppings" "$ROOT_DIR/README.md"; then
   printf '%s\n' "README must document the content-only baseline and verification command." >&2
   exit 1
 fi
@@ -79,7 +82,8 @@ fi
 if ! grep -Fq "scripts/check-baseline.sh" "$ROOT_DIR/VISION.md" ||
   ! grep -Fq "content-only" "$ROOT_DIR/VISION.md" ||
   ! grep -Fq "pancakes.md" "$ROOT_DIR/VISION.md" ||
-  ! grep -Fq "dependency manifests" "$ROOT_DIR/VISION.md"; then
+  ! grep -Fq "dependency manifests" "$ROOT_DIR/VISION.md" ||
+  ! grep -Fq "Mix-ins and toppings" "$ROOT_DIR/VISION.md"; then
   printf '%s\n' "VISION must describe the current content baseline." >&2
   exit 1
 fi
@@ -101,6 +105,7 @@ for heading in \
   "## Pancake Tips" \
   "## Griddle Heat and Doneness" \
   "## Troubleshooting Pancakes" \
+  "## Mix-Ins and Toppings" \
   "## Pancake-Related Events and Traditions" \
   "## Allergen and Event Serving Notes" \
   "## Batch Storage and Reheating" \
@@ -185,6 +190,15 @@ if ! grep -Fq "Flat pancakes" "$ROOT_DIR/pancakes.md" ||
   exit 1
 fi
 
+if ! grep -Fq "small dry mix-ins" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "heavier or wet mix-ins" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "Pat rinsed berries" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "Organize topping bars" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "allergen section's separate-utensil guidance" "$ROOT_DIR/pancakes.md"; then
+  printf '%s\n' "pancakes.md must keep practical mix-ins and toppings guidance." >&2
+  exit 1
+fi
+
 if ! grep -Fq "350 to 375 degrees F" "$ROOT_DIR/pancakes.md" ||
   ! grep -Fq "edges look set" "$ROOT_DIR/pancakes.md" ||
   ! grep -Fq "avoid pressing" "$ROOT_DIR/pancakes.md"; then
@@ -244,6 +258,16 @@ fi
 
 if ! grep -Fq "make check" "$PORTION_PLAN"; then
   printf '%s\n' "Pancake portioning plan must record make check verification." >&2
+  exit 1
+fi
+
+if ! grep -Fq "status: completed" "$MIX_INS_PLAN"; then
+  printf '%s\n' "Pancake mix-ins and toppings plan must be marked completed." >&2
+  exit 1
+fi
+
+if ! grep -Fq "make check" "$MIX_INS_PLAN"; then
+  printf '%s\n' "Pancake mix-ins and toppings plan must record make check verification." >&2
   exit 1
 fi
 

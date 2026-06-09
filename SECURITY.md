@@ -28,6 +28,7 @@ Helpful reports include:
 - The repository scan did not identify production authentication, payment, or secret-management code. Treat the project as public sample code unless future changes add sensitive surfaces.
 - No primary dependency manifest was detected in the repository root. If dependencies are added later, include a manifest and prefer reproducible installation instructions.
 - Food allergy and event-serving guidance can affect reader safety. Keep allergen claims source-backed and avoid promising allergen-free food without controlled ingredients, utensils, and prep surfaces.
+- Mix-ins and topping guidance should preserve clear allergen labels and separate serving-utensil language for shared pancake bars.
 
 
 ## Dependency and Supply Chain Security

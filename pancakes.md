@@ -88,6 +88,19 @@ for breakfast, brunch, dessert, or community events.
 - Uneven batches improve when the griddle is wiped clean between rounds and the
   batter is portioned consistently.
 
+## Mix-Ins and Toppings
+
+- Fold small dry mix-ins such as chocolate chips, toasted coconut, or chopped
+  nuts into rested batter with one or two gentle turns.
+- Sprinkle heavier or wet mix-ins onto each pancake after pouring so they
+  distribute evenly and do not sink to the bottom of the bowl.
+- Pat rinsed berries or sliced fruit dry before adding them so the batter stays
+  thick enough to set.
+- Organize topping bars by texture: warm sauces, fresh fruit, crunchy toppings,
+  and spreads are easier to label and replenish when separated.
+- Label nut, dairy, egg, wheat, sesame, and soy toppings clearly, and use the
+  allergen section's separate-utensil guidance for shared pancake bars.
+
 ## Pancake-Related Events and Traditions
 
 - Pancake breakfasts are common community fundraisers because batches scale easily.

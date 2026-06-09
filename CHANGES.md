@@ -2,6 +2,8 @@
 
 ## 2026-06-09
 
+- Added mix-ins and toppings guidance for folding, sprinkling, fruit prep,
+  topping-bar organization, and allergen labeling.
 - Added pancake portioning and batch-size notes with scoop sizes, spacing, and
   dry-mix prep guidance.
 - Added batter consistency and resting notes with tablespoon-by-tablespoon
