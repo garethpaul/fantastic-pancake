@@ -2,6 +2,9 @@
 
 ## 2026-06-09
 
+- Added a practical troubleshooting section for flat, tough, pale, burnt,
+  gummy, and uneven pancakes.
+- Extended the content baseline and plan docs to guard the new section.
 - Added source-backed allergen and event-serving notes for pancake bars, plus a
   baseline guard for labels, separate utensils, and allergen-free claims.
 

@@ -27,6 +27,19 @@ for breakfast, brunch, dessert, or community events.
 - Flip when bubbles form across the top and the edges look set.
 - Keep finished pancakes warm on a low oven rack rather than stacking them tightly.
 
+## Troubleshooting Pancakes
+
+- Flat pancakes usually need fresher leavening, a shorter wait after mixing, or
+  slightly less liquid.
+- Tough pancakes usually mean the batter was mixed too long after the wet and
+  dry ingredients met.
+- Pale pancakes often need a hotter griddle, while burnt edges usually mean the
+  pan is too hot or under-greased.
+- Gummy centers can come from pancakes that are too thick; thin the batter
+  slightly or spread each scoop wider.
+- Uneven batches improve when the griddle is wiped clean between rounds and the
+  batter is portioned consistently.
+
 ## Pancake-Related Events and Traditions
 
 - Pancake breakfasts are common community fundraisers because batches scale easily.

@@ -5,6 +5,7 @@ ROOT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 PLAN="$ROOT_DIR/docs/plans/2026-06-08-fantastic-pancake-content-baseline.md"
 NO_SCAFFOLD_PLAN="$ROOT_DIR/docs/plans/2026-06-09-no-scaffold-contract.md"
 ALLERGEN_PLAN="$ROOT_DIR/docs/plans/2026-06-09-allergen-event-serving-notes.md"
+TROUBLESHOOTING_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-troubleshooting-section.md"
 
 require_file() {
   path=$1
@@ -24,6 +25,7 @@ for path in \
   "pancakes.md" \
   "docs/plans/2026-06-08-fantastic-pancake-content-baseline.md" \
   "docs/plans/2026-06-09-allergen-event-serving-notes.md" \
+  "docs/plans/2026-06-09-pancake-troubleshooting-section.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md"; do
   require_file "$path"
 done
@@ -77,6 +79,7 @@ for heading in \
   "## Basic Pancake Method" \
   "## Types of Pancakes" \
   "## Pancake Tips" \
+  "## Troubleshooting Pancakes" \
   "## Pancake-Related Events and Traditions" \
   "## Allergen and Event Serving Notes" \
   "## Creative Pancake Ideas" \
@@ -88,7 +91,7 @@ for heading in \
 done
 
 bullet_count=$(grep -c '^- ' "$ROOT_DIR/pancakes.md")
-if [ "$bullet_count" -lt 12 ]; then
+if [ "$bullet_count" -lt 20 ]; then
   printf '%s\n' "pancakes.md must keep enough specific content bullets." >&2
   exit 1
 fi
@@ -119,6 +122,13 @@ for allergen in milk eggs wheat peanuts "tree nuts" soybeans sesame; do
   fi
 done
 
+if ! grep -Fq "Flat pancakes" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "Tough pancakes" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "Gummy centers" "$ROOT_DIR/pancakes.md"; then
+  printf '%s\n' "pancakes.md must keep practical troubleshooting notes." >&2
+  exit 1
+fi
+
 if ! grep -Fq "<title id=\"title\">fantastic-pancake project overview</title>" "$ROOT_DIR/docs/readme-overview.svg"; then
   printf '%s\n' "README overview image must describe this repository." >&2
   exit 1
@@ -136,6 +146,11 @@ fi
 
 if ! grep -Fq "status: completed" "$ALLERGEN_PLAN"; then
   printf '%s\n' "Allergen event-serving plan must be marked completed." >&2
+  exit 1
+fi
+
+if ! grep -Fq "status: completed" "$TROUBLESHOOTING_PLAN"; then
+  printf '%s\n' "Troubleshooting plan must be marked completed." >&2
   exit 1
 fi
 

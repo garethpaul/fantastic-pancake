@@ -5,7 +5,7 @@ Project overview and developer docs: [`README.md`](README.md)
 
 Fantastic Pancake is a lightweight repository about pancakes. It currently
 contains a simple `pancakes.md` outline covering a basic method, pancake types,
-tips, traditions, and creative ideas.
+tips, troubleshooting, traditions, and creative ideas.
 
 The goal is to keep the repository as a small, readable content project rather
 than adding unnecessary application scaffolding.
@@ -28,6 +28,8 @@ Current baseline:
   scope.
 - `pancakes.md` uses clean Markdown headings and enough specific bullets to
   avoid placeholder-only sections.
+- Troubleshooting notes cover common batch problems without adding app
+  scaffolding.
 - Food-safety notes cite FoodSafety.gov before making storage or serving
   recommendations.
 - README and VISION document the no-scaffold boundary until there is a concrete
