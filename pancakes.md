@@ -37,6 +37,19 @@ for breakfast, brunch, dessert, or community events.
 - Flip when bubbles form across the top and the edges look set.
 - Keep finished pancakes warm on a low oven rack rather than stacking them tightly.
 
+## Griddle Heat and Doneness
+
+- Preheat a skillet or griddle before adding batter; an electric griddle can
+  start around 350 to 375 degrees F, then be adjusted after the first pancake.
+- Grease lightly and wipe away puddles of fat so pancakes brown evenly instead
+  of frying at the edges.
+- Pour batter only after the surface is hot enough that a test pancake browns
+  gradually, not instantly.
+- Flip once bubbles open across the top and the edges look set and slightly
+  matte.
+- After flipping, avoid pressing pancakes with the spatula; gentle contact keeps
+  the interior lighter.
+
 ## Troubleshooting Pancakes
 
 - Flat pancakes usually need fresher leavening, a shorter wait after mixing, or

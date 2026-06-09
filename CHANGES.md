@@ -2,6 +2,8 @@
 
 ## 2026-06-09
 
+- Added griddle heat and doneness notes for preheating, flipping, and avoiding
+  pressed pancakes, plus `make lint`/`make test`/`make build` baseline aliases.
 - Added a basic pancake ratio section with starting quantities and scaling notes.
 - Added a practical troubleshooting section for flat, tough, pale, burnt,
   gummy, and uneven pancakes.

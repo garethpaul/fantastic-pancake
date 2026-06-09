@@ -8,6 +8,7 @@ ALLERGEN_PLAN="$ROOT_DIR/docs/plans/2026-06-09-allergen-event-serving-notes.md"
 TROUBLESHOOTING_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-troubleshooting-section.md"
 RATIO_PLAN="$ROOT_DIR/docs/plans/2026-06-09-basic-pancake-ratio.md"
 STORAGE_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-storage-reheating.md"
+GRIDDLE_PLAN="$ROOT_DIR/docs/plans/2026-06-09-griddle-heat-doneness.md"
 
 require_file() {
   path=$1
@@ -28,6 +29,7 @@ for path in \
   "docs/plans/2026-06-08-fantastic-pancake-content-baseline.md" \
   "docs/plans/2026-06-09-allergen-event-serving-notes.md" \
   "docs/plans/2026-06-09-basic-pancake-ratio.md" \
+  "docs/plans/2026-06-09-griddle-heat-doneness.md" \
   "docs/plans/2026-06-09-pancake-storage-reheating.md" \
   "docs/plans/2026-06-09-pancake-troubleshooting-section.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md"; do
@@ -78,12 +80,20 @@ if ! grep -Fq "scripts/check-baseline.sh" "$ROOT_DIR/VISION.md" ||
   exit 1
 fi
 
+if ! grep -Fq "lint: check" "$ROOT_DIR/Makefile" ||
+  ! grep -Fq "test: check" "$ROOT_DIR/Makefile" ||
+  ! grep -Fq "build: check" "$ROOT_DIR/Makefile"; then
+  printf '%s\n' "Makefile must expose lint, test, and build gates." >&2
+  exit 1
+fi
+
 for heading in \
   "# Pancakes" \
   "## Basic Pancake Method" \
   "## Basic Pancake Ratio" \
   "## Types of Pancakes" \
   "## Pancake Tips" \
+  "## Griddle Heat and Doneness" \
   "## Troubleshooting Pancakes" \
   "## Pancake-Related Events and Traditions" \
   "## Allergen and Event Serving Notes" \
@@ -151,6 +161,13 @@ if ! grep -Fq "Flat pancakes" "$ROOT_DIR/pancakes.md" ||
   exit 1
 fi
 
+if ! grep -Fq "350 to 375 degrees F" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "edges look set" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "avoid pressing" "$ROOT_DIR/pancakes.md"; then
+  printf '%s\n' "pancakes.md must keep practical griddle heat and doneness notes." >&2
+  exit 1
+fi
+
 if ! grep -Fq "<title id=\"title\">fantastic-pancake project overview</title>" "$ROOT_DIR/docs/readme-overview.svg"; then
   printf '%s\n' "README overview image must describe this repository." >&2
   exit 1
@@ -183,6 +200,11 @@ fi
 
 if ! grep -Fq "status: completed" "$STORAGE_PLAN"; then
   printf '%s\n' "Storage and reheating plan must be marked completed." >&2
+  exit 1
+fi
+
+if ! grep -Fq "status: completed" "$GRIDDLE_PLAN"; then
+  printf '%s\n' "Griddle heat and doneness plan must be marked completed." >&2
   exit 1
 fi
 

@@ -59,13 +59,16 @@ make check
 The baseline verifies that the repository remains content-only, README/VISION
 stay linked to `pancakes.md`, the overview image targets this repo, and the
 pancake document keeps real sections instead of placeholder separators. It also
-keeps a practical basic pancake ratio, keeps troubleshooting notes, keeps
-food-safety notes tied to an official FoodSafety.gov source, and enforces a
-no-scaffold contract so app manifests, dependency lockfiles, source directories,
-and generated dependency directories do not appear without a new plan. Event
-serving notes must keep source-backed allergen guidance, separate utensil
-language, and avoid unsupported allergen-free claims. Batch notes must keep
-specific holding, storage, and reheating thresholds.
+keeps a practical basic pancake ratio, griddle heat and doneness notes,
+troubleshooting notes, food-safety notes tied to an official FoodSafety.gov
+source, and enforces a no-scaffold contract so app manifests, dependency
+lockfiles, source directories, and generated dependency directories do not
+appear without a new plan. Event serving notes must keep source-backed allergen
+guidance, separate utensil language, and avoid unsupported allergen-free claims.
+Batch notes must keep specific holding, storage, and reheating thresholds.
+
+The `make lint`, `make test`, and `make build` aliases run the same content
+baseline while this repository has no narrower installed gates.
 
 When the required SDK or runtime is unavailable, use static checks and source review first, then verify on a machine that has the matching platform toolchain.
 
@@ -90,6 +93,7 @@ When the required SDK or runtime is unavailable, use static checks and source re
   bars or community breakfast guidance.
 - Keep batch storage and reheating guidance tied to official food-safety
   sources when expanding event or leftover content.
+- Keep griddle heat and doneness notes practical when expanding method content.
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.
 - See `VISION.md` for project direction and contribution guardrails.
 

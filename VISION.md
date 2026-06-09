@@ -29,6 +29,8 @@ Current baseline:
 - `pancakes.md` uses clean Markdown headings and enough specific bullets to
   avoid placeholder-only sections.
 - Basic ratio notes provide a practical starting formula before variations.
+- Griddle heat and doneness notes cover preheating, browning, flipping, and
+  avoiding pressed pancakes.
 - Troubleshooting notes cover common batch problems without adding app
   scaffolding.
 - Food-safety notes cite FoodSafety.gov before making storage or serving
@@ -39,6 +41,8 @@ Current baseline:
   publishing need.
 - Event-serving notes keep allergen labels, separate utensils, and
   allergen-free claims tied to official source guidance.
+- `make lint`, `make test`, and `make build` run the same content baseline
+  while no narrower gates are installed.
 
 Next priorities:
 
