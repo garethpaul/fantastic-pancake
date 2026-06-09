@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-06-09
+
+- Added source-backed allergen and event-serving notes for pancake bars, plus a
+  baseline guard for labels, separate utensils, and allergen-free claims.
+
 ## 2026-06-08
 
 - Added a no-scaffold check so app manifests, dependency lockfiles, and source

@@ -27,6 +27,7 @@ Helpful reports include:
 - This repository appears to be a public sample, documentation, or utility project. The active security scope is the code and documentation on the default branch.
 - The repository scan did not identify production authentication, payment, or secret-management code. Treat the project as public sample code unless future changes add sensitive surfaces.
 - No primary dependency manifest was detected in the repository root. If dependencies are added later, include a manifest and prefer reproducible installation instructions.
+- Food allergy and event-serving guidance can affect reader safety. Keep allergen claims source-backed and avoid promising allergen-free food without controlled ingredients, utensils, and prep surfaces.
 
 
 ## Dependency and Supply Chain Security

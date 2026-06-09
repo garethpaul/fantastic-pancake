@@ -60,7 +60,9 @@ stay linked to `pancakes.md`, the overview image targets this repo, and the
 pancake document keeps real sections instead of placeholder separators. It also
 keeps food-safety notes tied to an official FoodSafety.gov source and enforces a
 no-scaffold contract so app manifests, dependency lockfiles, source directories,
-and generated dependency directories do not appear without a new plan.
+and generated dependency directories do not appear without a new plan. Event
+serving notes must keep source-backed allergen guidance, separate utensil
+language, and avoid unsupported allergen-free claims.
 
 When the required SDK or runtime is unavailable, use static checks and source review first, then verify on a machine that has the matching platform toolchain.
 
@@ -73,12 +75,16 @@ When the required SDK or runtime is unavailable, use static checks and source re
 - The scan did not identify production authentication, payment, or secret-management code. Treat future additions in those areas as security-sensitive.
 - Food-safety guidance should cite official sources and avoid vague storage or
   serving claims.
+- Allergen guidance should stay tied to official sources and should not promise
+  allergen-free preparation without controlled ingredients and surfaces.
 
 ## Maintenance Notes
 
 - Run `make check` before pushing content or documentation changes.
 - Keep the no-scaffold contract in place until there is a concrete publishing
   plan for an app or static site.
+- Keep the allergen event-serving notes source-backed when expanding pancake
+  bars or community breakfast guidance.
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.
 - See `VISION.md` for project direction and contribution guardrails.
 

@@ -32,6 +32,8 @@ Current baseline:
   recommendations.
 - README and VISION document the no-scaffold boundary until there is a concrete
   publishing need.
+- Event-serving notes keep allergen labels, separate utensils, and
+  allergen-free claims tied to official source guidance.
 
 Next priorities:
 
@@ -39,6 +41,7 @@ Next priorities:
 - Keep README and VISION aligned with any new content sections
 - Decide whether this remains notes-only or becomes a small static page
 - Add sources or attribution for factual culinary claims when needed
+- Keep allergen and food-safety guidance reviewed when expanding event content
 
 Contribution rules:
 

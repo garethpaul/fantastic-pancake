@@ -34,6 +34,17 @@ for breakfast, brunch, dessert, or community events.
 - Pancake races combine a short foot race with flipping a pancake in a pan.
 - Family pancake bars work well with clearly labeled toppings and allergen notes.
 
+## Allergen and Event Serving Notes
+
+- Pancake bars should label batters and toppings that contain major allergens,
+  including milk, eggs, wheat, peanuts, tree nuts, soybeans, sesame, fish, or
+  crustacean shellfish when those ingredients are present.
+- Keep separate serving utensils for allergen-containing toppings, and do not
+  claim a pancake option is allergen-free unless ingredient labels and prep
+  surfaces have been checked.
+- FoodSafety.gov's FASTER Act summary is a useful source for allergen-labeling
+  updates: https://www.foodsafety.gov/blog/food-allergy-safety-treatment-education-and-research-act-2021
+
 ## Creative Pancake Ideas
 
 - Add lemon zest and blueberries for a bright fruit version.

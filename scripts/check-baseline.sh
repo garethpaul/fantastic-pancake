@@ -4,6 +4,7 @@ set -eu
 ROOT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 PLAN="$ROOT_DIR/docs/plans/2026-06-08-fantastic-pancake-content-baseline.md"
 NO_SCAFFOLD_PLAN="$ROOT_DIR/docs/plans/2026-06-09-no-scaffold-contract.md"
+ALLERGEN_PLAN="$ROOT_DIR/docs/plans/2026-06-09-allergen-event-serving-notes.md"
 
 require_file() {
   path=$1
@@ -22,6 +23,7 @@ for path in \
   "docs/readme-overview.svg" \
   "pancakes.md" \
   "docs/plans/2026-06-08-fantastic-pancake-content-baseline.md" \
+  "docs/plans/2026-06-09-allergen-event-serving-notes.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md"; do
   require_file "$path"
 done
@@ -76,6 +78,7 @@ for heading in \
   "## Types of Pancakes" \
   "## Pancake Tips" \
   "## Pancake-Related Events and Traditions" \
+  "## Allergen and Event Serving Notes" \
   "## Creative Pancake Ideas" \
   "## Source and Safety Notes"; do
   if ! grep -Fq "$heading" "$ROOT_DIR/pancakes.md"; then
@@ -102,6 +105,20 @@ if ! grep -Fq "FoodSafety.gov" "$ROOT_DIR/pancakes.md" ||
   exit 1
 fi
 
+if ! grep -Fq "https://www.foodsafety.gov/blog/food-allergy-safety-treatment-education-and-research-act-2021" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "separate serving utensils" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "allergen-free" "$ROOT_DIR/pancakes.md"; then
+  printf '%s\n' "pancakes.md must keep source-backed allergen event-serving guidance." >&2
+  exit 1
+fi
+
+for allergen in milk eggs wheat peanuts "tree nuts" soybeans sesame; do
+  if ! grep -Fq "$allergen" "$ROOT_DIR/pancakes.md"; then
+    printf '%s\n' "Missing allergen note: $allergen" >&2
+    exit 1
+  fi
+done
+
 if ! grep -Fq "<title id=\"title\">fantastic-pancake project overview</title>" "$ROOT_DIR/docs/readme-overview.svg"; then
   printf '%s\n' "README overview image must describe this repository." >&2
   exit 1
@@ -114,6 +131,11 @@ fi
 
 if ! grep -Fq "status: completed" "$NO_SCAFFOLD_PLAN"; then
   printf '%s\n' "No-scaffold plan must be marked completed." >&2
+  exit 1
+fi
+
+if ! grep -Fq "status: completed" "$ALLERGEN_PLAN"; then
+  printf '%s\n' "Allergen event-serving plan must be marked completed." >&2
   exit 1
 fi
 
