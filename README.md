@@ -19,6 +19,7 @@ pipeline.
 - `VISION.md` - project direction and maintenance guardrails
 - `docs/readme-overview.svg` - README overview image
 - `pancakes.md` - pancake method, basic ratio, tips, troubleshooting, and content outline
+- `docs/plans/` - completed maintenance plans for content and baseline changes
 
 Additional scan context:
 
@@ -63,7 +64,8 @@ food-safety notes tied to an official FoodSafety.gov source, and enforces a
 no-scaffold contract so app manifests, dependency lockfiles, source directories,
 and generated dependency directories do not appear without a new plan. Event
 serving notes must keep source-backed allergen guidance, separate utensil
-language, and avoid unsupported allergen-free claims.
+language, and avoid unsupported allergen-free claims. Batch notes must keep
+specific holding, storage, and reheating thresholds.
 
 When the required SDK or runtime is unavailable, use static checks and source review first, then verify on a machine that has the matching platform toolchain.
 
@@ -86,6 +88,8 @@ When the required SDK or runtime is unavailable, use static checks and source re
   plan for an app or static site.
 - Keep the allergen event-serving notes source-backed when expanding pancake
   bars or community breakfast guidance.
+- Keep batch storage and reheating guidance tied to official food-safety
+  sources when expanding event or leftover content.
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.
 - See `VISION.md` for project direction and contribution guardrails.
 

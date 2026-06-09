@@ -7,6 +7,7 @@ NO_SCAFFOLD_PLAN="$ROOT_DIR/docs/plans/2026-06-09-no-scaffold-contract.md"
 ALLERGEN_PLAN="$ROOT_DIR/docs/plans/2026-06-09-allergen-event-serving-notes.md"
 TROUBLESHOOTING_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-troubleshooting-section.md"
 RATIO_PLAN="$ROOT_DIR/docs/plans/2026-06-09-basic-pancake-ratio.md"
+STORAGE_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-storage-reheating.md"
 
 require_file() {
   path=$1
@@ -27,6 +28,7 @@ for path in \
   "docs/plans/2026-06-08-fantastic-pancake-content-baseline.md" \
   "docs/plans/2026-06-09-allergen-event-serving-notes.md" \
   "docs/plans/2026-06-09-basic-pancake-ratio.md" \
+  "docs/plans/2026-06-09-pancake-storage-reheating.md" \
   "docs/plans/2026-06-09-pancake-troubleshooting-section.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md"; do
   require_file "$path"
@@ -85,6 +87,7 @@ for heading in \
   "## Troubleshooting Pancakes" \
   "## Pancake-Related Events and Traditions" \
   "## Allergen and Event Serving Notes" \
+  "## Batch Storage and Reheating" \
   "## Creative Pancake Ideas" \
   "## Source and Safety Notes"; do
   if ! grep -Fq "$heading" "$ROOT_DIR/pancakes.md"; then
@@ -116,6 +119,14 @@ if ! grep -Fq "FoodSafety.gov" "$ROOT_DIR/pancakes.md" ||
   ! grep -Fq "https://www.foodsafety.gov/blog/leftovers-gift-keeps-giving" "$ROOT_DIR/pancakes.md" ||
   ! grep -Fq "2 hours" "$ROOT_DIR/pancakes.md"; then
   printf '%s\n' "pancakes.md must keep source-backed food-safety guidance." >&2
+  exit 1
+fi
+
+if ! grep -Fq "140 degrees F" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "165 degrees F" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "within 4 days" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "shallow, covered" "$ROOT_DIR/pancakes.md"; then
+  printf '%s\n' "pancakes.md must keep practical storage and reheating guidance for batches." >&2
   exit 1
 fi
 
@@ -167,6 +178,11 @@ fi
 
 if ! grep -Fq "status: completed" "$RATIO_PLAN"; then
   printf '%s\n' "Basic pancake ratio plan must be marked completed." >&2
+  exit 1
+fi
+
+if ! grep -Fq "status: completed" "$STORAGE_PLAN"; then
+  printf '%s\n' "Storage and reheating plan must be marked completed." >&2
   exit 1
 fi
 

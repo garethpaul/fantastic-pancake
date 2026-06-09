@@ -8,6 +8,8 @@
 - Extended the content baseline and plan docs to guard the new section.
 - Added source-backed allergen and event-serving notes for pancake bars, plus a
   baseline guard for labels, separate utensils, and allergen-free claims.
+- Added batch storage and reheating notes with concrete holding and leftover
+  thresholds.
 
 ## 2026-06-08
 

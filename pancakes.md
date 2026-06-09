@@ -68,6 +68,17 @@ for breakfast, brunch, dessert, or community events.
 - FoodSafety.gov's FASTER Act summary is a useful source for allergen-labeling
   updates: https://www.foodsafety.gov/blog/food-allergy-safety-treatment-education-and-research-act-2021
 
+## Batch Storage and Reheating
+
+- Cool extra pancakes on a clean plate or rack, then refrigerate or freeze them
+  within 2 hours, or within 1 hour above 90 degrees F.
+- Store pancakes and perishable toppings separately in shallow, covered
+  containers so they cool quickly and stay easy to label.
+- Hold hot pancakes at 140 degrees F or warmer when serving a long event; do
+  not rely on a warm room or stacked platter for extended holding.
+- Reheat leftovers to 165 degrees F before serving again, and use refrigerated
+  leftovers within 4 days or freeze them for longer storage.
+
 ## Creative Pancake Ideas
 
 - Add lemon zest and blueberries for a bright fruit version.
@@ -84,3 +95,5 @@ for breakfast, brunch, dessert, or community events.
 - Do not leave perishable pancake toppings or cooked leftovers at room
   temperature for more than 2 hours, or more than 1 hour above 90 degrees F.
 - Label common allergens clearly for pancake bars or community breakfasts.
+- Use FoodSafety.gov's leftover guidance for storage, holding, reheating, and
+  discard decisions when serving pancakes beyond immediate table service.

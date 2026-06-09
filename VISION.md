@@ -33,6 +33,8 @@ Current baseline:
   scaffolding.
 - Food-safety notes cite FoodSafety.gov before making storage or serving
   recommendations.
+- Batch storage and reheating guidance includes concrete holding, cooling,
+  reheating, and leftover-use thresholds.
 - README and VISION document the no-scaffold boundary until there is a concrete
   publishing need.
 - Event-serving notes keep allergen labels, separate utensils, and
@@ -45,6 +47,7 @@ Next priorities:
 - Decide whether this remains notes-only or becomes a small static page
 - Add sources or attribution for factual culinary claims when needed
 - Keep allergen and food-safety guidance reviewed when expanding event content
+- Keep batch storage guidance concise and source-backed
 
 Contribution rules:
 
