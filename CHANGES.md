@@ -2,6 +2,8 @@
 
 ## 2026-06-08
 
+- Added a no-scaffold check so app manifests, dependency lockfiles, and source
+  directories require an explicit publishing plan before landing.
 - Added a basic pancake method section to make the content outline more useful.
 - Replaced placeholder pancake headings with concise content covering types,
   tips, traditions, and creative ideas.

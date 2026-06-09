@@ -3,6 +3,7 @@ set -eu
 
 ROOT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 PLAN="$ROOT_DIR/docs/plans/2026-06-08-fantastic-pancake-content-baseline.md"
+NO_SCAFFOLD_PLAN="$ROOT_DIR/docs/plans/2026-06-09-no-scaffold-contract.md"
 
 require_file() {
   path=$1
@@ -20,21 +21,51 @@ for path in \
   "VISION.md" \
   "docs/readme-overview.svg" \
   "pancakes.md" \
-  "docs/plans/2026-06-08-fantastic-pancake-content-baseline.md"; do
+  "docs/plans/2026-06-08-fantastic-pancake-content-baseline.md" \
+  "docs/plans/2026-06-09-no-scaffold-contract.md"; do
   require_file "$path"
+done
+
+for path in \
+  "Cargo.toml" \
+  "Gemfile" \
+  "go.mod" \
+  "package.json" \
+  "package-lock.json" \
+  "pnpm-lock.yaml" \
+  "pyproject.toml" \
+  "requirements.txt" \
+  "yarn.lock"; do
+  if [ -e "$ROOT_DIR/$path" ]; then
+    printf '%s\n' "Unexpected app or dependency manifest: $path" >&2
+    exit 1
+  fi
+done
+
+for path in \
+  "app" \
+  "node_modules" \
+  "src" \
+  "vendor"; do
+  if [ -d "$ROOT_DIR/$path" ]; then
+    printf '%s\n' "Unexpected app or dependency directory: $path" >&2
+    exit 1
+  fi
 done
 
 if ! grep -Fq "make check" "$ROOT_DIR/README.md" ||
   ! grep -Fq "pancakes.md" "$ROOT_DIR/README.md" ||
   ! grep -Fq "docs/readme-overview.svg" "$ROOT_DIR/README.md" ||
-  ! grep -Fq "content-only" "$ROOT_DIR/README.md"; then
+  ! grep -Fq "content-only" "$ROOT_DIR/README.md" ||
+  ! grep -Fq "no-scaffold" "$ROOT_DIR/README.md"; then
   printf '%s\n' "README must document the content-only baseline and verification command." >&2
   exit 1
 fi
 
 if ! grep -Fq "scripts/check-baseline.sh" "$ROOT_DIR/VISION.md" ||
   ! grep -Fq "content-only" "$ROOT_DIR/VISION.md" ||
-  ! grep -Fq "pancakes.md" "$ROOT_DIR/VISION.md"; then
+  ! grep -Fq "pancakes.md" "$ROOT_DIR/VISION.md" ||
+  ! grep -Fq "dependency manifests" "$ROOT_DIR/VISION.md"; then
   printf '%s\n' "VISION must describe the current content baseline." >&2
   exit 1
 fi
@@ -78,6 +109,11 @@ fi
 
 if ! grep -Fq "status: completed" "$PLAN"; then
   printf '%s\n' "Plan must be marked completed." >&2
+  exit 1
+fi
+
+if ! grep -Fq "status: completed" "$NO_SCAFFOLD_PLAN"; then
+  printf '%s\n' "No-scaffold plan must be marked completed." >&2
   exit 1
 fi
 

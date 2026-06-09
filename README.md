@@ -58,7 +58,9 @@ make check
 The baseline verifies that the repository remains content-only, README/VISION
 stay linked to `pancakes.md`, the overview image targets this repo, and the
 pancake document keeps real sections instead of placeholder separators. It also
-keeps food-safety notes tied to an official FoodSafety.gov source.
+keeps food-safety notes tied to an official FoodSafety.gov source and enforces a
+no-scaffold contract so app manifests, dependency lockfiles, source directories,
+and generated dependency directories do not appear without a new plan.
 
 When the required SDK or runtime is unavailable, use static checks and source review first, then verify on a machine that has the matching platform toolchain.
 
@@ -75,6 +77,8 @@ When the required SDK or runtime is unavailable, use static checks and source re
 ## Maintenance Notes
 
 - Run `make check` before pushing content or documentation changes.
+- Keep the no-scaffold contract in place until there is a concrete publishing
+  plan for an app or static site.
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.
 - See `VISION.md` for project direction and contribution guardrails.
 

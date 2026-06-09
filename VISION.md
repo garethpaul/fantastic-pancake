@@ -23,6 +23,9 @@ Current baseline:
 
 - `scripts/check-baseline.sh` and `make check` verify the content-only
   repository shape.
+- The baseline rejects dependency manifests, lockfiles, source scaffolds, and
+  generated dependency directories unless a new plan changes the repository
+  scope.
 - `pancakes.md` uses clean Markdown headings and enough specific bullets to
   avoid placeholder-only sections.
 - Food-safety notes cite FoodSafety.gov before making storage or serving
