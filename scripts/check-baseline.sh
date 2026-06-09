@@ -9,6 +9,7 @@ TROUBLESHOOTING_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-troubleshooting-se
 RATIO_PLAN="$ROOT_DIR/docs/plans/2026-06-09-basic-pancake-ratio.md"
 STORAGE_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-storage-reheating.md"
 GRIDDLE_PLAN="$ROOT_DIR/docs/plans/2026-06-09-griddle-heat-doneness.md"
+BATTER_PLAN="$ROOT_DIR/docs/plans/2026-06-09-batter-consistency-resting.md"
 
 require_file() {
   path=$1
@@ -28,6 +29,7 @@ for path in \
   "pancakes.md" \
   "docs/plans/2026-06-08-fantastic-pancake-content-baseline.md" \
   "docs/plans/2026-06-09-allergen-event-serving-notes.md" \
+  "docs/plans/2026-06-09-batter-consistency-resting.md" \
   "docs/plans/2026-06-09-basic-pancake-ratio.md" \
   "docs/plans/2026-06-09-griddle-heat-doneness.md" \
   "docs/plans/2026-06-09-pancake-storage-reheating.md" \
@@ -91,6 +93,7 @@ for heading in \
   "# Pancakes" \
   "## Basic Pancake Method" \
   "## Basic Pancake Ratio" \
+  "## Batter Consistency and Resting" \
   "## Types of Pancakes" \
   "## Pancake Tips" \
   "## Griddle Heat and Doneness" \
@@ -122,6 +125,15 @@ if ! grep -Fq "1 cup flour" "$ROOT_DIR/pancakes.md" ||
   ! grep -Fq "1 egg" "$ROOT_DIR/pancakes.md" ||
   ! grep -Fq "Scale dry and wet ingredients together" "$ROOT_DIR/pancakes.md"; then
   printf '%s\n' "pancakes.md must keep a practical basic pancake ratio." >&2
+  exit 1
+fi
+
+if ! grep -Fq "pourable but thick" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "milk 1 tablespoon" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "flour 1 tablespoon" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "Small lumps are fine" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "air is not beaten out" "$ROOT_DIR/pancakes.md"; then
+  printf '%s\n' "pancakes.md must keep practical batter consistency and resting notes." >&2
   exit 1
 fi
 
@@ -205,6 +217,11 @@ fi
 
 if ! grep -Fq "status: completed" "$GRIDDLE_PLAN"; then
   printf '%s\n' "Griddle heat and doneness plan must be marked completed." >&2
+  exit 1
+fi
+
+if ! grep -Fq "status: completed" "$BATTER_PLAN"; then
+  printf '%s\n' "Batter consistency plan must be marked completed." >&2
   exit 1
 fi
 

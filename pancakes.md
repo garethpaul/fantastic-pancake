@@ -21,6 +21,18 @@ for breakfast, brunch, dessert, or community events.
 - Scale dry and wet ingredients together when cooking for a group, then adjust
   thickness after the batter rests.
 
+## Batter Consistency and Resting
+
+- Aim for batter that is pourable but thick enough to mound briefly before it
+  settles on the griddle.
+- If the batter looks stiff or shows dry patches, stir in milk 1 tablespoon at
+  a time until it drops easily from a spoon.
+- If the batter spreads like cream, fold in flour 1 tablespoon at a time and
+  wait a minute before judging the texture again.
+- Small lumps are fine; stop mixing once no dry flour streaks remain.
+- After resting 5 to 10 minutes, fold the batter only once or twice so trapped
+  air is not beaten out before cooking.
+
 ## Types of Pancakes
 
 - Buttermilk pancakes: fluffy, lightly tangy, and best served soon after cooking.

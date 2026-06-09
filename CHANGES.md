@@ -2,6 +2,8 @@
 
 ## 2026-06-09
 
+- Added batter consistency and resting notes with tablespoon-by-tablespoon
+  texture adjustments and a baseline guard.
 - Added griddle heat and doneness notes for preheating, flipping, and avoiding
   pressed pancakes, plus `make lint`/`make test`/`make build` baseline aliases.
 - Added a basic pancake ratio section with starting quantities and scaling notes.
