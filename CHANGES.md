@@ -2,6 +2,8 @@
 
 ## 2026-06-09
 
+- Added pancake portioning and batch-size notes with scoop sizes, spacing, and
+  dry-mix prep guidance.
 - Added batter consistency and resting notes with tablespoon-by-tablespoon
   texture adjustments and a baseline guard.
 - Added griddle heat and doneness notes for preheating, flipping, and avoiding

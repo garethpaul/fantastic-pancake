@@ -18,7 +18,7 @@ pipeline.
 - `Makefile` - local check entry point
 - `VISION.md` - project direction and maintenance guardrails
 - `docs/readme-overview.svg` - README overview image
-- `pancakes.md` - pancake method, basic ratio, batter texture, tips, troubleshooting, and content outline
+- `pancakes.md` - pancake method, basic ratio, portioning, batter texture, tips, troubleshooting, and content outline
 - `docs/plans/` - completed maintenance plans for content and baseline changes
 
 Additional scan context:
@@ -60,13 +60,14 @@ The baseline verifies that the repository remains content-only, README/VISION
 stay linked to `pancakes.md`, the overview image targets this repo, and the
 pancake document keeps real sections instead of placeholder separators. It also
 keeps a practical basic pancake ratio, griddle heat and doneness notes,
-practical batter consistency and resting notes, troubleshooting notes,
-food-safety notes tied to an official FoodSafety.gov source, and enforces a
-no-scaffold contract so app manifests, dependency lockfiles, source directories,
-and generated dependency directories do not appear without a new plan. Event
-serving notes must keep source-backed allergen guidance, separate utensil
-language, and avoid unsupported allergen-free claims. Batch notes must keep
-specific holding, storage, and reheating thresholds.
+practical portioning and batch-size notes, practical batter consistency and
+resting notes, troubleshooting notes, food-safety notes tied to an official
+FoodSafety.gov source, and enforces a no-scaffold contract so app manifests,
+dependency lockfiles, source directories, and generated dependency directories
+do not appear without a new plan. Event serving notes must keep source-backed
+allergen guidance, separate utensil language, and avoid unsupported
+allergen-free claims. Batch notes must keep specific holding, storage, and
+reheating thresholds.
 
 The `make lint`, `make test`, and `make build` aliases run the same content
 baseline while this repository has no narrower installed gates.
@@ -94,6 +95,8 @@ When the required SDK or runtime is unavailable, use static checks and source re
   bars or community breakfast guidance.
 - Keep batch storage and reheating guidance tied to official food-safety
   sources when expanding event or leftover content.
+- Keep portioning and batch-size notes practical when expanding group cooking
+  guidance.
 - Keep griddle heat and doneness notes practical when expanding method content.
 - Keep batter texture and resting notes concise when expanding method content.
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.

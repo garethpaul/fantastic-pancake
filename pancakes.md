@@ -21,6 +21,19 @@ for breakfast, brunch, dessert, or community events.
 - Scale dry and wet ingredients together when cooking for a group, then adjust
   thickness after the batter rests.
 
+## Portioning and Batch Size
+
+- Use a 1/4 cup scoop for medium pancakes so the basic ratio yields about 8
+  even pancakes.
+- Use 2 tablespoons of batter for silver-dollar pancakes, or 1/3 cup for larger
+  pancakes that need slightly lower heat and more time to cook through.
+- Leave about 2 inches between pours so edges can set before neighboring
+  pancakes touch.
+- Keep the same scoop size within each batch so browning and doneness cues stay
+  predictable.
+- For larger breakfasts, premeasure dry ingredients for each batch and mix wet
+  ingredients in only when the griddle is nearly ready.
+
 ## Batter Consistency and Resting
 
 - Aim for batter that is pourable but thick enough to mound briefly before it

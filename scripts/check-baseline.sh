@@ -10,6 +10,7 @@ RATIO_PLAN="$ROOT_DIR/docs/plans/2026-06-09-basic-pancake-ratio.md"
 STORAGE_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-storage-reheating.md"
 GRIDDLE_PLAN="$ROOT_DIR/docs/plans/2026-06-09-griddle-heat-doneness.md"
 BATTER_PLAN="$ROOT_DIR/docs/plans/2026-06-09-batter-consistency-resting.md"
+PORTION_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-portioning-batch-size.md"
 
 require_file() {
   path=$1
@@ -32,6 +33,7 @@ for path in \
   "docs/plans/2026-06-09-batter-consistency-resting.md" \
   "docs/plans/2026-06-09-basic-pancake-ratio.md" \
   "docs/plans/2026-06-09-griddle-heat-doneness.md" \
+  "docs/plans/2026-06-09-pancake-portioning-batch-size.md" \
   "docs/plans/2026-06-09-pancake-storage-reheating.md" \
   "docs/plans/2026-06-09-pancake-troubleshooting-section.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md"; do
@@ -93,6 +95,7 @@ for heading in \
   "# Pancakes" \
   "## Basic Pancake Method" \
   "## Basic Pancake Ratio" \
+  "## Portioning and Batch Size" \
   "## Batter Consistency and Resting" \
   "## Types of Pancakes" \
   "## Pancake Tips" \
@@ -125,6 +128,15 @@ if ! grep -Fq "1 cup flour" "$ROOT_DIR/pancakes.md" ||
   ! grep -Fq "1 egg" "$ROOT_DIR/pancakes.md" ||
   ! grep -Fq "Scale dry and wet ingredients together" "$ROOT_DIR/pancakes.md"; then
   printf '%s\n' "pancakes.md must keep a practical basic pancake ratio." >&2
+  exit 1
+fi
+
+if ! grep -Fq "1/4 cup scoop" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "2 tablespoons of batter" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "1/3 cup" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "2 inches between pours" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "premeasure dry ingredients" "$ROOT_DIR/pancakes.md"; then
+  printf '%s\n' "pancakes.md must keep practical portioning and batch-size notes." >&2
   exit 1
 fi
 
@@ -222,6 +234,16 @@ fi
 
 if ! grep -Fq "status: completed" "$BATTER_PLAN"; then
   printf '%s\n' "Batter consistency plan must be marked completed." >&2
+  exit 1
+fi
+
+if ! grep -Fq "status: completed" "$PORTION_PLAN"; then
+  printf '%s\n' "Pancake portioning plan must be marked completed." >&2
+  exit 1
+fi
+
+if ! grep -Fq "make check" "$PORTION_PLAN"; then
+  printf '%s\n' "Pancake portioning plan must record make check verification." >&2
   exit 1
 fi
 
