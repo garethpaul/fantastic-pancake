@@ -2,6 +2,7 @@
 
 ## 2026-06-10
 
+- Added FDA- and CDC-backed raw batter handling and cleanup guidance.
 - Added a pinned, least-privilege GitHub Actions workflow that runs the content
   and no-scaffold baseline for pushes and pull requests.
 - Extended the checker and documentation to keep hosted verification required.

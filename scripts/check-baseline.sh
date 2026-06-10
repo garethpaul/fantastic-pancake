@@ -12,6 +12,7 @@ GRIDDLE_PLAN="$ROOT_DIR/docs/plans/2026-06-09-griddle-heat-doneness.md"
 BATTER_PLAN="$ROOT_DIR/docs/plans/2026-06-09-batter-consistency-resting.md"
 PORTION_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-portioning-batch-size.md"
 MIX_INS_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-mix-ins-toppings.md"
+RAW_BATTER_PLAN="$ROOT_DIR/docs/plans/2026-06-10-raw-batter-safety.md"
 CI_PLAN="$ROOT_DIR/docs/plans/2026-06-10-hosted-content-checks.md"
 CI_WORKFLOW="$ROOT_DIR/.github/workflows/check.yml"
 
@@ -41,6 +42,7 @@ for path in \
   "docs/plans/2026-06-09-pancake-portioning-batch-size.md" \
   "docs/plans/2026-06-09-pancake-storage-reheating.md" \
   "docs/plans/2026-06-09-pancake-troubleshooting-section.md" \
+  "docs/plans/2026-06-10-raw-batter-safety.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md" \
   "docs/plans/2026-06-10-hosted-content-checks.md"; do
   require_file "$path"
@@ -193,6 +195,15 @@ if ! grep -Fq "140 degrees F" "$ROOT_DIR/pancakes.md" ||
   exit 1
 fi
 
+if ! grep -Fq "Do not taste or serve uncooked pancake batter" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "raw flour and raw eggs" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "warm, soapy water" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "https://www.fda.gov/food/buy-store-serve-safe-food/handling-flour-safely-what-you-need-know" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "https://www.cdc.gov/food-safety/foods/no-raw-dough.html" "$ROOT_DIR/pancakes.md"; then
+  printf '%s\n' "pancakes.md must keep source-backed raw batter safety guidance." >&2
+  exit 1
+fi
+
 if ! grep -Fq "https://www.foodsafety.gov/blog/food-allergy-safety-treatment-education-and-research-act-2021" "$ROOT_DIR/pancakes.md" ||
   ! grep -Fq "separate serving utensils" "$ROOT_DIR/pancakes.md" ||
   ! grep -Fq "allergen-free" "$ROOT_DIR/pancakes.md"; then
@@ -287,6 +298,11 @@ fi
 
 if ! grep -Fq "status: completed" "$MIX_INS_PLAN"; then
   printf '%s\n' "Pancake mix-ins and toppings plan must be marked completed." >&2
+  exit 1
+fi
+
+if ! grep -Fq "status: completed" "$RAW_BATTER_PLAN"; then
+  printf '%s\n' "Raw batter safety plan must be marked completed." >&2
   exit 1
 fi
 
