@@ -1,5 +1,11 @@
 # Changes
 
+## 2026-06-10
+
+- Added a pinned, least-privilege GitHub Actions workflow that runs the content
+  and no-scaffold baseline for pushes and pull requests.
+- Extended the checker and documentation to keep hosted verification required.
+
 ## 2026-06-09
 
 - Added mix-ins and toppings guidance for folding, sprinkling, fruit prep,

@@ -50,6 +50,7 @@ Current baseline:
   allergen-free claims tied to official source guidance.
 - `make lint`, `make test`, and `make build` run the same content baseline
   while no narrower gates are installed.
+- GitHub Actions runs the local content baseline for pushes and pull requests.
 
 Next priorities:
 
@@ -69,6 +70,7 @@ Contribution rules:
 - Keep copy original and specific.
 - Avoid large generated rewrites without review.
 - Do not add a build system until there is a real publishing need.
+- Keep hosted checks aligned with `make check` without adding app tooling.
 
 ## Security And Responsible Use
 

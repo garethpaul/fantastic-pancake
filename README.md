@@ -72,6 +72,8 @@ and reheating thresholds.
 
 The `make lint`, `make test`, and `make build` aliases run the same content
 baseline while this repository has no narrower installed gates.
+GitHub Actions runs `make check` for pushes and pull requests with read-only
+repository permissions.
 
 When the required SDK or runtime is unavailable, use static checks and source review first, then verify on a machine that has the matching platform toolchain.
 
@@ -102,6 +104,9 @@ When the required SDK or runtime is unavailable, use static checks and source re
 - Keep batter texture and resting notes concise when expanding method content.
 - Keep mix-ins and topping notes practical, clearly labeled, and tied to the
   allergen event-serving guidance.
+- Keep `.github/workflows/check.yml` aligned with the local content baseline.
+- See `docs/plans/2026-06-10-hosted-content-checks.md` for the hosted content
+  verification baseline.
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.
 - See `VISION.md` for project direction and contribution guardrails.
 

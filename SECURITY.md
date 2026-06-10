@@ -29,6 +29,8 @@ Helpful reports include:
 - No primary dependency manifest was detected in the repository root. If dependencies are added later, include a manifest and prefer reproducible installation instructions.
 - Food allergy and event-serving guidance can affect reader safety. Keep allergen claims source-backed and avoid promising allergen-free food without controlled ingredients, utensils, and prep surfaces.
 - Mix-ins and topping guidance should preserve clear allergen labels and separate serving-utensil language for shared pancake bars.
+- GitHub Actions runs the content and no-scaffold baseline with read-only
+  repository permissions before changes land.
 
 
 ## Dependency and Supply Chain Security

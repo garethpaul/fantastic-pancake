@@ -12,6 +12,8 @@ GRIDDLE_PLAN="$ROOT_DIR/docs/plans/2026-06-09-griddle-heat-doneness.md"
 BATTER_PLAN="$ROOT_DIR/docs/plans/2026-06-09-batter-consistency-resting.md"
 PORTION_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-portioning-batch-size.md"
 MIX_INS_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-mix-ins-toppings.md"
+CI_PLAN="$ROOT_DIR/docs/plans/2026-06-10-hosted-content-checks.md"
+CI_WORKFLOW="$ROOT_DIR/.github/workflows/check.yml"
 
 require_file() {
   path=$1
@@ -22,6 +24,7 @@ require_file() {
 }
 
 for path in \
+  ".github/workflows/check.yml" \
   "CHANGES.md" \
   "Makefile" \
   "README.md" \
@@ -38,7 +41,8 @@ for path in \
   "docs/plans/2026-06-09-pancake-portioning-batch-size.md" \
   "docs/plans/2026-06-09-pancake-storage-reheating.md" \
   "docs/plans/2026-06-09-pancake-troubleshooting-section.md" \
-  "docs/plans/2026-06-09-no-scaffold-contract.md"; do
+  "docs/plans/2026-06-09-no-scaffold-contract.md" \
+  "docs/plans/2026-06-10-hosted-content-checks.md"; do
   require_file "$path"
 done
 
@@ -74,6 +78,7 @@ if ! grep -Fq "make check" "$ROOT_DIR/README.md" ||
   ! grep -Fq "docs/readme-overview.svg" "$ROOT_DIR/README.md" ||
   ! grep -Fq "content-only" "$ROOT_DIR/README.md" ||
   ! grep -Fq "no-scaffold" "$ROOT_DIR/README.md" ||
+  ! grep -Fq "GitHub Actions" "$ROOT_DIR/README.md" ||
   ! grep -Fq "Mix-ins and toppings" "$ROOT_DIR/README.md"; then
   printf '%s\n' "README must document the content-only baseline and verification command." >&2
   exit 1
@@ -83,6 +88,7 @@ if ! grep -Fq "scripts/check-baseline.sh" "$ROOT_DIR/VISION.md" ||
   ! grep -Fq "content-only" "$ROOT_DIR/VISION.md" ||
   ! grep -Fq "pancakes.md" "$ROOT_DIR/VISION.md" ||
   ! grep -Fq "dependency manifests" "$ROOT_DIR/VISION.md" ||
+  ! grep -Fq "GitHub Actions" "$ROOT_DIR/VISION.md" ||
   ! grep -Fq "Mix-ins and toppings" "$ROOT_DIR/VISION.md"; then
   printf '%s\n' "VISION must describe the current content baseline." >&2
   exit 1
@@ -92,6 +98,24 @@ if ! grep -Fq "lint: check" "$ROOT_DIR/Makefile" ||
   ! grep -Fq "test: check" "$ROOT_DIR/Makefile" ||
   ! grep -Fq "build: check" "$ROOT_DIR/Makefile"; then
   printf '%s\n' "Makefile must expose lint, test, and build gates." >&2
+  exit 1
+fi
+
+if ! grep -Fq "workflow_dispatch:" "$CI_WORKFLOW" ||
+  ! grep -Fq "contents: read" "$CI_WORKFLOW" ||
+  ! grep -Fq "cancel-in-progress: true" "$CI_WORKFLOW" ||
+  ! grep -Fq "runs-on: ubuntu-24.04" "$CI_WORKFLOW" ||
+  ! grep -Fq "timeout-minutes: 5" "$CI_WORKFLOW" ||
+  ! grep -Fq "actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10" "$CI_WORKFLOW" ||
+  ! grep -Fq "run: make check" "$CI_WORKFLOW"; then
+  printf '%s\n' "GitHub Actions must keep the bounded, least-privilege content check contract." >&2
+  exit 1
+fi
+
+if ! grep -Fq "GitHub Actions" "$ROOT_DIR/SECURITY.md" ||
+  ! grep -Fq "GitHub Actions" "$ROOT_DIR/CHANGES.md" ||
+  ! grep -Fq "docs/plans/2026-06-10-hosted-content-checks.md" "$ROOT_DIR/README.md"; then
+  printf '%s\n' "Project docs must record the hosted content check baseline." >&2
   exit 1
 fi
 
@@ -268,6 +292,12 @@ fi
 
 if ! grep -Fq "make check" "$MIX_INS_PLAN"; then
   printf '%s\n' "Pancake mix-ins and toppings plan must record make check verification." >&2
+  exit 1
+fi
+
+if ! grep -Fq "status: completed" "$CI_PLAN" ||
+  ! grep -Fq "make check" "$CI_PLAN"; then
+  printf '%s\n' "Hosted content checks plan must be completed and record verification." >&2
   exit 1
 fi
 
