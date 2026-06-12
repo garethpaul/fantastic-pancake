@@ -50,7 +50,8 @@ Current baseline:
   allergen-free claims tied to official source guidance.
 - `make lint`, `make test`, and `make build` run the same content baseline
   while no narrower gates are installed.
-- GitHub Actions runs the local content baseline for pushes and pull requests.
+- GitHub Actions runs the local content baseline for pushes and pull requests
+  without persisting checkout credentials.
 
 Next priorities:
 

@@ -12,8 +12,8 @@ default-branch pushes had no hosted verification.
 
 - Added a least-privilege GitHub Actions workflow for pushes, pull requests,
   and manual runs.
-- Pinned the checkout action by commit and bounded runs with cancellation and
-  a five-minute timeout.
+- Pinned the checkout action by commit, disabled persisted checkout credentials,
+  and bounded runs with cancellation and a five-minute timeout.
 - Extended the local baseline and project documentation to keep hosted checks
   part of the repository contract.
 

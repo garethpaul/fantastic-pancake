@@ -2,7 +2,9 @@
 
 ## Repository purpose
 
-`garethpaul/fantastic-pancake` is a public sample, documentation, or utility project. a repo about pancakes
+`garethpaul/fantastic-pancake` is a content-only collection of practical
+pancake notes covering preparation, troubleshooting, serving, allergens, and
+food safety. It intentionally has no application or dependency scaffold.
 
 ## Project structure
 
@@ -42,6 +44,8 @@
 - The scan did not identify production authentication, payment, or secret-management code. Treat future additions in those areas as security-sensitive.
 - Food-safety guidance should cite official sources and avoid vague storage or serving claims.
 - Allergen guidance should stay tied to official sources and should not promise allergen-free preparation without controlled ingredients and surfaces.
+- Raw flour, eggs, and batter must be described as potentially unsafe to taste before cooking; cleanup guidance should remain tied to FDA and CDC sources.
+- Preserve concrete time and temperature thresholds for storage, event holding, and reheating, and update their official sources when guidance changes.
 - Run `make check` before pushing content or documentation changes.
 - Keep the no-scaffold contract in place until there is a concrete publishing plan for an app or static site.
 

@@ -73,7 +73,7 @@ and reheating thresholds.
 The `make lint`, `make test`, and `make build` aliases run the same content
 baseline while this repository has no narrower installed gates.
 GitHub Actions runs `make check` for pushes and pull requests with read-only
-repository permissions.
+repository permissions and does not persist checkout credentials.
 
 When the required SDK or runtime is unavailable, use static checks and source review first, then verify on a machine that has the matching platform toolchain.
 
