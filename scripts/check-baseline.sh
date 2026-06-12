@@ -14,6 +14,7 @@ PORTION_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-portioning-batch-size.md"
 MIX_INS_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-mix-ins-toppings.md"
 RAW_BATTER_PLAN="$ROOT_DIR/docs/plans/2026-06-10-raw-batter-safety.md"
 CI_PLAN="$ROOT_DIR/docs/plans/2026-06-10-hosted-content-checks.md"
+BATCH_SCALING_PLAN="$ROOT_DIR/docs/plans/2026-06-12-pancake-batch-scaling-table.md"
 CI_WORKFLOW="$ROOT_DIR/.github/workflows/check.yml"
 
 require_file() {
@@ -43,6 +44,7 @@ for path in \
   "docs/plans/2026-06-09-pancake-storage-reheating.md" \
   "docs/plans/2026-06-09-pancake-troubleshooting-section.md" \
   "docs/plans/2026-06-10-raw-batter-safety.md" \
+  "docs/plans/2026-06-12-pancake-batch-scaling-table.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md" \
   "docs/plans/2026-06-10-hosted-content-checks.md"; do
   require_file "$path"
@@ -206,6 +208,7 @@ for heading in \
   "# Pancakes" \
   "## Basic Pancake Method" \
   "## Basic Pancake Ratio" \
+  "## Batch Scaling Table" \
   "## Portioning and Batch Size" \
   "## Batter Consistency and Resting" \
   "## Types of Pancakes" \
@@ -227,6 +230,16 @@ done
 bullet_count=$(grep -c '^- ' "$ROOT_DIR/pancakes.md")
 if [ "$bullet_count" -lt 20 ]; then
   printf '%s\n' "pancakes.md must keep enough specific content bullets." >&2
+  exit 1
+fi
+
+if ! grep -Fq "| Ingredient | About 8 | About 16 | About 32 |" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "| Flour | 1 cup | 2 cups | 4 cups |" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "| Baking powder | 2 teaspoons | 4 teaspoons | 8 teaspoons |" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "| Salt | 1/4 teaspoon | 1/2 teaspoon | 1 teaspoon |" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "| Eggs | 1 | 2 | 4 |" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "two separate sets of the 16-pancake quantities" "$ROOT_DIR/pancakes.md"; then
+  printf '%s\n' "pancakes.md must keep the ratio-aligned batch scaling table and fresh-bowl guidance." >&2
   exit 1
 fi
 
@@ -395,6 +408,12 @@ fi
 if ! grep -Fq "status: completed" "$CI_PLAN" ||
   ! grep -Fq "make check" "$CI_PLAN"; then
   printf '%s\n' "Hosted content checks plan must be completed and record verification." >&2
+  exit 1
+fi
+
+if ! grep -Fq "status: completed" "$BATCH_SCALING_PLAN" ||
+  ! grep -Fq "make check" "$BATCH_SCALING_PLAN"; then
+  printf '%s\n' "The batch scaling plan must remain completed and verifiable." >&2
   exit 1
 fi
 

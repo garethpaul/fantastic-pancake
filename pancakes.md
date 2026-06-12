@@ -21,6 +21,25 @@ for breakfast, brunch, dessert, or community events.
 - Scale dry and wet ingredients together when cooking for a group, then adjust
   thickness after the batter rests.
 
+## Batch Scaling Table
+
+The amounts below assume the 1/4 cup portion used for medium pancakes. Final
+yield can vary slightly after consistency adjustments or a different scoop.
+
+| Ingredient | About 8 | About 16 | About 32 |
+| --- | ---: | ---: | ---: |
+| Flour | 1 cup | 2 cups | 4 cups |
+| Baking powder | 2 teaspoons | 4 teaspoons | 8 teaspoons |
+| Sugar | 1 tablespoon | 2 tablespoons | 4 tablespoons |
+| Salt | 1/4 teaspoon | 1/2 teaspoon | 1 teaspoon |
+| Milk | 1 cup | 2 cups | 4 cups |
+| Eggs | 1 | 2 | 4 |
+| Melted butter or neutral oil | 2 tablespoons | 4 tablespoons | 8 tablespoons |
+
+- For about 32 pancakes, measure two separate sets of the 16-pancake quantities
+  and mix those bowls in succession. Freshly mixed smaller bowls are easier to
+  handle and keep later batter from waiting through the entire first batch.
+
 ## Portioning and Batch Size
 
 - Use a 1/4 cup scoop for medium pancakes so the basic ratio yields about 8
