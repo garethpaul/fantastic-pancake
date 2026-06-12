@@ -100,6 +100,7 @@ When the required SDK or runtime is unavailable, use static checks and source re
   sources when expanding event or leftover content.
 - Keep portioning and batch-size notes practical when expanding group cooking
   guidance.
+- Keep the batch scaling table aligned with the basic ratio and 1/4 cup yield.
 - Keep griddle heat and doneness notes practical when expanding method content.
 - Keep batter texture and resting notes concise when expanding method content.
 - Keep mix-ins and topping notes practical, clearly labeled, and tied to the

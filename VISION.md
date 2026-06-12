@@ -5,8 +5,8 @@ Project overview and developer docs: [`README.md`](README.md)
 
 Fantastic Pancake is a lightweight repository about pancakes. It currently
 contains a simple `pancakes.md` outline covering a basic method, pancake types,
-basic ratio, portioning, batter consistency, tips, troubleshooting, traditions,
-mix-ins, toppings, and creative ideas.
+basic ratio, batch scaling, portioning, batter consistency, tips,
+troubleshooting, traditions, mix-ins, toppings, and creative ideas.
 
 The goal is to keep the repository as a small, readable content project rather
 than adding unnecessary application scaffolding.
@@ -30,6 +30,8 @@ Current baseline:
 - `pancakes.md` uses clean Markdown headings and enough specific bullets to
   avoid placeholder-only sections.
 - Basic ratio notes provide a practical starting formula before variations.
+- A batch scaling table keeps 8-, 16-, and 32-pancake quantities aligned with
+  the basic ratio and recommends freshly mixed bowls for the largest service.
 - Portioning and batch-size notes keep scoop sizes, spacing, and dry-mix prep
   practical for small or larger breakfasts.
 - Batter consistency and resting notes describe texture cues, small
@@ -61,6 +63,7 @@ Next priorities:
 - Keep allergen and food-safety guidance reviewed when expanding event content
 - Keep batch storage guidance concise and source-backed
 - Keep portioning guidance practical and tied to the basic ratio
+- Keep batch scaling quantities aligned with the basic ratio and stated yield
 - Keep batter texture notes practical and tied to the basic method
 - Keep mix-ins and topping guidance practical and tied to event-serving labels
 
