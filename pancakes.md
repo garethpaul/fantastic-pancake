@@ -130,6 +130,19 @@ for breakfast, brunch, dessert, or community events.
 - Reheat leftovers to 165 degrees F before serving again, and use refrigerated
   leftovers within 4 days or freeze them for longer storage.
 
+## Raw Batter Safety
+
+- Do not taste or serve uncooked pancake batter; both raw flour and raw eggs can
+  carry germs that are destroyed by thorough cooking.
+- Keep children from tasting or playing with raw batter while helping in the
+  kitchen.
+- Wash hands, bowls, utensils, scoops, and counters with warm, soapy water after
+  they contact raw flour, eggs, or batter, before handling cooked pancakes.
+- Follow FDA raw-flour guidance for preparation and cleanup:
+  https://www.fda.gov/food/buy-store-serve-safe-food/handling-flour-safely-what-you-need-know
+- CDC also summarizes raw dough and batter risks:
+  https://www.cdc.gov/food-safety/foods/no-raw-dough.html
+
 ## Creative Pancake Ideas
 
 - Add lemon zest and blueberries for a bright fruit version.
