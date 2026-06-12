@@ -233,15 +233,39 @@ if [ "$bullet_count" -lt 20 ]; then
   exit 1
 fi
 
-if ! grep -Fq "| Ingredient | About 8 | About 16 | About 32 |" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "| Flour | 1 cup | 2 cups | 4 cups |" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "| Baking powder | 2 teaspoons | 4 teaspoons | 8 teaspoons |" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "| Salt | 1/4 teaspoon | 1/2 teaspoon | 1 teaspoon |" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "| Eggs | 1 | 2 | 4 |" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "two separate sets of the 16-pancake quantities" "$ROOT_DIR/pancakes.md"; then
-  printf '%s\n' "pancakes.md must keep the ratio-aligned batch scaling table and fresh-bowl guidance." >&2
-  exit 1
-fi
+python3 - "$ROOT_DIR/pancakes.md" <<'PY'
+import sys
+from pathlib import Path
+
+content = Path(sys.argv[1]).read_text()
+lines = content.splitlines()
+header = "| Ingredient | About 8 | About 16 | About 32 |"
+expected = [
+    ["Flour", "1 cup", "2 cups", "4 cups"],
+    ["Baking powder", "2 teaspoons", "4 teaspoons", "8 teaspoons"],
+    ["Sugar", "1 tablespoon", "2 tablespoons", "4 tablespoons"],
+    ["Salt", "1/4 teaspoon", "1/2 teaspoon", "1 teaspoon"],
+    ["Milk", "1 cup", "2 cups", "4 cups"],
+    ["Eggs", "1", "2", "4"],
+    ["Melted butter or neutral oil", "2 tablespoons", "4 tablespoons", "8 tablespoons"],
+]
+
+try:
+    start = lines.index(header)
+except ValueError:
+    raise SystemExit("pancakes.md must keep the batch scaling table header.")
+
+rows = []
+for line in lines[start + 2 :]:
+    if not line.startswith("|"):
+        break
+    rows.append([cell.strip() for cell in line.strip("|").split("|")])
+
+if rows != expected:
+    raise SystemExit("pancakes.md must keep every ratio-aligned batch scaling quantity.")
+if "two separate sets of the 16-pancake quantities" not in content:
+    raise SystemExit("pancakes.md must keep the fresh-bowl scaling guidance.")
+PY
 
 if grep -Eq '^(---|### \*\*)' "$ROOT_DIR/pancakes.md"; then
   printf '%s\n' "pancakes.md should use clean Markdown headings, not placeholder separators." >&2
@@ -411,10 +435,31 @@ if ! grep -Fq "status: completed" "$CI_PLAN" ||
   exit 1
 fi
 
-if ! grep -Fq "status: completed" "$BATCH_SCALING_PLAN" ||
-  ! grep -Fq "make check" "$BATCH_SCALING_PLAN"; then
-  printf '%s\n' "The batch scaling plan must remain completed and verifiable." >&2
-  exit 1
-fi
+python3 - "$BATCH_SCALING_PLAN" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+plan = Path(sys.argv[1]).read_text()
+frontmatter = plan.split("---", 2)[1]
+statuses = re.findall(r"^status: .+$", frontmatter, flags=re.MULTILINE)
+verification = plan.split("## Verification Completed\n", 1)[-1]
+required = (
+    "all four Make gates",
+    "push run `27392180169`",
+    "pull-request run `27392182290`",
+    "push run `27392192010`",
+    "CodeQL run `27402319817`",
+)
+
+if (
+    statuses != ["status: completed"]
+    or any(item not in verification for item in required)
+    or re.search(r"\b(?:pending|todo|tbd|not run)\b", verification, re.IGNORECASE)
+):
+    raise SystemExit(
+        "The batch scaling plan must remain completed with actual verification recorded."
+    )
+PY
 
 printf '%s\n' "fantastic-pancake content baseline checks passed."
