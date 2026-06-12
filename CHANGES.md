@@ -1,5 +1,11 @@
 # Changes
 
+## 2026-06-12
+
+- Added an 8-, 16-, and 32-pancake scaling table tied to the basic ratio and
+  practical fresh-bowl guidance for the largest batch.
+- Extended the content baseline to preserve the scaled quantities and plan.
+
 ## 2026-06-10
 
 - Added FDA- and CDC-backed raw batter handling and cleanup guidance.

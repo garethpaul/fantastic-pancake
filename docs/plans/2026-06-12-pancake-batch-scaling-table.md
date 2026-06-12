@@ -1,7 +1,7 @@
 ---
 title: Pancake Batch Scaling Table
 date: 2026-06-12
-status: planned
+status: completed
 execution: content
 ---
 
