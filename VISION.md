@@ -38,6 +38,8 @@ Current baseline:
   adjustments, and avoiding overmixing after the batter rests.
 - Griddle heat and doneness notes cover preheating, browning, flipping, and
   avoiding pressed pancakes.
+- First-pancake calibration separates heat corrections from measured flour or
+  milk adjustments before the main batch.
 - Troubleshooting notes cover common batch problems without adding app
   scaffolding.
 - Mix-ins and toppings notes describe when to fold, sprinkle, dry, organize,
@@ -66,6 +68,7 @@ Next priorities:
 - Keep portioning guidance practical and tied to the basic ratio
 - Keep batch scaling quantities aligned with the basic ratio and stated yield
 - Keep batter texture notes practical and tied to the basic method
+- Keep first-pancake calibration ordered and limited to one variable per test
 - Keep mix-ins and topping guidance practical and tied to event-serving labels
 
 Contribution rules:

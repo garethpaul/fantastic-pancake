@@ -102,12 +102,16 @@ When the required SDK or runtime is unavailable, use static checks and source re
   guidance.
 - Keep the batch scaling table aligned with the basic ratio and 1/4 cup yield.
 - Keep griddle heat and doneness notes practical when expanding method content.
+- Keep first-pancake calibration tied to the 1/4 cup portion and one-variable
+  adjustments.
 - Keep batter texture and resting notes concise when expanding method content.
 - Keep mix-ins and topping notes practical, clearly labeled, and tied to the
   allergen event-serving guidance.
 - Keep `.github/workflows/check.yml` aligned with the local content baseline.
 - See `docs/plans/2026-06-10-hosted-content-checks.md` for the hosted content
   verification baseline.
+- See `docs/plans/2026-06-13-first-pancake-calibration.md` for the test-pancake
+  decision sequence.
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.
 - See `VISION.md` for project direction and contribution guardrails.
 

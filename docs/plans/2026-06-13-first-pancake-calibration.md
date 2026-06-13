@@ -1,7 +1,7 @@
 ---
 title: First Pancake Calibration
 type: content
-status: in_progress
+status: completed
 date: 2026-06-13
 ---
 
@@ -69,3 +69,29 @@ Files: `README.md`, `VISION.md`, `CHANGES.md`
 - Run shell syntax, `git diff --check`, and intended-file secret scans.
 - Take one bounded exact-head pull-request and CodeQL snapshot after push; do
   not poll.
+
+## Work Completed
+
+- Added a seven-step first-pancake calibration sequence after the griddle heat
+  guidance.
+- Kept heat diagnosis ahead of measured flour or milk corrections and required
+  a second test before the main batch.
+- Extended the content baseline with wrap-stable cue checks, section-scoped
+  ordering validation, documentation contracts, and completed-plan evidence.
+- Updated README, VISION, and change history for the new method guidance.
+
+## Verification Completed
+
+- `make check`, `make lint`, `make test`, and `make build` passed against the
+  final implementation.
+- `sh -n scripts/check-baseline.sh`, `git diff --check`, the explicit
+  no-scaffold check, and the intended-file secret scan passed.
+- The heat correction mutation failed with `pancakes.md must keep the ordered
+  first-pancake calibration sequence.`
+- The consistency correction mutation failed with `First-pancake calibration
+  must preserve its fail-clear decision order.`
+- The second-test ordering mutation failed with `First-pancake calibration must
+  preserve its fail-clear decision order.`
+- The hosted pull-request check is not available before push; one bounded
+  exact-head snapshot will be recorded in the engineering tracker without
+  polling.

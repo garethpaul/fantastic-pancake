@@ -94,6 +94,23 @@ yield can vary slightly after consistency adjustments or a different scoop.
 - After flipping, avoid pressing pancakes with the spatula; gentle contact keeps
   the interior lighter.
 
+## First Pancake Calibration
+
+- Pour one 1/4 cup test pancake and keep the remaining batter untouched while
+  it cooks.
+- Judge browning before changing the batter so heat and consistency are not
+  adjusted at the same time.
+- If the underside browns before bubbles open across the top, lower the heat
+  before the next test.
+- If the pancake remains pale after bubbles open and the edges set, raise heat
+  slightly before the next test.
+- Once the heat is corrected, fold in flour 1 tablespoon at a time if the test
+  pancake spreads too thin, then wait 1 minute before reassessing.
+- If the test pancake stays mounded instead of settling, stir in milk 1
+  tablespoon at a time, then wait 1 minute before reassessing.
+- After any adjustment, cook a second test pancake before starting the main
+  batch, and change only one variable between tests.
+
 ## Troubleshooting Pancakes
 
 - Flat pancakes usually need fresher leavening, a shorter wait after mixing, or

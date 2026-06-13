@@ -15,6 +15,7 @@ MIX_INS_PLAN="$ROOT_DIR/docs/plans/2026-06-09-pancake-mix-ins-toppings.md"
 RAW_BATTER_PLAN="$ROOT_DIR/docs/plans/2026-06-10-raw-batter-safety.md"
 CI_PLAN="$ROOT_DIR/docs/plans/2026-06-10-hosted-content-checks.md"
 BATCH_SCALING_PLAN="$ROOT_DIR/docs/plans/2026-06-12-pancake-batch-scaling-table.md"
+CALIBRATION_PLAN="$ROOT_DIR/docs/plans/2026-06-13-first-pancake-calibration.md"
 CI_WORKFLOW="$ROOT_DIR/.github/workflows/check.yml"
 
 require_file() {
@@ -45,6 +46,7 @@ for path in \
   "docs/plans/2026-06-09-pancake-troubleshooting-section.md" \
   "docs/plans/2026-06-10-raw-batter-safety.md" \
   "docs/plans/2026-06-12-pancake-batch-scaling-table.md" \
+  "docs/plans/2026-06-13-first-pancake-calibration.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md" \
   "docs/plans/2026-06-10-hosted-content-checks.md"; do
   require_file "$path"
@@ -214,6 +216,7 @@ for heading in \
   "## Types of Pancakes" \
   "## Pancake Tips" \
   "## Griddle Heat and Doneness" \
+  "## First Pancake Calibration" \
   "## Troubleshooting Pancakes" \
   "## Mix-Ins and Toppings" \
   "## Pancake-Related Events and Traditions" \
@@ -359,6 +362,46 @@ if ! grep -Fq "350 to 375 degrees F" "$ROOT_DIR/pancakes.md" ||
   exit 1
 fi
 
+if ! grep -Fq "Pour one 1/4 cup test pancake" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "Judge browning before changing the batter" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "underside browns before bubbles open" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "lower the heat" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "remains pale after bubbles open" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "raise heat" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "flour 1 tablespoon at a time" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "milk 1" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "tablespoon at a time" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "cook a second test pancake" "$ROOT_DIR/pancakes.md" ||
+  ! grep -Fq "change only one variable between tests" "$ROOT_DIR/pancakes.md"; then
+  printf '%s\n' "pancakes.md must keep the ordered first-pancake calibration sequence." >&2
+  exit 1
+fi
+
+python3 - "$ROOT_DIR/pancakes.md" <<'PY'
+import sys
+from pathlib import Path
+
+content = Path(sys.argv[1]).read_text()
+section = content.split("## First Pancake Calibration\n", 1)[-1].split(
+    "## Troubleshooting Pancakes", 1
+)[0]
+contract = (
+    "Pour one 1/4 cup test pancake",
+    "Judge browning before changing the batter",
+    "underside browns before bubbles open",
+    "remains pale after bubbles open",
+    "Once the heat is corrected",
+    "flour 1 tablespoon at a time",
+    "test pancake stays mounded",
+    "milk 1\n  tablespoon at a time",
+    "After any adjustment, cook a second test pancake",
+    "change only one variable between tests",
+)
+positions = [section.find(fragment) for fragment in contract]
+if -1 in positions or positions != sorted(positions) or len(set(positions)) != len(positions):
+    raise SystemExit("First-pancake calibration must preserve its fail-clear decision order.")
+PY
+
 if ! grep -Fq "<title id=\"title\">fantastic-pancake project overview</title>" "$ROOT_DIR/docs/readme-overview.svg"; then
   printf '%s\n' "README overview image must describe this repository." >&2
   exit 1
@@ -459,6 +502,27 @@ if (
 ):
     raise SystemExit(
         "The batch scaling plan must remain completed with actual verification recorded."
+    )
+PY
+
+python3 - "$CALIBRATION_PLAN" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+plan = Path(sys.argv[1]).read_text()
+frontmatter = plan.split("---", 2)[1]
+statuses = re.findall(r"^status: .+$", frontmatter, flags=re.MULTILINE)
+required = (
+    "heat correction mutation failed",
+    "consistency correction mutation failed",
+    "second-test ordering mutation failed",
+    "hosted pull-request check",
+)
+
+if statuses != ["status: completed"] or any(item not in plan for item in required):
+    raise SystemExit(
+        "The first-pancake calibration plan must record completed status and actual verification."
     )
 PY
 

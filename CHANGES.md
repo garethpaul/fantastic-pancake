@@ -1,5 +1,12 @@
 # Changes
 
+## 2026-06-13
+
+- Added a first-pancake calibration sequence that separates heat corrections
+  from tablespoon-by-tablespoon batter adjustments.
+- Extended the content baseline to preserve the calibration order and completed
+  verification evidence.
+
 ## 2026-06-12
 
 - Added an 8-, 16-, and 32-pancake scaling table tied to the basic ratio and
