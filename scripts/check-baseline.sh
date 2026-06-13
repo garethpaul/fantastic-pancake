@@ -17,6 +17,7 @@ CI_PLAN="$ROOT_DIR/docs/plans/2026-06-10-hosted-content-checks.md"
 BATCH_SCALING_PLAN="$ROOT_DIR/docs/plans/2026-06-12-pancake-batch-scaling-table.md"
 CALIBRATION_PLAN="$ROOT_DIR/docs/plans/2026-06-13-first-pancake-calibration.md"
 SUBSTITUTION_PLAN="$ROOT_DIR/docs/plans/2026-06-13-pancake-substitution-guidance.md"
+SOURCE_PROVENANCE_PLAN="$ROOT_DIR/docs/plans/2026-06-13-source-provenance-boundary.md"
 CI_WORKFLOW="$ROOT_DIR/.github/workflows/check.yml"
 
 require_file() {
@@ -49,6 +50,7 @@ for path in \
   "docs/plans/2026-06-12-pancake-batch-scaling-table.md" \
   "docs/plans/2026-06-13-first-pancake-calibration.md" \
   "docs/plans/2026-06-13-pancake-substitution-guidance.md" \
+  "docs/plans/2026-06-13-source-provenance-boundary.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md" \
   "docs/plans/2026-06-10-hosted-content-checks.md"; do
   require_file "$path"
@@ -240,6 +242,50 @@ if [ "$bullet_count" -lt 20 ]; then
   printf '%s\n' "pancakes.md must keep enough specific content bullets." >&2
   exit 1
 fi
+
+python3 - "$ROOT_DIR/pancakes.md" <<'PY'
+import re
+import sys
+from pathlib import Path
+from urllib.parse import urlsplit
+
+content = Path(sys.argv[1]).read_text(encoding="utf-8")
+urls = re.findall(r"[A-Za-z][A-Za-z0-9+.-]*://[^\s<>)\]]+", content)
+approved_hosts = {
+    "extension.umn.edu",
+    "www.cdc.gov",
+    "www.fda.gov",
+    "www.foodsafety.gov",
+}
+
+if not urls:
+    raise SystemExit("pancakes.md must retain reviewed external sources.")
+
+observed_hosts = set()
+for value in urls:
+    try:
+        parsed = urlsplit(value)
+        port = parsed.port
+    except ValueError as error:
+        raise SystemExit(f"Invalid source URL authority: {value}") from error
+
+    host = parsed.hostname
+    if (
+        parsed.scheme != "https"
+        or not host
+        or parsed.username is not None
+        or parsed.password is not None
+        or port is not None
+        or parsed.netloc.lower() != host
+        or host not in approved_hosts
+    ):
+        raise SystemExit(f"Unapproved source URL: {value}")
+    observed_hosts.add(host)
+
+if observed_hosts != approved_hosts:
+    missing = ", ".join(sorted(approved_hosts - observed_hosts))
+    raise SystemExit(f"pancakes.md must retain every reviewed source host: {missing}")
+PY
 
 python3 - "$ROOT_DIR/pancakes.md" <<'PY'
 import sys
@@ -585,5 +631,21 @@ if statuses != ["status: completed"] or any(item not in plan for item in require
         "The substitution plan must record completed status and actual verification."
     )
 PY
+
+if ! grep -Fq "status: completed" "$SOURCE_PROVENANCE_PLAN" ||
+  ! grep -Fq "hostile mutations were rejected" "$SOURCE_PROVENANCE_PLAN" ||
+  ! grep -Fq "No network fetch" "$SOURCE_PROVENANCE_PLAN" ||
+  ! grep -Fq "all four Make gates" "$SOURCE_PROVENANCE_PLAN"; then
+  printf '%s\n' "Source provenance plan must record completed local verification." >&2
+  exit 1
+fi
+
+if ! grep -Fq "credential-free HTTPS URLs on approved official" "$ROOT_DIR/README.md" ||
+  ! grep -Fq "HTTPS URLs from the reviewed source hosts" "$ROOT_DIR/SECURITY.md" ||
+  ! grep -Fq "structurally validates source URLs" "$ROOT_DIR/VISION.md" ||
+  ! grep -Fq "Added structural source provenance checks" "$ROOT_DIR/CHANGES.md"; then
+  printf '%s\n' "Project guidance must preserve the source provenance boundary." >&2
+  exit 1
+fi
 
 printf '%s\n' "fantastic-pancake content baseline checks passed."

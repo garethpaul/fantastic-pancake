@@ -2,6 +2,8 @@
 
 ## 2026-06-13
 
+- Added structural source provenance checks for HTTPS, userinfo, ports,
+  approved hosts, and continued representation of every reviewed source host.
 - Added source-backed ingredient substitution guidance with test-batch,
   ingredient-function, label-review, and cross-contact boundaries.
 - Extended the content baseline to preserve the substitution safety contract

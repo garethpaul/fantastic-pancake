@@ -48,6 +48,8 @@ Current baseline:
   and label additions without changing the content-only scope.
 - Food-safety notes cite FoodSafety.gov before making storage or serving
   recommendations.
+- The offline baseline structurally validates source URLs for HTTPS, absent
+  credentials and ports, exact reviewed hosts, and continued host coverage.
 - Batch storage and reheating guidance includes concrete holding, cooling,
   reheating, and leftover-use thresholds.
 - README and VISION document the no-scaffold boundary until there is a concrete

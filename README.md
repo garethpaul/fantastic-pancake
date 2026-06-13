@@ -71,6 +71,9 @@ test-batch cautions, current label review, cross-contact controls, and official
 or reviewed sources. Mix-ins and toppings notes must keep practical texture,
 fruit, and labeling guidance. Batch notes must keep specific holding, storage,
 and reheating thresholds.
+Guide citations are limited to credential-free HTTPS URLs on approved official
+government and university-extension hosts; this offline check does not claim
+that remote pages are currently reachable.
 
 The `make lint`, `make test`, and `make build` aliases run the same content
 baseline while this repository has no narrower installed gates.

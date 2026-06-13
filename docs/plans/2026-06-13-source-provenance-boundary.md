@@ -1,6 +1,6 @@
 # Source Provenance Boundary
 
-status: planned
+status: completed
 
 ## Context
 
@@ -58,3 +58,24 @@ remote availability or ongoing editorial accuracy.
 - Changing recipe quantities, culinary claims, safety advice, or cited pages.
 - Expanding the allowlist beyond the current official government and university
   extension sources.
+
+## Work Completed
+
+- Added structured parsing for every absolute URL in `pancakes.md`.
+- Required HTTPS, a hostname, absent userinfo and explicit ports, exact approved
+  hosts, and continued representation of every reviewed host.
+- Kept all existing exact citation and content checks as independent evidence.
+- Documented the offline provenance boundary without claiming remote reachability.
+
+## Verification Completed
+
+- The all four Make gates passed the content baseline, along with shell syntax
+  and `git diff --check`.
+- Eleven isolated hostile mutations were rejected: HTTP, alternate scheme,
+  username, explicit port, empty port delimiter, unapproved host, missing
+  reviewed host, malformed authority, missing docs, stale plan status, and
+  missing verification evidence.
+- Exact intended-path review, generated-artifact inspection, and added-line
+  secret-pattern scanning passed.
+- No network fetch, remote-page availability claim, credential, or external
+  service was used during verification.
