@@ -21,6 +21,32 @@ for breakfast, brunch, dessert, or community events.
 - Scale dry and wet ingredients together when cooking for a group, then adjust
   thickness after the batter rests.
 
+## Ingredient Substitutions
+
+Substitutions can change flavor, color, texture, or volume. Test the
+about-8-pancake ratio before scaling an adapted batch for a group.
+
+- For milk, start with the same amount of an unsweetened replacement, then
+  reassess the rested batter before adding more liquid. Different products can
+  change thickness, flavor, and browning.
+- Eggs add moisture, binding, and lift, so no single egg replacement reproduces
+  every function. For this one-egg ratio, follow a baking egg replacer's label
+  or a reviewed substitution amount; fruit purees can add flavor and moisture
+  while producing a different rise or texture.
+- For a wheat-flour substitution, use a gluten-free blend labeled as a
+  one-to-one replacement for all-purpose flour and follow its directions. Do
+  not assume a single alternative flour will work cup for cup.
+- The ratio already allows 2 tablespoons of neutral oil instead of melted
+  butter; expect butter-related flavor or browning to differ when using oil.
+- A substitution does not prove a batch is allergen-free. Check current
+  ingredient and advisory labels every time, and control cross-contact from
+  prep surfaces, utensils, and equipment before serving someone with an
+  allergy.
+- University of Minnesota Extension explains egg functions and replacement
+  tradeoffs: https://extension.umn.edu/family-news/egg-substitutions-baking
+- FDA food-allergy guidance covers current labels and cross-contact:
+  https://www.fda.gov/food/food-labeling-nutrition/food-allergies
+
 ## Batch Scaling Table
 
 The amounts below assume the 1/4 cup portion used for medium pancakes. Final

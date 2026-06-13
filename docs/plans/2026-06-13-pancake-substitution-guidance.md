@@ -1,7 +1,7 @@
 ---
 title: Pancake Substitution Guidance
 type: content
-status: planned
+status: completed
 date: 2026-06-13
 ---
 
@@ -99,8 +99,26 @@ Files: `README.md`, `VISION.md`, `CHANGES.md`
 
 ## Work Completed
 
-Pending implementation.
+- Added function-aware milk, egg, flour, and fat substitution guidance after
+  the base ratio.
+- Required an about-8-pancake test before scaling and kept consistency changes
+  tied to the existing batter rest.
+- Added reviewed University of Minnesota Extension egg guidance and current FDA
+  label and cross-contact guidance.
+- Extended the content baseline with wrap-stable section checks, documentation
+  contracts, and completed-plan evidence.
+- Updated README, VISION, and change history for the new content boundary.
 
 ## Verification Completed
 
-Pending implementation and verification.
+- `make check`, `make lint`, `make test`, and `make build` passed against the
+  final implementation.
+- The egg-function mutation failed with `pancakes.md must keep source-backed,
+  function-aware substitution guidance.`
+- The flour-boundary mutation failed with the same substitution-contract error.
+- The allergen-boundary mutation failed with the same substitution-contract
+  error.
+- The source-link mutation failed with the same substitution-contract error.
+- The hosted pull-request check is not available before the implementation
+  push; bounded exact-head evidence will be recorded in the engineering tracker
+  without a watch loop.

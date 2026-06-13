@@ -2,6 +2,10 @@
 
 ## 2026-06-13
 
+- Added source-backed ingredient substitution guidance with test-batch,
+  ingredient-function, label-review, and cross-contact boundaries.
+- Extended the content baseline to preserve the substitution safety contract
+  and completed verification evidence.
 - Added a first-pancake calibration sequence that separates heat corrections
   from tablespoon-by-tablespoon batter adjustments.
 - Extended the content baseline to preserve the calibration order and completed

@@ -66,7 +66,9 @@ FoodSafety.gov source, and enforces a no-scaffold contract so app manifests,
 dependency lockfiles, source directories, and generated dependency directories
 do not appear without a new plan. Event serving notes must keep source-backed
 allergen guidance, separate utensil language, and avoid unsupported
-allergen-free claims. Mix-ins and toppings notes must keep practical texture,
+allergen-free claims. Ingredient substitutions must preserve function and
+test-batch cautions, current label review, cross-contact controls, and official
+or reviewed sources. Mix-ins and toppings notes must keep practical texture,
 fruit, and labeling guidance. Batch notes must keep specific holding, storage,
 and reheating thresholds.
 
@@ -104,6 +106,8 @@ When the required SDK or runtime is unavailable, use static checks and source re
 - Keep griddle heat and doneness notes practical when expanding method content.
 - Keep first-pancake calibration tied to the 1/4 cup portion and one-variable
   adjustments.
+- Keep substitution guidance tied to the about-8-pancake test batch and
+  separate recipe adaptation from allergen-safety claims.
 - Keep batter texture and resting notes concise when expanding method content.
 - Keep mix-ins and topping notes practical, clearly labeled, and tied to the
   allergen event-serving guidance.
@@ -112,6 +116,8 @@ When the required SDK or runtime is unavailable, use static checks and source re
   verification baseline.
 - See `docs/plans/2026-06-13-first-pancake-calibration.md` for the test-pancake
   decision sequence.
+- See `docs/plans/2026-06-13-pancake-substitution-guidance.md` for substitution
+  and allergy-safety boundaries.
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.
 - See `VISION.md` for project direction and contribution guardrails.
 

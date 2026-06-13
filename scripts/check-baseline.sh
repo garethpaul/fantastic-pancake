@@ -16,6 +16,7 @@ RAW_BATTER_PLAN="$ROOT_DIR/docs/plans/2026-06-10-raw-batter-safety.md"
 CI_PLAN="$ROOT_DIR/docs/plans/2026-06-10-hosted-content-checks.md"
 BATCH_SCALING_PLAN="$ROOT_DIR/docs/plans/2026-06-12-pancake-batch-scaling-table.md"
 CALIBRATION_PLAN="$ROOT_DIR/docs/plans/2026-06-13-first-pancake-calibration.md"
+SUBSTITUTION_PLAN="$ROOT_DIR/docs/plans/2026-06-13-pancake-substitution-guidance.md"
 CI_WORKFLOW="$ROOT_DIR/.github/workflows/check.yml"
 
 require_file() {
@@ -47,6 +48,7 @@ for path in \
   "docs/plans/2026-06-10-raw-batter-safety.md" \
   "docs/plans/2026-06-12-pancake-batch-scaling-table.md" \
   "docs/plans/2026-06-13-first-pancake-calibration.md" \
+  "docs/plans/2026-06-13-pancake-substitution-guidance.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md" \
   "docs/plans/2026-06-10-hosted-content-checks.md"; do
   require_file "$path"
@@ -85,7 +87,8 @@ if ! grep -Fq "make check" "$ROOT_DIR/README.md" ||
   ! grep -Fq "content-only" "$ROOT_DIR/README.md" ||
   ! grep -Fq "no-scaffold" "$ROOT_DIR/README.md" ||
   ! grep -Fq "GitHub Actions" "$ROOT_DIR/README.md" ||
-  ! grep -Fq "Mix-ins and toppings" "$ROOT_DIR/README.md"; then
+  ! grep -Fq "Mix-ins and toppings" "$ROOT_DIR/README.md" ||
+  ! grep -Fq "Ingredient substitutions" "$ROOT_DIR/README.md"; then
   printf '%s\n' "README must document the content-only baseline and verification command." >&2
   exit 1
 fi
@@ -95,7 +98,8 @@ if ! grep -Fq "scripts/check-baseline.sh" "$ROOT_DIR/VISION.md" ||
   ! grep -Fq "pancakes.md" "$ROOT_DIR/VISION.md" ||
   ! grep -Fq "dependency manifests" "$ROOT_DIR/VISION.md" ||
   ! grep -Fq "GitHub Actions" "$ROOT_DIR/VISION.md" ||
-  ! grep -Fq "Mix-ins and toppings" "$ROOT_DIR/VISION.md"; then
+  ! grep -Fq "Mix-ins and toppings" "$ROOT_DIR/VISION.md" ||
+  ! grep -Fq "Ingredient substitution notes" "$ROOT_DIR/VISION.md"; then
   printf '%s\n' "VISION must describe the current content baseline." >&2
   exit 1
 fi
@@ -210,6 +214,7 @@ for heading in \
   "# Pancakes" \
   "## Basic Pancake Method" \
   "## Basic Pancake Ratio" \
+  "## Ingredient Substitutions" \
   "## Batch Scaling Table" \
   "## Portioning and Batch Size" \
   "## Batter Consistency and Resting" \
@@ -282,6 +287,39 @@ if ! grep -Fq "1 cup flour" "$ROOT_DIR/pancakes.md" ||
   printf '%s\n' "pancakes.md must keep a practical basic pancake ratio." >&2
   exit 1
 fi
+
+python3 - "$ROOT_DIR/pancakes.md" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+content = Path(sys.argv[1]).read_text()
+section = content.split("## Ingredient Substitutions\n", 1)[-1].split(
+    "## Batch Scaling Table", 1
+)[0]
+normalized = re.sub(r"\s+", " ", section).strip()
+required = (
+    "Substitutions can change flavor, color, texture, or volume.",
+    "Test the about-8-pancake ratio before scaling",
+    "same amount of an unsweetened replacement",
+    "reassess the rested batter",
+    "Eggs add moisture, binding, and lift",
+    "no single egg replacement reproduces every function",
+    "one-to-one replacement for all-purpose flour",
+    "Do not assume a single alternative flour will work cup for cup.",
+    "2 tablespoons of neutral oil instead of melted butter",
+    "A substitution does not prove a batch is allergen-free.",
+    "Check current ingredient and advisory labels every time",
+    "control cross-contact from prep surfaces, utensils, and equipment",
+    "https://extension.umn.edu/family-news/egg-substitutions-baking",
+    "https://www.fda.gov/food/food-labeling-nutrition/food-allergies",
+)
+
+if any(fragment not in normalized for fragment in required):
+    raise SystemExit(
+        "pancakes.md must keep source-backed, function-aware substitution guidance."
+    )
+PY
 
 if ! grep -Fq "1/4 cup scoop" "$ROOT_DIR/pancakes.md" ||
   ! grep -Fq "2 tablespoons of batter" "$ROOT_DIR/pancakes.md" ||
@@ -523,6 +561,28 @@ required = (
 if statuses != ["status: completed"] or any(item not in plan for item in required):
     raise SystemExit(
         "The first-pancake calibration plan must record completed status and actual verification."
+    )
+PY
+
+python3 - "$SUBSTITUTION_PLAN" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+plan = Path(sys.argv[1]).read_text()
+frontmatter = plan.split("---", 2)[1]
+statuses = re.findall(r"^status: .+$", frontmatter, flags=re.MULTILINE)
+required = (
+    "egg-function mutation failed",
+    "flour-boundary mutation failed",
+    "allergen-boundary mutation failed",
+    "source-link mutation failed",
+    "hosted pull-request check",
+)
+
+if statuses != ["status: completed"] or any(item not in plan for item in required):
+    raise SystemExit(
+        "The substitution plan must record completed status and actual verification."
     )
 PY
 

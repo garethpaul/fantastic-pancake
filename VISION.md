@@ -40,6 +40,8 @@ Current baseline:
   avoiding pressed pancakes.
 - First-pancake calibration separates heat corrections from measured flour or
   milk adjustments before the main batch.
+- Ingredient substitution notes distinguish milk, egg, flour, and fat behavior
+  from allergen safety and require an about-8-pancake test batch before scaling.
 - Troubleshooting notes cover common batch problems without adding app
   scaffolding.
 - Mix-ins and toppings notes describe when to fold, sprinkle, dry, organize,
@@ -69,6 +71,8 @@ Next priorities:
 - Keep batch scaling quantities aligned with the basic ratio and stated yield
 - Keep batter texture notes practical and tied to the basic method
 - Keep first-pancake calibration ordered and limited to one variable per test
+- Keep substitution guidance source-backed and separate recipe adaptation from
+  allergen-free claims
 - Keep mix-ins and topping guidance practical and tied to event-serving labels
 
 Contribution rules:
