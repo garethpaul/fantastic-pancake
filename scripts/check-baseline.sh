@@ -18,6 +18,7 @@ BATCH_SCALING_PLAN="$ROOT_DIR/docs/plans/2026-06-12-pancake-batch-scaling-table.
 CALIBRATION_PLAN="$ROOT_DIR/docs/plans/2026-06-13-first-pancake-calibration.md"
 SUBSTITUTION_PLAN="$ROOT_DIR/docs/plans/2026-06-13-pancake-substitution-guidance.md"
 SOURCE_PROVENANCE_PLAN="$ROOT_DIR/docs/plans/2026-06-13-source-provenance-boundary.md"
+LOCATION_INDEPENDENT_MAKE_PLAN="$ROOT_DIR/docs/plans/2026-06-13-location-independent-make.md"
 CI_WORKFLOW="$ROOT_DIR/.github/workflows/check.yml"
 
 require_file() {
@@ -51,10 +52,25 @@ for path in \
   "docs/plans/2026-06-13-first-pancake-calibration.md" \
   "docs/plans/2026-06-13-pancake-substitution-guidance.md" \
   "docs/plans/2026-06-13-source-provenance-boundary.md" \
+  "docs/plans/2026-06-13-location-independent-make.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md" \
   "docs/plans/2026-06-10-hosted-content-checks.md"; do
   require_file "$path"
 done
+
+if ! grep -Fq 'ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))' "$ROOT_DIR/Makefile" ||
+  ! grep -Fq '"$(ROOT)/scripts/check-baseline.sh"' "$ROOT_DIR/Makefile"; then
+  printf '%s\n' "Makefile verification must resolve the checker from the loaded Makefile." >&2
+  exit 1
+fi
+
+if ! grep -Fq "status: completed" "$LOCATION_INDEPENDENT_MAKE_PLAN" ||
+  ! grep -Fq "from /tmp" "$LOCATION_INDEPENDENT_MAKE_PLAN" ||
+  ! grep -Fq "absolute Makefile path" "$ROOT_DIR/README.md" ||
+  ! grep -Fq "Made content verification independent" "$ROOT_DIR/CHANGES.md"; then
+  printf '%s\n' "Location-independent Make plan and guidance must record completed external verification." >&2
+  exit 1
+fi
 
 for path in \
   "Cargo.toml" \

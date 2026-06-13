@@ -56,6 +56,10 @@ Run the content baseline:
 make check
 ```
 
+Use the absolute Makefile path to run the same gate from another working
+directory. Verification resolves the checker relative to the loaded Makefile
+rather than the caller's directory.
+
 The baseline verifies that the repository remains content-only, README/VISION
 stay linked to `pancakes.md`, the overview image targets this repo, and the
 pancake document keeps real sections instead of placeholder separators. It also

@@ -2,7 +2,7 @@
 title: Location-Independent Content Verification
 type: reliability
 date: 2026-06-13
-status: planned
+status: completed
 execution: code
 ---
 
@@ -40,8 +40,19 @@ baseline works when Make is invoked outside the checkout.
 
 ## Work Completed
 
-Pending implementation.
+- Derived the repository root from the loaded Makefile and invoked the content
+  checker through that absolute path.
+- Extended the baseline with rooted-Makefile, completed-plan, external-run, and
+  synchronized guidance contracts.
+- Preserved all recipe, food-safety, allergen, citation, workflow, and
+  no-scaffold content unchanged.
 
 ## Verification Completed
 
-Pending implementation and verification.
+- `make check`, `make lint`, `make test`, and `make build` passed at repository
+  root.
+- The full gate passed from /tmp through the absolute Makefile path.
+- Five isolated hostile root-derivation, checker-path, documentation, plan
+  status, and verification-evidence mutations were rejected.
+- Shell syntax, `git diff --check`, exact-path review, added-line secret
+  scanning, and generated-artifact inspection passed.

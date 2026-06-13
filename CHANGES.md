@@ -2,6 +2,8 @@
 
 ## 2026-06-13
 
+- Made content verification independent of the caller's working directory by
+  resolving the baseline checker from the loaded Makefile.
 - Added structural source provenance checks for HTTPS, userinfo, ports,
   approved hosts, and continued representation of every reviewed source host.
 - Added source-backed ingredient substitution guidance with test-batch,
