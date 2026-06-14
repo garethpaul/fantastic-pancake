@@ -2,7 +2,7 @@
 title: Make Root Override Protection
 type: reliability
 date: 2026-06-14
-status: in_progress
+status: completed
 execution: code
 ---
 
@@ -38,7 +38,17 @@ supplies a hostile `ROOT` command-line variable.
 
 ## Verification Completed
 
-Pending implementation and validation.
+- `sh -n scripts/check-baseline.sh` and `dash -n scripts/check-baseline.sh`
+  passed.
+- All four Make gates passed: `make check`, `make lint`, `make test`, and
+  `make build`.
+- `make ROOT=/tmp check` passed and still executed the repository checker.
+- The full gate passed from `/tmp` through the absolute Makefile path, covering
+  the external working directory.
+- Overrideable-root, missing-plan-file, reopened-plan, and missing-verification
+  mutations were rejected.
+- `git diff --check`, intended-path review, artifact inspection, and the
+  changed-line secret scan passed.
 
 ## Follow-Ups
 
