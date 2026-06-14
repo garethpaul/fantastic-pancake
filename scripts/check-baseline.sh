@@ -20,6 +20,7 @@ SUBSTITUTION_PLAN="$ROOT_DIR/docs/plans/2026-06-13-pancake-substitution-guidance
 SOURCE_PROVENANCE_PLAN="$ROOT_DIR/docs/plans/2026-06-13-source-provenance-boundary.md"
 LOCATION_INDEPENDENT_MAKE_PLAN="$ROOT_DIR/docs/plans/2026-06-13-location-independent-make.md"
 MAKE_ROOT_PROTECTION_PLAN="$ROOT_DIR/docs/plans/2026-06-14-make-root-override-protection.md"
+CANONICAL_ALLERGEN_SOURCE_PLAN="$ROOT_DIR/docs/plans/2026-06-14-002-security-canonical-fda-allergen-source-plan.md"
 CI_WORKFLOW="$ROOT_DIR/.github/workflows/check.yml"
 
 require_file() {
@@ -55,6 +56,7 @@ for path in \
   "docs/plans/2026-06-13-source-provenance-boundary.md" \
   "docs/plans/2026-06-13-location-independent-make.md" \
   "docs/plans/2026-06-14-make-root-override-protection.md" \
+  "docs/plans/2026-06-14-002-security-canonical-fda-allergen-source-plan.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md" \
   "docs/plans/2026-06-10-hosted-content-checks.md"; do
   require_file "$path"
@@ -360,12 +362,13 @@ if ! grep -Fq "1 cup flour" "$ROOT_DIR/pancakes.md" ||
   exit 1
 fi
 
-python3 - "$ROOT_DIR/pancakes.md" <<'PY'
+python3 - "$ROOT_DIR/pancakes.md" "$ROOT_DIR" <<'PY'
 import re
 import sys
 from pathlib import Path
 
 content = Path(sys.argv[1]).read_text()
+root = Path(sys.argv[2])
 section = content.split("## Ingredient Substitutions\n", 1)[-1].split(
     "## Batch Scaling Table", 1
 )[0]
@@ -384,12 +387,23 @@ required = (
     "Check current ingredient and advisory labels every time",
     "control cross-contact from prep surfaces, utensils, and equipment",
     "https://extension.umn.edu/family-news/egg-substitutions-baking",
-    "https://www.fda.gov/food/food-labeling-nutrition/food-allergies",
+    "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/food-allergies",
 )
 
 if any(fragment not in normalized for fragment in required):
     raise SystemExit(
         "pancakes.md must keep source-backed, function-aware substitution guidance."
+    )
+
+retired_url = "https://www.fda.gov/food/food-labeling-nutrition/food-allergies"
+retired_matches = [
+    str(path.relative_to(root))
+    for path in root.rglob("*.md")
+    if retired_url in path.read_text()
+]
+if retired_matches:
+    raise SystemExit(
+        "Retired FDA food-allergy URL remains in: " + ", ".join(retired_matches)
     )
 PY
 
@@ -671,6 +685,15 @@ if ! grep -Fq "credential-free HTTPS URLs on approved official" "$ROOT_DIR/READM
   ! grep -Fq "structurally validates source URLs" "$ROOT_DIR/VISION.md" ||
   ! grep -Fq "Added structural source provenance checks" "$ROOT_DIR/CHANGES.md"; then
   printf '%s\n' "Project guidance must preserve the source provenance boundary." >&2
+  exit 1
+fi
+
+if ! grep -Fq "status: completed" "$CANONICAL_ALLERGEN_SOURCE_PLAN" ||
+  ! grep -Fq "repository root" "$CANONICAL_ALLERGEN_SOURCE_PLAN" ||
+  ! grep -Fq "external working directory" "$CANONICAL_ALLERGEN_SOURCE_PLAN" ||
+  ! grep -Fq "isolated hostile mutations" "$CANONICAL_ALLERGEN_SOURCE_PLAN" ||
+  ! grep -Fq "canonical FDA page" "$CANONICAL_ALLERGEN_SOURCE_PLAN"; then
+  printf '%s\n' "Canonical FDA allergen source plan must record completed verification." >&2
   exit 1
 fi
 

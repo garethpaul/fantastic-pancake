@@ -45,7 +45,7 @@ about-8-pancake ratio before scaling an adapted batch for a group.
 - University of Minnesota Extension explains egg functions and replacement
   tradeoffs: https://extension.umn.edu/family-news/egg-substitutions-baking
 - FDA food-allergy guidance covers current labels and cross-contact:
-  https://www.fda.gov/food/food-labeling-nutrition/food-allergies
+  https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/food-allergies
 
 ## Batch Scaling Table
 

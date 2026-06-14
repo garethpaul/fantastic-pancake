@@ -2,7 +2,7 @@
 title: Canonical FDA Allergen Source
 type: security
 date: 2026-06-14
-status: planned
+status: completed
 execution: code
 ---
 
@@ -117,9 +117,16 @@ hostile mutations all reject weakened source provenance.
 
 - FDA, "Food Allergies," current canonical page observed 2026-06-14:
   https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/food-allergies
-- The prior path redirected to the canonical page during the same review:
-  https://www.fda.gov/food/food-labeling-nutrition/food-allergies
+- The prior FDA food-labeling path redirected to the canonical page during the
+  same review and is intentionally omitted from tracked Markdown content.
 
 ## Verification
 
-Pending implementation.
+- The canonical FDA page and its current label and cross-contact guidance were
+  reviewed on 2026-06-14 before implementation.
+- `make check` passed from the repository root and an external working
+  directory through the absolute Makefile path.
+- Four isolated hostile mutations were rejected for canonical-link removal,
+  retired-link coexistence, plan reopening, and source-review evidence removal.
+- Shell syntax, all four Make gates, exact diff review, and final artifact and
+  secret audits passed before delivery.

@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-06-14
+
+- Replaced a redirected FDA food-allergy citation with its canonical HTTPS
+  location and made the content gate reject the retired path.
+
 ## 2026-06-13
 
 - Made content verification independent of the caller's working directory by
