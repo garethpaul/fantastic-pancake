@@ -93,7 +93,9 @@ if [ "$(grep -Fxc '"$PYTHON" "$INTERNAL_LINK_TEST"' "$ROOT_DIR/scripts/check-bas
   ! grep -Fq 'if parsed.scheme or parsed.netloc:' "$INTERNAL_LINK_CHECKER" ||
   ! grep -Fq 'test_rejects_missing_local_target' "$INTERNAL_LINK_TEST" ||
   ! grep -Fq 'test_rejects_repository_escape' "$INTERNAL_LINK_TEST" ||
-  ! grep -Fq 'test_ignores_links_inside_fenced_examples' "$INTERNAL_LINK_TEST"; then
+  ! grep -Fq 'test_ignores_links_inside_fenced_examples' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_ignores_link_syntax_inside_inline_code' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_rejects_missing_reference_definition_target' "$INTERNAL_LINK_TEST"; then
   printf '%s\n' "Offline internal-link verification contracts are incomplete." >&2
   exit 1
 fi

@@ -11,6 +11,9 @@ from urllib.parse import unquote, urlsplit
 LINK_PATTERN = re.compile(
     r"!?\[[^\]]*\]\(\s*(?P<destination><[^>]+>|[^\s)]+)"
 )
+REFERENCE_PATTERN = re.compile(
+    r"^\s{0,3}\[[^\]]+\]:\s*(?P<destination><[^>]+>|\S+)"
+)
 
 
 def is_within_root(path: Path, root: Path) -> bool:
@@ -27,6 +30,38 @@ def markdown_files(root: Path):
             yield path
 
 
+def without_code_spans(line: str) -> str:
+    visible = list(line)
+    position = 0
+    while True:
+        start = line.find("`", position)
+        if start < 0:
+            break
+
+        marker_end = start
+        while marker_end < len(line) and line[marker_end] == "`":
+            marker_end += 1
+        marker = line[start:marker_end]
+        end = line.find(marker, marker_end)
+        if end < 0:
+            break
+
+        visible[start : end + len(marker)] = " " * (end + len(marker) - start)
+        position = end + len(marker)
+
+    return "".join(visible)
+
+
+def destinations(line: str):
+    visible = without_code_spans(line)
+    for match in LINK_PATTERN.finditer(visible):
+        yield match.group("destination")
+
+    reference = REFERENCE_PATTERN.match(visible)
+    if reference:
+        yield reference.group("destination")
+
+
 def validate_repository(root: Path) -> list[str]:
     root = root.resolve()
     failures: list[str] = []
@@ -41,8 +76,8 @@ def validate_repository(root: Path) -> list[str]:
             if in_fence:
                 continue
 
-            for match in LINK_PATTERN.finditer(line):
-                destination = match.group("destination").strip("<>")
+            for raw_destination in destinations(line):
+                destination = raw_destination.strip("<>")
                 if destination.startswith("#") or destination.startswith("//"):
                     continue
 

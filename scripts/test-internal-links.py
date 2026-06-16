@@ -61,6 +61,19 @@ class InternalLinkChecks(unittest.TestCase):
         )
         self.assertEqual(failures, [])
 
+    def test_ignores_link_syntax_inside_inline_code(self):
+        failures = self.validate(
+            {"README.md": "Use `[Example](missing.md)` as sample syntax.\n"}
+        )
+        self.assertEqual(failures, [])
+
+    def test_rejects_missing_reference_definition_target(self):
+        failures = self.validate(
+            {"README.md": "[Guide][guide]\n\n[guide]: docs/missing.md\n"}
+        )
+        self.assertEqual(len(failures), 1)
+        self.assertIn("local link target does not exist", failures[0])
+
 
 if __name__ == "__main__":
     unittest.main()

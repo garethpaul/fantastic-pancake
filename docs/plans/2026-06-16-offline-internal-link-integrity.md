@@ -39,13 +39,14 @@ gate.
 
 ## Verification Completed
 
-- `python3 scripts/test-internal-links.py` passed four focused temporary-tree
+- `python3 scripts/test-internal-links.py` passed six focused temporary-tree
   regressions.
 - `python3 scripts/check-internal-links.py .` passed all maintained Markdown
   references without performing a network request.
-- Six isolated internal-link mutations were rejected: a missing image target,
+- Eight isolated internal-link mutations were rejected: a missing image target,
   repository escape, removed external-scheme skip, removed checker invocation,
-  missing guidance, and reopened plan status each failed the gate.
+  missing guidance, reopened plan status, disabled inline-code suppression, and
+  disabled reference-definition validation each failed the gate.
 - `make check` passed from the repository root and external working directory
   with the preflighted Python 3 command.
 - No external URL request, browser rendering, recipe execution, or food-safety
