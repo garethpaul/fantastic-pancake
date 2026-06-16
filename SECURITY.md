@@ -1,5 +1,7 @@
 # Security Policy
 
+Offline verification checks relative Markdown link and image targets without requesting external URLs.
+
 ## Supported Versions
 
 The supported security scope for `fantastic-pancake` is the current default branch, `main`. Older commits, tags, branches, forks, demos, and generated artifacts are not actively supported unless the repository explicitly marks them as maintained.

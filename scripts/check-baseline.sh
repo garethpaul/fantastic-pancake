@@ -22,6 +22,9 @@ LOCATION_INDEPENDENT_MAKE_PLAN="$ROOT_DIR/docs/plans/2026-06-13-location-indepen
 MAKE_ROOT_PROTECTION_PLAN="$ROOT_DIR/docs/plans/2026-06-14-make-root-override-protection.md"
 CANONICAL_ALLERGEN_SOURCE_PLAN="$ROOT_DIR/docs/plans/2026-06-14-002-security-canonical-fda-allergen-source-plan.md"
 PYTHON_PREFLIGHT_PLAN="$ROOT_DIR/docs/plans/2026-06-16-python-verification-preflight.md"
+INTERNAL_LINK_PLAN="$ROOT_DIR/docs/plans/2026-06-16-offline-internal-link-integrity.md"
+INTERNAL_LINK_CHECKER="$ROOT_DIR/scripts/check-internal-links.py"
+INTERNAL_LINK_TEST="$ROOT_DIR/scripts/test-internal-links.py"
 CI_WORKFLOW="$ROOT_DIR/.github/workflows/check.yml"
 PYTHON=${PYTHON:-python3}
 
@@ -71,10 +74,29 @@ for path in \
   "docs/plans/2026-06-14-make-root-override-protection.md" \
   "docs/plans/2026-06-14-002-security-canonical-fda-allergen-source-plan.md" \
   "docs/plans/2026-06-16-python-verification-preflight.md" \
+  "docs/plans/2026-06-16-offline-internal-link-integrity.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md" \
-  "docs/plans/2026-06-10-hosted-content-checks.md"; do
+  "docs/plans/2026-06-10-hosted-content-checks.md" \
+  "scripts/check-internal-links.py" \
+  "scripts/test-internal-links.py"; do
   require_file "$path"
 done
+
+"$PYTHON" "$INTERNAL_LINK_TEST"
+"$PYTHON" "$INTERNAL_LINK_CHECKER" "$ROOT_DIR"
+
+if [ "$(grep -Fxc '"$PYTHON" "$INTERNAL_LINK_TEST"' "$ROOT_DIR/scripts/check-baseline.sh")" -ne 1 ] ||
+  [ "$(grep -Fxc '"$PYTHON" "$INTERNAL_LINK_CHECKER" "$ROOT_DIR"' "$ROOT_DIR/scripts/check-baseline.sh")" -ne 1 ] ||
+  ! grep -Fq 'def validate_repository(root: Path) -> list[str]:' "$INTERNAL_LINK_CHECKER" ||
+  ! grep -Fq 'local link escapes repository' "$INTERNAL_LINK_CHECKER" ||
+  ! grep -Fq 'local link target does not exist' "$INTERNAL_LINK_CHECKER" ||
+  ! grep -Fq 'if parsed.scheme or parsed.netloc:' "$INTERNAL_LINK_CHECKER" ||
+  ! grep -Fq 'test_rejects_missing_local_target' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_rejects_repository_escape' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_ignores_links_inside_fenced_examples' "$INTERNAL_LINK_TEST"; then
+  printf '%s\n' "Offline internal-link verification contracts are incomplete." >&2
+  exit 1
+fi
 
 if ! grep -Fq 'override ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))' "$ROOT_DIR/Makefile" ||
   ! grep -Fq 'PYTHON ?= python3' "$ROOT_DIR/Makefile" ||
@@ -747,6 +769,25 @@ for python_preflight_plan_contract in \
   "hostile mutations were rejected"; do
   if ! grep -Fq "$python_preflight_plan_contract" "$PYTHON_PREFLIGHT_PLAN"; then
     printf '%s\n' "Python verification preflight plan must record completed evidence: $python_preflight_plan_contract" >&2
+    exit 1
+  fi
+done
+
+internal_link_guidance='Offline verification checks relative Markdown link and image targets without requesting external URLs.'
+for internal_link_doc in README.md SECURITY.md VISION.md CHANGES.md; do
+  if ! grep -Fq "$internal_link_guidance" "$ROOT_DIR/$internal_link_doc"; then
+    printf '%s\n' "$internal_link_doc must document offline internal-link verification." >&2
+    exit 1
+  fi
+done
+
+for internal_link_plan_contract in \
+  "## Status: Completed" \
+  "repository root and external working directory" \
+  "isolated internal-link mutations were rejected" \
+  "No external URL request"; do
+  if ! grep -Fq "$internal_link_plan_contract" "$INTERNAL_LINK_PLAN"; then
+    printf '%s\n' "Offline internal-link plan must record completed evidence: $internal_link_plan_contract" >&2
     exit 1
   fi
 done
