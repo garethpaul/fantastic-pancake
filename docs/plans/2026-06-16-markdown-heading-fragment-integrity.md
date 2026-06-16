@@ -1,6 +1,6 @@
 # Markdown Heading Fragment Integrity
 
-## Status: Planned
+## Status: Completed
 
 ## Summary
 
@@ -38,8 +38,8 @@ heading renames and duplicate-heading reorderings should be caught offline.
 - **R3:** Same-document fragments must be validated against the source document
   instead of being skipped.
 - **R4:** Anchor extraction must ignore fenced code and support ATX headings,
-  setext headings, inline Markdown formatting removal, percent-decoded
-  fragments, and deterministic duplicate suffixes.
+  HTML comments, setext headings, inline Markdown formatting removal,
+  percent-decoded fragments, and deterministic duplicate suffixes.
 - **R5:** Fragments on non-Markdown local targets and absolute external links
   must remain outside the heading-anchor gate.
 - **R6:** Focused tests, the baseline contract, maintained guidance, and this
@@ -194,6 +194,37 @@ the plan records the exact validation actually completed.
 - Duplicate suffixes are order-sensitive, so heading extraction must preserve
   document order and ignore fenced examples.
 - The checker must not turn external availability into a build dependency.
+
+## Work Completed
+
+- Added a cached, dependency-free anchor index for ATX and setext headings,
+  GitHub-style basic slug normalization, deterministic collision suffixes, and
+  explicit custom anchors.
+- Extended local link validation to check decoded same-document and
+  cross-document Markdown fragments only after existing path safety and target
+  existence checks pass.
+- Added focused coverage for valid and missing fragments, duplicate collisions,
+  formatting, setext headings, fenced examples, custom anchors, percent
+  decoding, HTML comments and inline-code comment markers, and non-Markdown
+  fragment preservation.
+- Integrated heading-fragment contracts and synchronized guidance into the
+  maintained offline baseline.
+
+## Verification Completed
+
+- `python3 scripts/test-internal-links.py` passed 14 focused temporary-tree regressions.
+- `python3 scripts/check-internal-links.py .` passed all maintained Markdown.
+- 14 isolated heading-fragment mutations were rejected across fragment gating,
+  duplicate allocation, setext parsing, fence suppression, custom anchors,
+  inline formatting, percent decoding, HTML-comment suppression, inline-code
+  comment markers and custom-anchor examples, checker and test registration,
+  maintained guidance, and completed-plan evidence.
+- `sh -n scripts/check-baseline.sh` and Python compilation passed.
+- `make check`, `make lint`, `make test`, and `make build` passed from the
+  repository root, and the absolute Makefile `check` target passed from an
+  external working directory.
+- No external URL request, browser rendering, recipe execution, generated SVG
+  refresh, or food-safety wording change was performed.
 
 ## Sources And Research
 

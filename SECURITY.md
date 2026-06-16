@@ -1,6 +1,6 @@
 # Security Policy
 
-Offline verification checks relative Markdown link and image targets without requesting external URLs.
+Offline verification checks relative Markdown link, image, and heading-fragment targets without requesting external URLs.
 
 ## Supported Versions
 

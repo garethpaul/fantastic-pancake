@@ -23,6 +23,7 @@ MAKE_ROOT_PROTECTION_PLAN="$ROOT_DIR/docs/plans/2026-06-14-make-root-override-pr
 CANONICAL_ALLERGEN_SOURCE_PLAN="$ROOT_DIR/docs/plans/2026-06-14-002-security-canonical-fda-allergen-source-plan.md"
 PYTHON_PREFLIGHT_PLAN="$ROOT_DIR/docs/plans/2026-06-16-python-verification-preflight.md"
 INTERNAL_LINK_PLAN="$ROOT_DIR/docs/plans/2026-06-16-offline-internal-link-integrity.md"
+HEADING_FRAGMENT_PLAN="$ROOT_DIR/docs/plans/2026-06-16-markdown-heading-fragment-integrity.md"
 INTERNAL_LINK_CHECKER="$ROOT_DIR/scripts/check-internal-links.py"
 INTERNAL_LINK_TEST="$ROOT_DIR/scripts/test-internal-links.py"
 CI_WORKFLOW="$ROOT_DIR/.github/workflows/check.yml"
@@ -75,6 +76,7 @@ for path in \
   "docs/plans/2026-06-14-002-security-canonical-fda-allergen-source-plan.md" \
   "docs/plans/2026-06-16-python-verification-preflight.md" \
   "docs/plans/2026-06-16-offline-internal-link-integrity.md" \
+  "docs/plans/2026-06-16-markdown-heading-fragment-integrity.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md" \
   "docs/plans/2026-06-10-hosted-content-checks.md" \
   "scripts/check-internal-links.py" \
@@ -90,11 +92,19 @@ if [ "$(grep -Fxc '"$PYTHON" "$INTERNAL_LINK_TEST"' "$ROOT_DIR/scripts/check-bas
   ! grep -Fq 'def validate_repository(root: Path) -> list[str]:' "$INTERNAL_LINK_CHECKER" ||
   ! grep -Fq 'local link escapes repository' "$INTERNAL_LINK_CHECKER" ||
   ! grep -Fq 'local link target does not exist' "$INTERNAL_LINK_CHECKER" ||
+  ! grep -Fq 'def markdown_anchors(content: str) -> set[str]:' "$INTERNAL_LINK_CHECKER" ||
+  ! grep -Fq 'local Markdown anchor does not exist' "$INTERNAL_LINK_CHECKER" ||
   ! grep -Fq 'if parsed.scheme or parsed.netloc:' "$INTERNAL_LINK_CHECKER" ||
   ! grep -Fq 'test_rejects_missing_local_target' "$INTERNAL_LINK_TEST" ||
   ! grep -Fq 'test_rejects_repository_escape' "$INTERNAL_LINK_TEST" ||
   ! grep -Fq 'test_ignores_links_inside_fenced_examples' "$INTERNAL_LINK_TEST" ||
   ! grep -Fq 'test_ignores_link_syntax_inside_inline_code' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_generates_unique_github_style_heading_anchors' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_rejects_missing_same_and_cross_document_anchors' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_ignores_heading_syntax_inside_fenced_examples' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_ignores_links_and_anchors_inside_html_comments' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_inline_comment_marker_does_not_hide_following_heading' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_ignores_custom_anchor_syntax_inside_inline_code' "$INTERNAL_LINK_TEST" ||
   ! grep -Fq 'test_rejects_missing_reference_definition_target' "$INTERNAL_LINK_TEST"; then
   printf '%s\n' "Offline internal-link verification contracts are incomplete." >&2
   exit 1
@@ -775,7 +785,7 @@ for python_preflight_plan_contract in \
   fi
 done
 
-internal_link_guidance='Offline verification checks relative Markdown link and image targets without requesting external URLs.'
+internal_link_guidance='Offline verification checks relative Markdown link, image, and heading-fragment targets without requesting external URLs.'
 for internal_link_doc in README.md SECURITY.md VISION.md CHANGES.md; do
   if ! grep -Fq "$internal_link_guidance" "$ROOT_DIR/$internal_link_doc"; then
     printf '%s\n' "$internal_link_doc must document offline internal-link verification." >&2
@@ -790,6 +800,18 @@ for internal_link_plan_contract in \
   "No external URL request"; do
   if ! grep -Fq "$internal_link_plan_contract" "$INTERNAL_LINK_PLAN"; then
     printf '%s\n' "Offline internal-link plan must record completed evidence: $internal_link_plan_contract" >&2
+    exit 1
+  fi
+done
+
+for heading_fragment_plan_contract in \
+  "## Status: Completed" \
+  "## Verification Completed" \
+  "14 focused temporary-tree regressions" \
+  "14 isolated heading-fragment mutations were rejected" \
+  "No external URL request"; do
+  if ! grep -Fq "$heading_fragment_plan_contract" "$HEADING_FRAGMENT_PLAN"; then
+    printf '%s\n' "Heading-fragment plan must record completed evidence: $heading_fragment_plan_contract" >&2
     exit 1
   fi
 done

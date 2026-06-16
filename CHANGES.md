@@ -2,7 +2,7 @@
 
 ## 2026-06-16
 
-- Offline verification checks relative Markdown link and image targets without requesting external URLs.
+- Offline verification checks relative Markdown link, image, and heading-fragment targets without requesting external URLs.
 - The content gate requires GNU Make, a POSIX shell, and Python 3. Added an
   explicit interpreter override and actionable missing or incompatible runtime
   diagnostics.
