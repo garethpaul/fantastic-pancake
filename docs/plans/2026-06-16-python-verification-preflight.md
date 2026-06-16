@@ -1,6 +1,6 @@
 # Python Verification Preflight
 
-## Status: In Progress
+## Status: Completed
 
 ## Context
 
@@ -58,3 +58,34 @@ be proven entirely from repository-local behavior.
 Verification is offline and content-only. No recipe execution, food-service
 environment, browser, external source refresh, or network-dependent validation
 is performed or claimed.
+
+## Work Completed
+
+- Added a Make-level `PYTHON` command with a `python3` default and quoted
+  propagation into the content checker.
+- Added missing-command and major-version preflights before any embedded Python
+  validation, with actionable diagnostics for each failure mode.
+- Routed all seven embedded Python checks through the preflighted interpreter.
+- Documented the GNU Make, POSIX shell, and Python 3 prerequisites and the
+  explicit compatible Python command override.
+- Added mutation-sensitive baseline contracts for command propagation,
+  executable preflight behavior, embedded-call ownership, documentation, and
+  this completed evidence record.
+
+## Verification Completed
+
+- POSIX shell syntax validation passed.
+- All four Make aliases passed from the repository root with Python 3.12.8.
+- `make check` passed from the repository root and external working directory.
+- The explicit compatible Python command override passed using the resolved
+  Python 3 executable path.
+- The missing-command and non-Python-3 preflights failed early with their
+  intended actionable diagnostics.
+- Nine isolated hostile mutations were rejected for the Make default,
+  propagation, command lookup, major-version comparison, embedded-call
+  routing, diagnostic, prerequisite guidance, plan status, and override
+  evidence contracts.
+- Exact diff, generated-artifact, credential-like value, dependency drift,
+  conflict-marker, file-mode, and whitespace audits passed.
+- No recipe execution, food-service environment, browser, external source
+  refresh, or network-dependent validation was performed or claimed.

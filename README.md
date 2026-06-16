@@ -33,6 +33,9 @@ Additional scan context:
 ### Prerequisites
 
 - Git
+- GNU Make
+- A POSIX shell
+- Python 3
 
 ### Setup
 
@@ -55,6 +58,10 @@ Run the content baseline:
 ```bash
 make check
 ```
+
+The content gate requires GNU Make, a POSIX shell, and Python 3. It uses the
+`python3` command by default; set `PYTHON=/path/to/python3` on the Make command
+line when a compatible interpreter has a different name or location.
 
 Use the absolute Makefile path to run the same gate from another working
 directory. Verification resolves the checker relative to the loaded Makefile

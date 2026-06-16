@@ -1,5 +1,11 @@
 # Changes
 
+## 2026-06-16
+
+- The content gate requires GNU Make, a POSIX shell, and Python 3. Added an
+  explicit interpreter override and actionable missing or incompatible runtime
+  diagnostics.
+
 ## 2026-06-14
 
 - Replaced a redirected FDA food-allergy citation with its canonical HTTPS

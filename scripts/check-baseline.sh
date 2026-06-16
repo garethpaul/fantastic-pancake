@@ -21,7 +21,20 @@ SOURCE_PROVENANCE_PLAN="$ROOT_DIR/docs/plans/2026-06-13-source-provenance-bounda
 LOCATION_INDEPENDENT_MAKE_PLAN="$ROOT_DIR/docs/plans/2026-06-13-location-independent-make.md"
 MAKE_ROOT_PROTECTION_PLAN="$ROOT_DIR/docs/plans/2026-06-14-make-root-override-protection.md"
 CANONICAL_ALLERGEN_SOURCE_PLAN="$ROOT_DIR/docs/plans/2026-06-14-002-security-canonical-fda-allergen-source-plan.md"
+PYTHON_PREFLIGHT_PLAN="$ROOT_DIR/docs/plans/2026-06-16-python-verification-preflight.md"
 CI_WORKFLOW="$ROOT_DIR/.github/workflows/check.yml"
+PYTHON=${PYTHON:-python3}
+
+if ! command -v "$PYTHON" >/dev/null 2>&1; then
+  printf '%s\n' "Python 3 command not found: $PYTHON (set PYTHON to a Python 3 executable)." >&2
+  exit 1
+fi
+
+python_major=$("$PYTHON" -c 'import sys; sys.stdout.write(str(sys.version_info[0]))' 2>/dev/null || true)
+if [ "$python_major" != "3" ]; then
+  printf '%s\n' "Verification requires Python 3: $PYTHON" >&2
+  exit 1
+fi
 
 require_file() {
   path=$1
@@ -57,14 +70,36 @@ for path in \
   "docs/plans/2026-06-13-location-independent-make.md" \
   "docs/plans/2026-06-14-make-root-override-protection.md" \
   "docs/plans/2026-06-14-002-security-canonical-fda-allergen-source-plan.md" \
+  "docs/plans/2026-06-16-python-verification-preflight.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md" \
   "docs/plans/2026-06-10-hosted-content-checks.md"; do
   require_file "$path"
 done
 
 if ! grep -Fq 'override ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))' "$ROOT_DIR/Makefile" ||
-  ! grep -Fq '"$(ROOT)/scripts/check-baseline.sh"' "$ROOT_DIR/Makefile"; then
+  ! grep -Fq 'PYTHON ?= python3' "$ROOT_DIR/Makefile" ||
+  ! grep -Fq 'PYTHON="$(PYTHON)" "$(ROOT)/scripts/check-baseline.sh"' "$ROOT_DIR/Makefile"; then
   printf '%s\n' "Makefile verification must protect and resolve the checker from the loaded Makefile." >&2
+  exit 1
+fi
+
+python_preflight=$(sed -n '/^PYTHON=${PYTHON:-python3}$/,/^require_file()/p' "$ROOT_DIR/scripts/check-baseline.sh")
+for python_preflight_contract in \
+  'PYTHON=${PYTHON:-python3}' \
+  'command -v "$PYTHON"' \
+  'sys.stdout.write(str(sys.version_info[0]))' \
+  'if [ "$python_major" != "3" ]; then' \
+  'Python 3 command not found:' \
+  'Verification requires Python 3:'; do
+  if ! printf '%s\n' "$python_preflight" | grep -Fq "$python_preflight_contract"; then
+    printf '%s\n' "Python verification preflight contract is missing: $python_preflight_contract" >&2
+    exit 1
+  fi
+done
+
+if [ "$(grep -Ec '^"\$PYTHON" - ' "$ROOT_DIR/scripts/check-baseline.sh")" -ne 7 ] ||
+  grep -Eq '^python3 - ' "$ROOT_DIR/scripts/check-baseline.sh"; then
+  printf '%s\n' "Every embedded Python check must use the preflighted interpreter command." >&2
   exit 1
 fi
 
@@ -271,7 +306,7 @@ if [ "$bullet_count" -lt 20 ]; then
   exit 1
 fi
 
-python3 - "$ROOT_DIR/pancakes.md" <<'PY'
+"$PYTHON" - "$ROOT_DIR/pancakes.md" <<'PY'
 import re
 import sys
 from pathlib import Path
@@ -315,7 +350,7 @@ if observed_hosts != approved_hosts:
     raise SystemExit(f"pancakes.md must retain every reviewed source host: {missing}")
 PY
 
-python3 - "$ROOT_DIR/pancakes.md" <<'PY'
+"$PYTHON" - "$ROOT_DIR/pancakes.md" <<'PY'
 import sys
 from pathlib import Path
 
@@ -362,7 +397,7 @@ if ! grep -Fq "1 cup flour" "$ROOT_DIR/pancakes.md" ||
   exit 1
 fi
 
-python3 - "$ROOT_DIR/pancakes.md" "$ROOT_DIR" <<'PY'
+"$PYTHON" - "$ROOT_DIR/pancakes.md" "$ROOT_DIR" <<'PY'
 import re
 import sys
 from pathlib import Path
@@ -501,7 +536,7 @@ if ! grep -Fq "Pour one 1/4 cup test pancake" "$ROOT_DIR/pancakes.md" ||
   exit 1
 fi
 
-python3 - "$ROOT_DIR/pancakes.md" <<'PY'
+"$PYTHON" - "$ROOT_DIR/pancakes.md" <<'PY'
 import sys
 from pathlib import Path
 
@@ -602,7 +637,7 @@ if ! grep -Fq "status: completed" "$CI_PLAN" ||
   exit 1
 fi
 
-python3 - "$BATCH_SCALING_PLAN" <<'PY'
+"$PYTHON" - "$BATCH_SCALING_PLAN" <<'PY'
 import re
 import sys
 from pathlib import Path
@@ -629,7 +664,7 @@ if (
     )
 PY
 
-python3 - "$CALIBRATION_PLAN" <<'PY'
+"$PYTHON" - "$CALIBRATION_PLAN" <<'PY'
 import re
 import sys
 from pathlib import Path
@@ -650,7 +685,7 @@ if statuses != ["status: completed"] or any(item not in plan for item in require
     )
 PY
 
-python3 - "$SUBSTITUTION_PLAN" <<'PY'
+"$PYTHON" - "$SUBSTITUTION_PLAN" <<'PY'
 import re
 import sys
 from pathlib import Path
@@ -696,5 +731,24 @@ if ! grep -Fq "status: completed" "$CANONICAL_ALLERGEN_SOURCE_PLAN" ||
   printf '%s\n' "Canonical FDA allergen source plan must record completed verification." >&2
   exit 1
 fi
+
+for python_preflight_doc in README.md AGENTS.md VISION.md CHANGES.md; do
+  if ! grep -Fq "The content gate requires GNU Make, a POSIX shell, and Python 3." "$ROOT_DIR/$python_preflight_doc"; then
+    printf '%s\n' "$python_preflight_doc must document the Python verification prerequisite." >&2
+    exit 1
+  fi
+done
+
+for python_preflight_plan_contract in \
+  "## Status: Completed" \
+  "repository root and external working directory" \
+  "explicit compatible Python command override" \
+  "missing-command and non-Python-3 preflights" \
+  "hostile mutations were rejected"; do
+  if ! grep -Fq "$python_preflight_plan_contract" "$PYTHON_PREFLIGHT_PLAN"; then
+    printf '%s\n' "Python verification preflight plan must record completed evidence: $python_preflight_plan_contract" >&2
+    exit 1
+  fi
+done
 
 printf '%s\n' "fantastic-pancake content baseline checks passed."

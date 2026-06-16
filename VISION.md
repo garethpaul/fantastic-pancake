@@ -24,6 +24,8 @@ Current baseline:
 
 - `scripts/check-baseline.sh` and `make check` verify the content-only
   repository shape.
+- The content gate requires GNU Make, a POSIX shell, and Python 3. Its
+  interpreter command is explicit and fails fast when missing or incompatible.
 - The baseline rejects dependency manifests, lockfiles, source scaffolds, and
   generated dependency directories unless a new plan changes the repository
   scope.
