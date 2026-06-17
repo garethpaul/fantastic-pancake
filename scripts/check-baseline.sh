@@ -809,6 +809,9 @@ for heading_fragment_plan_contract in \
   "## Verification Completed" \
   "14 focused temporary-tree regressions" \
   "14 isolated heading-fragment mutations were rejected" \
+  'Push run `27629257088`' \
+  'pull-request run `27629271024`' \
+  '`99e86701f69cfdfbe9c6134d5bcda5767ada2cea`' \
   "No external URL request"; do
   if ! grep -Fq "$heading_fragment_plan_contract" "$HEADING_FRAGMENT_PLAN"; then
     printf '%s\n' "Heading-fragment plan must record completed evidence: $heading_fragment_plan_contract" >&2
