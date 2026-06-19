@@ -1,5 +1,13 @@
 # Changes
 
+## 2026-06-19
+
+- Hardened offline Markdown validation against symlinks, non-file targets,
+  malformed percent encoding, local file URLs, uppercase extensions, and
+  GitHub heading-slug edge cases.
+- Clarified that shared kitchens cannot guarantee allergen-free pancakes and
+  linked FDA guidance for allergen cross-contact and hot buffet holding.
+
 ## 2026-06-16
 
 - Offline verification checks relative Markdown link, image, and heading-fragment targets without requesting external URLs.

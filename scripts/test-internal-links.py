@@ -71,6 +71,23 @@ class InternalLinkChecks(unittest.TestCase):
             },
         )
 
+    def test_matches_github_slugger_for_literal_underscores_and_symbols(self):
+        anchors = CHECKER.markdown_anchors(
+            "## ingredient_name\n"
+            "## _Emphasized_ heading\n"
+            "## A©B\n"
+            "## A©B\n"
+        )
+        self.assertEqual(
+            anchors,
+            {
+                "ingredient_name",
+                "emphasized-heading",
+                "ab",
+                "ab-1",
+            },
+        )
+
     def test_accepts_generated_and_custom_markdown_anchors(self):
         failures = self.validate(
             {
@@ -147,6 +164,18 @@ class InternalLinkChecks(unittest.TestCase):
             all("local Markdown anchor does not exist" in failure for failure in failures)
         )
 
+    def test_visible_markdown_text_excludes_comments_fences_and_inline_code(self):
+        visible = CHECKER.visible_markdown_text(
+            "Visible source: https://www.fda.gov/food\n"
+            "<!-- hidden source: https://example.com/comment -->\n"
+            "```markdown\nhttps://example.com/fence\n```\n"
+            "Example only: `https://example.com/code`\n"
+        )
+        self.assertIn("https://www.fda.gov/food", visible)
+        self.assertNotIn("https://example.com/comment", visible)
+        self.assertNotIn("https://example.com/fence", visible)
+        self.assertNotIn("https://example.com/code", visible)
+
     def test_inline_comment_marker_does_not_hide_following_heading(self):
         failures = self.validate(
             {
@@ -213,6 +242,58 @@ class InternalLinkChecks(unittest.TestCase):
         )
         self.assertEqual(len(failures), 1)
         self.assertIn("local link target does not exist", failures[0])
+
+    def test_scans_uppercase_markdown_extensions(self):
+        failures = self.validate({"GUIDE.MD": "[Missing](missing.md)\n"})
+        self.assertEqual(len(failures), 1)
+        self.assertIn("local link target does not exist", failures[0])
+
+    def test_rejects_symlinked_markdown_sources(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            outside = root.parent / f"{root.name}-outside.md"
+            outside.write_text("# Outside\n", encoding="utf-8")
+            try:
+                (root / "README.md").symlink_to(outside)
+                failures = CHECKER.validate_repository(root)
+            finally:
+                outside.unlink(missing_ok=True)
+
+        self.assertEqual(len(failures), 1)
+        self.assertIn("Markdown source must be a regular file", failures[0])
+
+    def test_rejects_symlinked_and_non_file_targets(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.md").write_text(
+                "[Symlink](linked.txt)\n[Directory](docs)\n", encoding="utf-8"
+            )
+            (root / "actual.txt").write_text("Actual\n", encoding="utf-8")
+            (root / "linked.txt").symlink_to("actual.txt")
+            (root / "docs").mkdir()
+            failures = CHECKER.validate_repository(root)
+
+        self.assertEqual(len(failures), 2)
+        self.assertTrue(any("local link target must not be a symlink" in item for item in failures))
+        self.assertTrue(any("local link target is not a regular file" in item for item in failures))
+
+    def test_rejects_malformed_or_unsafe_percent_encoding_without_crashing(self):
+        failures = self.validate(
+            {
+                "README.md": (
+                    "[Nul](docs/%00.md)\n"
+                    "[Malformed](docs/%ZZ.md)\n"
+                    "[Invalid UTF-8](docs/%C3%28.md)\n"
+                )
+            }
+        )
+        self.assertEqual(len(failures), 3)
+        self.assertTrue(all("invalid percent-encoding" in item for item in failures))
+
+    def test_rejects_local_file_urls(self):
+        failures = self.validate({"README.md": "[Local file](file:///etc/passwd)\n"})
+        self.assertEqual(len(failures), 1)
+        self.assertIn("local file URL is not allowed", failures[0])
 
 
 if __name__ == "__main__":

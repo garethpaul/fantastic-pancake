@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import html
+import os
 import re
 import sys
 import unicodedata
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
+from urllib.parse import unquote_to_bytes, urlsplit
 
 
 LINK_PATTERN = re.compile(
@@ -26,6 +27,11 @@ INLINE_LINK_PATTERN = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")
 REFERENCE_LINK_PATTERN = re.compile(r"!?\[([^\]]*)\]\[[^\]]*\]")
 CODE_SPAN_PATTERN = re.compile(r"(`+)(.*?)\1")
 HTML_TAG_PATTERN = re.compile(r"<[^>]+>")
+EMPHASIS_PATTERN = re.compile(
+    r"(?<!\\)(?P<marker>_{1,2}|\*{1,2}|~{2})(?P<text>\S(?:.*?\S)?)(?P=marker)"
+)
+MALFORMED_PERCENT_PATTERN = re.compile(r"%(?![0-9A-Fa-f]{2})")
+GITHUB_REMOVED_SYMBOLS = frozenset({"©", "®", "×", "÷"})
 
 
 def is_within_root(path: Path, root: Path) -> bool:
@@ -37,9 +43,28 @@ def is_within_root(path: Path, root: Path) -> bool:
 
 
 def markdown_files(root: Path):
-    for path in sorted(root.rglob("*.md")):
-        if ".git" not in path.parts:
+    for path in sorted(root.rglob("*")):
+        if path.suffix.lower() == ".md" and ".git" not in path.parts:
             yield path
+
+
+def decode_url_component(value: str) -> str:
+    if MALFORMED_PERCENT_PATTERN.search(value):
+        raise ValueError("malformed percent escape")
+
+    decoded = unquote_to_bytes(value).decode("utf-8", errors="strict")
+    if any(character == "\0" or unicodedata.category(character).startswith("C") for character in decoded):
+        raise ValueError("control character in decoded value")
+    return decoded
+
+
+def symlink_component(path: Path, root: Path) -> bool:
+    cursor = root
+    for part in path.relative_to(root).parts:
+        cursor /= part
+        if cursor.is_symlink():
+            return True
+    return False
 
 
 def visible_markdown_lines(content: str):
@@ -99,6 +124,12 @@ def without_code_spans(line: str) -> str:
     return "".join(visible)
 
 
+def visible_markdown_text(content: str) -> str:
+    return "\n".join(
+        without_code_spans(line) for _, line in visible_markdown_lines(content)
+    )
+
+
 def destinations(line: str):
     visible = without_code_spans(line)
     for match in LINK_PATTERN.finditer(visible):
@@ -116,8 +147,13 @@ def plain_heading_text(text: str) -> str:
     text = REFERENCE_LINK_PATTERN.sub(lambda match: match.group(1), text)
     text = HTML_TAG_PATTERN.sub("", text)
     text = html.unescape(text)
+    while True:
+        unwrapped = EMPHASIS_PATTERN.sub(lambda match: match.group("text"), text)
+        if unwrapped == text:
+            break
+        text = unwrapped
     text = re.sub(r"\\(.)", r"\1", text)
-    return text.replace("*", "").replace("_", "").replace("~", "")
+    return text.replace("*", "").replace("~", "")
 
 
 def github_heading_slug(text: str) -> str:
@@ -127,7 +163,9 @@ def github_heading_slug(text: str) -> str:
             slug.append("-")
         elif character.isspace():
             continue
-        elif unicodedata.category(character).startswith("P") and character != "-":
+        elif character in GITHUB_REMOVED_SYMBOLS:
+            continue
+        elif character not in {"-", "_"} and unicodedata.category(character).startswith(("C", "P")):
             continue
         else:
             slug.append(character)
@@ -183,7 +221,17 @@ def validate_repository(root: Path) -> list[str]:
         return anchor_cache[path]
 
     for source in markdown_files(root):
-        content = source.read_text(encoding="utf-8")
+        location = str(source.relative_to(root))
+        if source.is_symlink() or not source.is_file():
+            failures.append(f"{location}: Markdown source must be a regular file")
+            continue
+
+        try:
+            content = source.read_text(encoding="utf-8")
+        except (OSError, UnicodeError) as error:
+            failures.append(f"{location}: unable to read Markdown source: {error}")
+            continue
+
         for line_number, line in visible_markdown_lines(content):
             for raw_destination in destinations(line):
                 destination = raw_destination.strip("<>")
@@ -191,28 +239,46 @@ def validate_repository(root: Path) -> list[str]:
                     continue
 
                 parsed = urlsplit(destination)
+                if parsed.scheme.lower() == "file":
+                    failures.append(
+                        f"{source.relative_to(root)}:{line_number}: local file URL is not allowed: {destination}"
+                    )
+                    continue
                 if parsed.scheme or parsed.netloc:
                     continue
                 if parsed.path.startswith("/"):
                     continue
 
-                target = (
-                    source
-                    if not parsed.path
-                    else (source.parent / unquote(parsed.path)).resolve()
-                )
                 location = f"{source.relative_to(root)}:{line_number}"
-                if not is_within_root(target, root):
+                try:
+                    decoded_path = decode_url_component(parsed.path)
+                    fragment = decode_url_component(parsed.fragment)
+                except (UnicodeError, ValueError):
+                    failures.append(
+                        f"{location}: invalid percent-encoding in local link: {destination}"
+                    )
+                    continue
+
+                candidate = source if not decoded_path else source.parent / decoded_path
+                lexical_target = Path(os.path.normpath(candidate))
+                if not is_within_root(lexical_target, root):
                     failures.append(
                         f"{location}: local link escapes repository: {destination}"
                     )
-                elif not target.exists():
+                elif symlink_component(lexical_target, root):
+                    failures.append(
+                        f"{location}: local link target must not be a symlink: {destination}"
+                    )
+                elif not lexical_target.exists():
                     failures.append(
                         f"{location}: local link target does not exist: {destination}"
                     )
-                elif parsed.fragment and target.suffix.lower() == ".md":
-                    fragment = unquote(parsed.fragment)
-                    if fragment not in anchors_for(target):
+                elif not lexical_target.is_file():
+                    failures.append(
+                        f"{location}: local link target is not a regular file: {destination}"
+                    )
+                elif fragment and lexical_target.suffix.lower() == ".md":
+                    if fragment not in anchors_for(lexical_target):
                         failures.append(
                             f"{location}: local Markdown anchor does not exist: {destination}"
                         )

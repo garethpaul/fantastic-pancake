@@ -87,14 +87,36 @@ done
 "$PYTHON" "$INTERNAL_LINK_TEST"
 "$PYTHON" "$INTERNAL_LINK_CHECKER" "$ROOT_DIR"
 
+VISIBLE_PANCAKES=$(mktemp "${TMPDIR:-/tmp}/fantastic-pancake-visible.XXXXXX")
+trap 'rm -f "$VISIBLE_PANCAKES"' EXIT HUP INT TERM
+"$PYTHON" - "$INTERNAL_LINK_CHECKER" "$ROOT_DIR/pancakes.md" "$VISIBLE_PANCAKES" <<'PY'
+import importlib.util
+import sys
+from pathlib import Path
+
+checker_path = Path(sys.argv[1])
+spec = importlib.util.spec_from_file_location("check_internal_links", checker_path)
+if spec is None or spec.loader is None:
+    raise SystemExit("Unable to load Markdown visibility helper.")
+checker = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(checker)
+
+source = Path(sys.argv[2]).read_text(encoding="utf-8")
+Path(sys.argv[3]).write_text(checker.visible_markdown_text(source), encoding="utf-8")
+PY
+
 if [ "$(grep -Fxc '"$PYTHON" "$INTERNAL_LINK_TEST"' "$ROOT_DIR/scripts/check-baseline.sh")" -ne 1 ] ||
   [ "$(grep -Fxc '"$PYTHON" "$INTERNAL_LINK_CHECKER" "$ROOT_DIR"' "$ROOT_DIR/scripts/check-baseline.sh")" -ne 1 ] ||
   ! grep -Fq 'def validate_repository(root: Path) -> list[str]:' "$INTERNAL_LINK_CHECKER" ||
   ! grep -Fq 'local link escapes repository' "$INTERNAL_LINK_CHECKER" ||
   ! grep -Fq 'local link target does not exist' "$INTERNAL_LINK_CHECKER" ||
   ! grep -Fq 'def markdown_anchors(content: str) -> set[str]:' "$INTERNAL_LINK_CHECKER" ||
+  ! grep -Fq 'def visible_markdown_text(content: str) -> str:' "$INTERNAL_LINK_CHECKER" ||
   ! grep -Fq 'local Markdown anchor does not exist' "$INTERNAL_LINK_CHECKER" ||
-  ! grep -Fq 'if parsed.scheme or parsed.netloc:' "$INTERNAL_LINK_CHECKER" ||
+  ! grep -Fq 'local link target must not be a symlink' "$INTERNAL_LINK_CHECKER" ||
+  ! grep -Fq 'local link target is not a regular file' "$INTERNAL_LINK_CHECKER" ||
+  ! grep -Fq 'invalid percent-encoding in local link' "$INTERNAL_LINK_CHECKER" ||
+  ! grep -Fq 'local file URL is not allowed' "$INTERNAL_LINK_CHECKER" ||
   ! grep -Fq 'test_rejects_missing_local_target' "$INTERNAL_LINK_TEST" ||
   ! grep -Fq 'test_rejects_repository_escape' "$INTERNAL_LINK_TEST" ||
   ! grep -Fq 'test_ignores_links_inside_fenced_examples' "$INTERNAL_LINK_TEST" ||
@@ -105,7 +127,14 @@ if [ "$(grep -Fxc '"$PYTHON" "$INTERNAL_LINK_TEST"' "$ROOT_DIR/scripts/check-bas
   ! grep -Fq 'test_ignores_links_and_anchors_inside_html_comments' "$INTERNAL_LINK_TEST" ||
   ! grep -Fq 'test_inline_comment_marker_does_not_hide_following_heading' "$INTERNAL_LINK_TEST" ||
   ! grep -Fq 'test_ignores_custom_anchor_syntax_inside_inline_code' "$INTERNAL_LINK_TEST" ||
-  ! grep -Fq 'test_rejects_missing_reference_definition_target' "$INTERNAL_LINK_TEST"; then
+  ! grep -Fq 'test_rejects_missing_reference_definition_target' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_matches_github_slugger_for_literal_underscores_and_symbols' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_visible_markdown_text_excludes_comments_fences_and_inline_code' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_scans_uppercase_markdown_extensions' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_rejects_symlinked_markdown_sources' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_rejects_symlinked_and_non_file_targets' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_rejects_malformed_or_unsafe_percent_encoding_without_crashing' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_rejects_local_file_urls' "$INTERNAL_LINK_TEST"; then
   printf '%s\n' "Offline internal-link verification contracts are incomplete." >&2
   exit 1
 fi
@@ -131,7 +160,7 @@ for python_preflight_contract in \
   fi
 done
 
-if [ "$(grep -Ec '^"\$PYTHON" - ' "$ROOT_DIR/scripts/check-baseline.sh")" -ne 7 ] ||
+if [ "$(grep -Ec '^"\$PYTHON" - ' "$ROOT_DIR/scripts/check-baseline.sh")" -ne 8 ] ||
   grep -Eq '^python3 - ' "$ROOT_DIR/scripts/check-baseline.sh"; then
   printf '%s\n' "Every embedded Python check must use the preflighted interpreter command." >&2
   exit 1
@@ -328,19 +357,19 @@ for heading in \
   "## Batch Storage and Reheating" \
   "## Creative Pancake Ideas" \
   "## Source and Safety Notes"; do
-  if ! grep -Fq "$heading" "$ROOT_DIR/pancakes.md"; then
+  if ! grep -Fq "$heading" "$VISIBLE_PANCAKES"; then
     printf '%s\n' "Missing pancake content heading: $heading" >&2
     exit 1
   fi
 done
 
-bullet_count=$(grep -c '^- ' "$ROOT_DIR/pancakes.md")
+bullet_count=$(grep -c '^- ' "$VISIBLE_PANCAKES")
 if [ "$bullet_count" -lt 20 ]; then
   printf '%s\n' "pancakes.md must keep enough specific content bullets." >&2
   exit 1
 fi
 
-"$PYTHON" - "$ROOT_DIR/pancakes.md" <<'PY'
+"$PYTHON" - "$VISIBLE_PANCAKES" <<'PY'
 import re
 import sys
 from pathlib import Path
@@ -384,7 +413,7 @@ if observed_hosts != approved_hosts:
     raise SystemExit(f"pancakes.md must retain every reviewed source host: {missing}")
 PY
 
-"$PYTHON" - "$ROOT_DIR/pancakes.md" <<'PY'
+"$PYTHON" - "$VISIBLE_PANCAKES" <<'PY'
 import sys
 from pathlib import Path
 
@@ -418,20 +447,20 @@ if "two separate sets of the 16-pancake quantities" not in content:
     raise SystemExit("pancakes.md must keep the fresh-bowl scaling guidance.")
 PY
 
-if grep -Eq '^(---|### \*\*)' "$ROOT_DIR/pancakes.md"; then
+if grep -Eq '^(---|### \*\*)' "$VISIBLE_PANCAKES"; then
   printf '%s\n' "pancakes.md should use clean Markdown headings, not placeholder separators." >&2
   exit 1
 fi
 
-if ! grep -Fq "1 cup flour" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "2 teaspoons baking" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "1 egg" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "Scale dry and wet ingredients together" "$ROOT_DIR/pancakes.md"; then
+if ! grep -Fq "1 cup flour" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "2 teaspoons baking" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "1 egg" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "Scale dry and wet ingredients together" "$VISIBLE_PANCAKES"; then
   printf '%s\n' "pancakes.md must keep a practical basic pancake ratio." >&2
   exit 1
 fi
 
-"$PYTHON" - "$ROOT_DIR/pancakes.md" "$ROOT_DIR" <<'PY'
+"$PYTHON" - "$VISIBLE_PANCAKES" "$ROOT_DIR" <<'PY'
 import re
 import sys
 from pathlib import Path
@@ -476,101 +505,107 @@ if retired_matches:
     )
 PY
 
-if ! grep -Fq "1/4 cup scoop" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "2 tablespoons of batter" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "1/3 cup" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "2 inches between pours" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "premeasure dry ingredients" "$ROOT_DIR/pancakes.md"; then
+if ! grep -Fq "1/4 cup scoop" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "2 tablespoons of batter" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "1/3 cup" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "2 inches between pours" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "premeasure dry ingredients" "$VISIBLE_PANCAKES"; then
   printf '%s\n' "pancakes.md must keep practical portioning and batch-size notes." >&2
   exit 1
 fi
 
-if ! grep -Fq "pourable but thick" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "milk 1 tablespoon" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "flour 1 tablespoon" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "Small lumps are fine" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "air is not beaten out" "$ROOT_DIR/pancakes.md"; then
+if ! grep -Fq "pourable but thick" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "milk 1 tablespoon" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "flour 1 tablespoon" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "Small lumps are fine" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "air is not beaten out" "$VISIBLE_PANCAKES"; then
   printf '%s\n' "pancakes.md must keep practical batter consistency and resting notes." >&2
   exit 1
 fi
 
-if ! grep -Fq "FoodSafety.gov" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "https://www.foodsafety.gov/blog/leftovers-gift-keeps-giving" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "2 hours" "$ROOT_DIR/pancakes.md"; then
+if ! grep -Fq "FoodSafety.gov" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "https://www.foodsafety.gov/blog/leftovers-gift-keeps-giving" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "2 hours" "$VISIBLE_PANCAKES"; then
   printf '%s\n' "pancakes.md must keep source-backed food-safety guidance." >&2
   exit 1
 fi
 
-if ! grep -Fq "140 degrees F" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "165 degrees F" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "within 4 days" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "shallow, covered" "$ROOT_DIR/pancakes.md"; then
+if ! grep -Fq "140 degrees F" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "165 degrees F" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "within 4 days" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "shallow, covered" "$VISIBLE_PANCAKES"; then
   printf '%s\n' "pancakes.md must keep practical storage and reheating guidance for batches." >&2
   exit 1
 fi
 
-if ! grep -Fq "Do not taste or serve uncooked pancake batter" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "raw flour and raw eggs" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "warm, soapy water" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "https://www.fda.gov/food/buy-store-serve-safe-food/handling-flour-safely-what-you-need-know" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "https://www.cdc.gov/food-safety/foods/no-raw-dough.html" "$ROOT_DIR/pancakes.md"; then
+if ! grep -Fq "Do not taste or serve uncooked pancake batter" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "raw flour and raw eggs" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "warm, soapy water" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "https://www.fda.gov/food/buy-store-serve-safe-food/handling-flour-safely-what-you-need-know" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "https://www.cdc.gov/food-safety/foods/no-raw-dough.html" "$VISIBLE_PANCAKES"; then
   printf '%s\n' "pancakes.md must keep source-backed raw batter safety guidance." >&2
   exit 1
 fi
 
-if ! grep -Fq "https://www.foodsafety.gov/blog/food-allergy-safety-treatment-education-and-research-act-2021" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "separate serving utensils" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "allergen-free" "$ROOT_DIR/pancakes.md"; then
+if ! grep -Fq "https://www.foodsafety.gov/blog/food-allergy-safety-treatment-education-and-research-act-2021" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "separate serving utensils" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "A shared kitchen cannot guarantee an allergen-free batch" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "Ask the guest or event organizer which controls they require" "$VISIBLE_PANCAKES"; then
   printf '%s\n' "pancakes.md must keep source-backed allergen event-serving guidance." >&2
   exit 1
 fi
 
+if ! grep -Fq "https://www.fda.gov/food/buy-store-serve-safe-food/serving-safe-buffets" "$VISIBLE_PANCAKES"; then
+  printf '%s\n' "pancakes.md must cite the FDA source for hot buffet holding." >&2
+  exit 1
+fi
+
 for allergen in milk eggs wheat peanuts "tree nuts" soybeans sesame; do
-  if ! grep -Fq "$allergen" "$ROOT_DIR/pancakes.md"; then
+  if ! grep -Fq "$allergen" "$VISIBLE_PANCAKES"; then
     printf '%s\n' "Missing allergen note: $allergen" >&2
     exit 1
   fi
 done
 
-if ! grep -Fq "Flat pancakes" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "Tough pancakes" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "Gummy centers" "$ROOT_DIR/pancakes.md"; then
+if ! grep -Fq "Flat pancakes" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "Tough pancakes" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "Gummy centers" "$VISIBLE_PANCAKES"; then
   printf '%s\n' "pancakes.md must keep practical troubleshooting notes." >&2
   exit 1
 fi
 
-if ! grep -Fq "small dry mix-ins" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "heavier or wet mix-ins" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "Pat rinsed berries" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "Organize topping bars" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "allergen section's separate-utensil guidance" "$ROOT_DIR/pancakes.md"; then
+if ! grep -Fq "small dry mix-ins" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "heavier or wet mix-ins" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "Pat rinsed berries" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "Organize topping bars" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "allergen section's separate-utensil guidance" "$VISIBLE_PANCAKES"; then
   printf '%s\n' "pancakes.md must keep practical mix-ins and toppings guidance." >&2
   exit 1
 fi
 
-if ! grep -Fq "350 to 375 degrees F" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "edges look set" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "avoid pressing" "$ROOT_DIR/pancakes.md"; then
+if ! grep -Fq "350 to 375 degrees F" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "edges look set" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "avoid pressing" "$VISIBLE_PANCAKES"; then
   printf '%s\n' "pancakes.md must keep practical griddle heat and doneness notes." >&2
   exit 1
 fi
 
-if ! grep -Fq "Pour one 1/4 cup test pancake" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "Judge browning before changing the batter" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "underside browns before bubbles open" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "lower the heat" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "remains pale after bubbles open" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "raise heat" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "flour 1 tablespoon at a time" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "milk 1" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "tablespoon at a time" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "cook a second test pancake" "$ROOT_DIR/pancakes.md" ||
-  ! grep -Fq "change only one variable between tests" "$ROOT_DIR/pancakes.md"; then
+if ! grep -Fq "Pour one 1/4 cup test pancake" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "Judge browning before changing the batter" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "underside browns before bubbles open" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "lower the heat" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "remains pale after bubbles open" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "raise heat" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "flour 1 tablespoon at a time" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "milk 1" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "tablespoon at a time" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "cook a second test pancake" "$VISIBLE_PANCAKES" ||
+  ! grep -Fq "change only one variable between tests" "$VISIBLE_PANCAKES"; then
   printf '%s\n' "pancakes.md must keep the ordered first-pancake calibration sequence." >&2
   exit 1
 fi
 
-"$PYTHON" - "$ROOT_DIR/pancakes.md" <<'PY'
+"$PYTHON" - "$VISIBLE_PANCAKES" <<'PY'
 import sys
 from pathlib import Path
 

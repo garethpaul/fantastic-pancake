@@ -175,11 +175,13 @@ yield can vary slightly after consistency adjustments or a different scoop.
 - Pancake bars should label batters and toppings that contain major allergens,
   including milk, eggs, wheat, peanuts, tree nuts, soybeans, sesame, fish, or
   crustacean shellfish when those ingredients are present.
-- Keep separate serving utensils for allergen-containing toppings, and do not
-  claim a pancake option is allergen-free unless ingredient labels and prep
-  surfaces have been checked.
+- Keep separate serving utensils for allergen-containing toppings. A shared kitchen cannot guarantee an allergen-free batch.
+- Review ingredient and advisory labels plus prep surfaces, cookware, utensils,
+  storage, and shared equipment for cross-contact. Ask the guest or event organizer which controls they require; if those controls cannot be met, say so rather than making an allergen-free claim.
 - FoodSafety.gov's FASTER Act summary is a useful source for allergen-labeling
   updates: https://www.foodsafety.gov/blog/food-allergy-safety-treatment-education-and-research-act-2021
+- FDA guidance explains major-allergen labeling and cross-contact controls:
+  https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/food-allergies
 
 ## Batch Storage and Reheating
 
@@ -189,6 +191,9 @@ yield can vary slightly after consistency adjustments or a different scoop.
   containers so they cool quickly and stay easy to label.
 - Hold hot pancakes at 140 degrees F or warmer when serving a long event; do
   not rely on a warm room or stacked platter for extended holding.
+- FDA buffet guidance describes using a food thermometer and equipment capable
+  of maintaining 140 degrees F or warmer:
+  https://www.fda.gov/food/buy-store-serve-safe-food/serving-safe-buffets
 - Reheat leftovers to 165 degrees F before serving again, and use refrigerated
   leftovers within 4 days or freeze them for longer storage.
 
