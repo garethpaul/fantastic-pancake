@@ -1,5 +1,40 @@
 # Changes
 
+## 2026-06-19
+
+- Hardened offline Markdown validation against symlinks, non-file targets,
+  malformed percent encoding, local file URLs, uppercase extensions, and
+  GitHub heading-slug edge cases.
+- Clarified that shared kitchens cannot guarantee allergen-free pancakes and
+  linked FDA guidance for allergen cross-contact and hot buffet holding.
+
+## 2026-06-16
+
+- Offline verification checks relative Markdown link, image, and heading-fragment targets without requesting external URLs.
+- The content gate requires GNU Make, a POSIX shell, and Python 3. Added an
+  explicit interpreter override and actionable missing or incompatible runtime
+  diagnostics.
+
+## 2026-06-14
+
+- Replaced a redirected FDA food-allergy citation with its canonical HTTPS
+  location and made the content gate reject the retired path.
+
+## 2026-06-13
+
+- Made content verification independent of the caller's working directory by
+  resolving the baseline checker from the loaded Makefile.
+- Added structural source provenance checks for HTTPS, userinfo, ports,
+  approved hosts, and continued representation of every reviewed source host.
+- Added source-backed ingredient substitution guidance with test-batch,
+  ingredient-function, label-review, and cross-contact boundaries.
+- Extended the content baseline to preserve the substitution safety contract
+  and completed verification evidence.
+- Added a first-pancake calibration sequence that separates heat corrections
+  from tablespoon-by-tablespoon batter adjustments.
+- Extended the content baseline to preserve the calibration order and completed
+  verification evidence.
+
 ## 2026-06-12
 
 - Added an 8-, 16-, and 32-pancake scaling table tied to the basic ratio and
@@ -10,7 +45,8 @@
 
 - Added FDA- and CDC-backed raw batter handling and cleanup guidance.
 - Added a pinned, least-privilege GitHub Actions workflow that runs the content
-  and no-scaffold baseline for pushes and pull requests.
+  and no-scaffold baseline for pushes and pull requests without persisting
+  checkout credentials.
 - Extended the checker and documentation to keep hosted verification required.
 
 ## 2026-06-09

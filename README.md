@@ -33,6 +33,9 @@ Additional scan context:
 ### Prerequisites
 
 - Git
+- GNU Make
+- A POSIX shell
+- Python 3
 
 ### Setup
 
@@ -56,6 +59,14 @@ Run the content baseline:
 make check
 ```
 
+The content gate requires GNU Make, a POSIX shell, and Python 3. It uses the
+`python3` command by default; set `PYTHON=/path/to/python3` on the Make command
+line when a compatible interpreter has a different name or location.
+
+Use the absolute Makefile path to run the same gate from another working
+directory. Verification resolves the checker relative to the loaded Makefile
+rather than the caller's directory.
+
 The baseline verifies that the repository remains content-only, README/VISION
 stay linked to `pancakes.md`, the overview image targets this repo, and the
 pancake document keeps real sections instead of placeholder separators. It also
@@ -66,14 +77,20 @@ FoodSafety.gov source, and enforces a no-scaffold contract so app manifests,
 dependency lockfiles, source directories, and generated dependency directories
 do not appear without a new plan. Event serving notes must keep source-backed
 allergen guidance, separate utensil language, and avoid unsupported
-allergen-free claims. Mix-ins and toppings notes must keep practical texture,
+allergen-free claims. Ingredient substitutions must preserve function and
+test-batch cautions, current label review, cross-contact controls, and official
+or reviewed sources. Mix-ins and toppings notes must keep practical texture,
 fruit, and labeling guidance. Batch notes must keep specific holding, storage,
 and reheating thresholds.
+Guide citations are limited to credential-free HTTPS URLs on approved official
+government and university-extension hosts; this offline check does not claim
+that remote pages are currently reachable.
 
 The `make lint`, `make test`, and `make build` aliases run the same content
 baseline while this repository has no narrower installed gates.
 GitHub Actions runs `make check` for pushes and pull requests with read-only
-repository permissions.
+repository permissions and does not persist checkout credentials.
+Offline verification checks relative Markdown link, image, and heading-fragment targets without requesting external URLs.
 
 When the required SDK or runtime is unavailable, use static checks and source review first, then verify on a machine that has the matching platform toolchain.
 
@@ -102,12 +119,20 @@ When the required SDK or runtime is unavailable, use static checks and source re
   guidance.
 - Keep the batch scaling table aligned with the basic ratio and 1/4 cup yield.
 - Keep griddle heat and doneness notes practical when expanding method content.
+- Keep first-pancake calibration tied to the 1/4 cup portion and one-variable
+  adjustments.
+- Keep substitution guidance tied to the about-8-pancake test batch and
+  separate recipe adaptation from allergen-safety claims.
 - Keep batter texture and resting notes concise when expanding method content.
 - Keep mix-ins and topping notes practical, clearly labeled, and tied to the
   allergen event-serving guidance.
 - Keep `.github/workflows/check.yml` aligned with the local content baseline.
 - See `docs/plans/2026-06-10-hosted-content-checks.md` for the hosted content
   verification baseline.
+- See `docs/plans/2026-06-13-first-pancake-calibration.md` for the test-pancake
+  decision sequence.
+- See `docs/plans/2026-06-13-pancake-substitution-guidance.md` for substitution
+  and allergy-safety boundaries.
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.
 - See `VISION.md` for project direction and contribution guardrails.
 

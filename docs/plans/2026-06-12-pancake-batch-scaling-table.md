@@ -39,3 +39,20 @@ working and can easily scale salt or leavening inconsistently.
 - `make build`
 - `make check`
 - `git diff --check`
+
+## Work Completed
+
+- Added exact 1x, 2x, and 4x quantities for flour, baking powder, sugar, salt,
+  milk, eggs, and melted butter or neutral oil.
+- Kept the existing 1/4 cup portion assumption visible and recommended two
+  freshly mixed 16-pancake bowls instead of one long-waiting 32-pancake bowl.
+- Updated the project documentation and extended the offline content baseline.
+
+## Verification Completed
+
+- `sh -n scripts/check-baseline.sh`, all four Make gates, and
+  `git diff --check` passed locally after integration into PR #4.
+- Implementation push run `27392180169` and pull-request run `27392182290`
+  passed at commit `9ab88d98d890f0a3777792e03f6ba1e7f078bcaf`.
+- Post-merge push run `27392192010` and CodeQL run `27402319817` passed at
+  default-branch merge commit `f9d74664aae853af3b37fd0a4ab887234c863caa`.

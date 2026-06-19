@@ -21,6 +21,32 @@ for breakfast, brunch, dessert, or community events.
 - Scale dry and wet ingredients together when cooking for a group, then adjust
   thickness after the batter rests.
 
+## Ingredient Substitutions
+
+Substitutions can change flavor, color, texture, or volume. Test the
+about-8-pancake ratio before scaling an adapted batch for a group.
+
+- For milk, start with the same amount of an unsweetened replacement, then
+  reassess the rested batter before adding more liquid. Different products can
+  change thickness, flavor, and browning.
+- Eggs add moisture, binding, and lift, so no single egg replacement reproduces
+  every function. For this one-egg ratio, follow a baking egg replacer's label
+  or a reviewed substitution amount; fruit purees can add flavor and moisture
+  while producing a different rise or texture.
+- For a wheat-flour substitution, use a gluten-free blend labeled as a
+  one-to-one replacement for all-purpose flour and follow its directions. Do
+  not assume a single alternative flour will work cup for cup.
+- The ratio already allows 2 tablespoons of neutral oil instead of melted
+  butter; expect butter-related flavor or browning to differ when using oil.
+- A substitution does not prove a batch is allergen-free. Check current
+  ingredient and advisory labels every time, and control cross-contact from
+  prep surfaces, utensils, and equipment before serving someone with an
+  allergy.
+- University of Minnesota Extension explains egg functions and replacement
+  tradeoffs: https://extension.umn.edu/family-news/egg-substitutions-baking
+- FDA food-allergy guidance covers current labels and cross-contact:
+  https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/food-allergies
+
 ## Batch Scaling Table
 
 The amounts below assume the 1/4 cup portion used for medium pancakes. Final
@@ -94,6 +120,23 @@ yield can vary slightly after consistency adjustments or a different scoop.
 - After flipping, avoid pressing pancakes with the spatula; gentle contact keeps
   the interior lighter.
 
+## First Pancake Calibration
+
+- Pour one 1/4 cup test pancake and keep the remaining batter untouched while
+  it cooks.
+- Judge browning before changing the batter so heat and consistency are not
+  adjusted at the same time.
+- If the underside browns before bubbles open across the top, lower the heat
+  before the next test.
+- If the pancake remains pale after bubbles open and the edges set, raise heat
+  slightly before the next test.
+- Once the heat is corrected, fold in flour 1 tablespoon at a time if the test
+  pancake spreads too thin, then wait 1 minute before reassessing.
+- If the test pancake stays mounded instead of settling, stir in milk 1
+  tablespoon at a time, then wait 1 minute before reassessing.
+- After any adjustment, cook a second test pancake before starting the main
+  batch, and change only one variable between tests.
+
 ## Troubleshooting Pancakes
 
 - Flat pancakes usually need fresher leavening, a shorter wait after mixing, or
@@ -132,11 +175,13 @@ yield can vary slightly after consistency adjustments or a different scoop.
 - Pancake bars should label batters and toppings that contain major allergens,
   including milk, eggs, wheat, peanuts, tree nuts, soybeans, sesame, fish, or
   crustacean shellfish when those ingredients are present.
-- Keep separate serving utensils for allergen-containing toppings, and do not
-  claim a pancake option is allergen-free unless ingredient labels and prep
-  surfaces have been checked.
+- Keep separate serving utensils for allergen-containing toppings. A shared kitchen cannot guarantee an allergen-free batch.
+- Review ingredient and advisory labels plus prep surfaces, cookware, utensils,
+  storage, and shared equipment for cross-contact. Ask the guest or event organizer which controls they require; if those controls cannot be met, say so rather than making an allergen-free claim.
 - FoodSafety.gov's FASTER Act summary is a useful source for allergen-labeling
   updates: https://www.foodsafety.gov/blog/food-allergy-safety-treatment-education-and-research-act-2021
+- FDA guidance explains major-allergen labeling and cross-contact controls:
+  https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/food-allergies
 
 ## Batch Storage and Reheating
 
@@ -146,6 +191,9 @@ yield can vary slightly after consistency adjustments or a different scoop.
   containers so they cool quickly and stay easy to label.
 - Hold hot pancakes at 140 degrees F or warmer when serving a long event; do
   not rely on a warm room or stacked platter for extended holding.
+- FDA buffet guidance describes using a food thermometer and equipment capable
+  of maintaining 140 degrees F or warmer:
+  https://www.fda.gov/food/buy-store-serve-safe-food/serving-safe-buffets
 - Reheat leftovers to 165 degrees F before serving again, and use refrigerated
   leftovers within 4 days or freeze them for longer storage.
 

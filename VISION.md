@@ -2,6 +2,7 @@
 
 This document explains the current state and direction of the project.
 Project overview and developer docs: [`README.md`](README.md)
+Offline verification checks relative Markdown link, image, and heading-fragment targets without requesting external URLs.
 
 Fantastic Pancake is a lightweight repository about pancakes. It currently
 contains a simple `pancakes.md` outline covering a basic method, pancake types,
@@ -24,6 +25,8 @@ Current baseline:
 
 - `scripts/check-baseline.sh` and `make check` verify the content-only
   repository shape.
+- The content gate requires GNU Make, a POSIX shell, and Python 3. Its
+  interpreter command is explicit and fails fast when missing or incompatible.
 - The baseline rejects dependency manifests, lockfiles, source scaffolds, and
   generated dependency directories unless a new plan changes the repository
   scope.
@@ -38,12 +41,18 @@ Current baseline:
   adjustments, and avoiding overmixing after the batter rests.
 - Griddle heat and doneness notes cover preheating, browning, flipping, and
   avoiding pressed pancakes.
+- First-pancake calibration separates heat corrections from measured flour or
+  milk adjustments before the main batch.
+- Ingredient substitution notes distinguish milk, egg, flour, and fat behavior
+  from allergen safety and require an about-8-pancake test batch before scaling.
 - Troubleshooting notes cover common batch problems without adding app
   scaffolding.
 - Mix-ins and toppings notes describe when to fold, sprinkle, dry, organize,
   and label additions without changing the content-only scope.
 - Food-safety notes cite FoodSafety.gov before making storage or serving
   recommendations.
+- The offline baseline structurally validates source URLs for HTTPS, absent
+  credentials and ports, exact reviewed hosts, and continued host coverage.
 - Batch storage and reheating guidance includes concrete holding, cooling,
   reheating, and leftover-use thresholds.
 - README and VISION document the no-scaffold boundary until there is a concrete
@@ -52,7 +61,8 @@ Current baseline:
   allergen-free claims tied to official source guidance.
 - `make lint`, `make test`, and `make build` run the same content baseline
   while no narrower gates are installed.
-- GitHub Actions runs the local content baseline for pushes and pull requests.
+- GitHub Actions runs the local content baseline for pushes and pull requests
+  without persisting checkout credentials.
 
 Next priorities:
 
@@ -65,6 +75,9 @@ Next priorities:
 - Keep portioning guidance practical and tied to the basic ratio
 - Keep batch scaling quantities aligned with the basic ratio and stated yield
 - Keep batter texture notes practical and tied to the basic method
+- Keep first-pancake calibration ordered and limited to one variable per test
+- Keep substitution guidance source-backed and separate recipe adaptation from
+  allergen-free claims
 - Keep mix-ins and topping guidance practical and tied to event-serving labels
 
 Contribution rules:

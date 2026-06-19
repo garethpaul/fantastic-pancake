@@ -1,5 +1,7 @@
 # Security Policy
 
+Offline verification checks relative Markdown link, image, and heading-fragment targets without requesting external URLs.
+
 ## Supported Versions
 
 The supported security scope for `fantastic-pancake` is the current default branch, `main`. Older commits, tags, branches, forks, demos, and generated artifacts are not actively supported unless the repository explicitly marks them as maintained.
@@ -27,10 +29,14 @@ Helpful reports include:
 - This repository appears to be a public sample, documentation, or utility project. The active security scope is the code and documentation on the default branch.
 - The repository scan did not identify production authentication, payment, or secret-management code. Treat the project as public sample code unless future changes add sensitive surfaces.
 - No primary dependency manifest was detected in the repository root. If dependencies are added later, include a manifest and prefer reproducible installation instructions.
+- Safety and substitution citations in `pancakes.md` must use credential-free
+  HTTPS URLs from the reviewed source hosts; adding another host requires an
+  explicit source-review change.
 - Food allergy and event-serving guidance can affect reader safety. Keep allergen claims source-backed and avoid promising allergen-free food without controlled ingredients, utensils, and prep surfaces.
 - Mix-ins and topping guidance should preserve clear allergen labels and separate serving-utensil language for shared pancake bars.
 - GitHub Actions runs the content and no-scaffold baseline with read-only
-  repository permissions before changes land.
+  repository permissions and without persisted checkout credentials before
+  changes land.
 
 
 ## Dependency and Supply Chain Security
