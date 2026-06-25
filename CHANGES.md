@@ -1,5 +1,12 @@
 # Changes
 
+## 2026-06-25 07:32:32 PDT
+
+- Added a repeatable cooking-station setup covering measured portions,
+  uncrowded griddle space, one-way workflow, clean cooked-food utensils, and
+  short-term rack holding.
+- Cooking-station guidance keeps raw batter tools separate from cooked-pancake utensils.
+
 ## 2026-06-19
 
 - Hardened offline Markdown validation against symlinks, non-file targets,

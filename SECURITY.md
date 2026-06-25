@@ -34,6 +34,7 @@ Helpful reports include:
   explicit source-review change.
 - Food allergy and event-serving guidance can affect reader safety. Keep allergen claims source-backed and avoid promising allergen-free food without controlled ingredients, utensils, and prep surfaces.
 - Mix-ins and topping guidance should preserve clear allergen labels and separate serving-utensil language for shared pancake bars.
+- Cooking-station guidance keeps raw batter tools separate from cooked-pancake utensils.
 - GitHub Actions runs the content and no-scaffold baseline with read-only
   repository permissions and without persisted checkout credentials before
   changes land.

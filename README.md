@@ -18,7 +18,7 @@ pipeline.
 - `Makefile` - local check entry point
 - `VISION.md` - project direction and maintenance guardrails
 - `docs/readme-overview.svg` - README overview image
-- `pancakes.md` - pancake method, basic ratio, portioning, batter texture, tips, troubleshooting, mix-ins, toppings, and content outline
+- `pancakes.md` - pancake method, basic ratio, portioning, batter texture, cooking-station setup, tips, troubleshooting, mix-ins, toppings, and content outline
 - `docs/plans/` - completed maintenance plans for content and baseline changes
 
 Additional scan context:
@@ -124,6 +124,9 @@ When the required SDK or runtime is unavailable, use static checks and source re
 - Keep substitution guidance tied to the about-8-pancake test batch and
   separate recipe adaptation from allergen-safety claims.
 - Keep batter texture and resting notes concise when expanding method content.
+- Cooking-station guidance keeps raw batter tools separate from cooked-pancake utensils.
+- Keep the cooking-station sequence tied to measured portions, uncrowded
+  griddle space, and separate cooked-food utensils.
 - Keep mix-ins and topping notes practical, clearly labeled, and tied to the
   allergen event-serving guidance.
 - Keep `.github/workflows/check.yml` aligned with the local content baseline.
@@ -133,6 +136,8 @@ When the required SDK or runtime is unavailable, use static checks and source re
   decision sequence.
 - See `docs/plans/2026-06-13-pancake-substitution-guidance.md` for substitution
   and allergy-safety boundaries.
+- See `docs/plans/2026-06-25-pancake-cooking-station.md` for the repeatable
+  raw-to-cooked batch workflow.
 - See `SECURITY.md` for vulnerability reporting and safe research guidance.
 - See `VISION.md` for project direction and contribution guardrails.
 
