@@ -24,6 +24,7 @@ CANONICAL_ALLERGEN_SOURCE_PLAN="$ROOT_DIR/docs/plans/2026-06-14-002-security-can
 PYTHON_PREFLIGHT_PLAN="$ROOT_DIR/docs/plans/2026-06-16-python-verification-preflight.md"
 INTERNAL_LINK_PLAN="$ROOT_DIR/docs/plans/2026-06-16-offline-internal-link-integrity.md"
 HEADING_FRAGMENT_PLAN="$ROOT_DIR/docs/plans/2026-06-16-markdown-heading-fragment-integrity.md"
+COOKING_STATION_PLAN="$ROOT_DIR/docs/plans/2026-06-25-pancake-cooking-station.md"
 INTERNAL_LINK_CHECKER="$ROOT_DIR/scripts/check-internal-links.py"
 INTERNAL_LINK_TEST="$ROOT_DIR/scripts/test-internal-links.py"
 CI_WORKFLOW="$ROOT_DIR/.github/workflows/check.yml"
@@ -77,6 +78,7 @@ for path in \
   "docs/plans/2026-06-16-python-verification-preflight.md" \
   "docs/plans/2026-06-16-offline-internal-link-integrity.md" \
   "docs/plans/2026-06-16-markdown-heading-fragment-integrity.md" \
+  "docs/plans/2026-06-25-pancake-cooking-station.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md" \
   "docs/plans/2026-06-10-hosted-content-checks.md" \
   "scripts/check-internal-links.py" \
@@ -346,6 +348,7 @@ for heading in \
   "## Batch Scaling Table" \
   "## Portioning and Batch Size" \
   "## Batter Consistency and Resting" \
+  "## Cooking Station Setup" \
   "## Types of Pancakes" \
   "## Pancake Tips" \
   "## Griddle Heat and Doneness" \
@@ -359,6 +362,37 @@ for heading in \
   "## Source and Safety Notes"; do
   if ! grep -Fq "$heading" "$VISIBLE_PANCAKES"; then
     printf '%s\n' "Missing pancake content heading: $heading" >&2
+    exit 1
+  fi
+done
+
+for station_contract in \
+  "Set out the batter, 1/4 cup measure, thin spatula, light grease, and landing tray" \
+  "leave at least 1 inch between pancakes" \
+  "raw batter to griddle to finished tray" \
+  "Keep one clean utensil for moving cooked pancakes" \
+  "wire rack set over a sheet pan"; do
+  if ! grep -Fq "$station_contract" "$VISIBLE_PANCAKES"; then
+    printf '%s\n' "pancakes.md must keep practical cooking-station setup: $station_contract" >&2
+    exit 1
+  fi
+done
+
+station_guidance="Cooking-station guidance keeps raw batter tools separate from cooked-pancake utensils."
+for station_document in AGENTS.md README.md SECURITY.md VISION.md CHANGES.md; do
+  if ! grep -Fq "$station_guidance" "$ROOT_DIR/$station_document"; then
+    printf '%s\n' "$station_document must document the cooking-station utensil boundary." >&2
+    exit 1
+  fi
+done
+for station_plan_contract in \
+  'Status: Completed' \
+  'make check' \
+  'external-directory' \
+  'hostile cooking-station mutations were rejected' \
+  'No kitchen or live cooking test was performed'; do
+  if ! grep -Fq "$station_plan_contract" "$COOKING_STATION_PLAN"; then
+    printf '%s\n' "Cooking-station plan must preserve completion evidence: $station_plan_contract" >&2
     exit 1
   fi
 done

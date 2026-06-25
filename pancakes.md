@@ -91,6 +91,19 @@ yield can vary slightly after consistency adjustments or a different scoop.
 - After resting 5 to 10 minutes, fold the batter only once or twice so trapped
   air is not beaten out before cooking.
 
+## Cooking Station Setup
+
+- Set out the batter, 1/4 cup measure, thin spatula, light grease, and landing tray
+  before preheating so each round follows the same sequence.
+- Use a skillet or griddle large enough to leave at least 1 inch between pancakes;
+  crowding makes scooping, flipping, and heat adjustment less consistent.
+- Arrange the station in one direction from raw batter to griddle to finished tray
+  so hands and tools do not repeatedly cross over the hot cooking surface.
+- Keep one clean utensil for moving cooked pancakes, and do not return it to the
+  batter bowl or other surfaces that held uncooked batter.
+- Use a wire rack set over a sheet pan when pancakes must wait briefly; move them
+  to the low-oven holding method for a longer service window.
+
 ## Types of Pancakes
 
 - Buttermilk pancakes: fluffy, lightly tangy, and best served soon after cooking.
