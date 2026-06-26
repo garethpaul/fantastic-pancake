@@ -91,6 +91,7 @@ baseline while this repository has no narrower installed gates.
 GitHub Actions runs `make check` for pushes and pull requests with read-only
 repository permissions and does not persist checkout credentials.
 Offline verification checks relative Markdown link, image, and heading-fragment targets without requesting external URLs.
+Fenced Markdown examples close only with the matching marker and at least the opening fence length.
 
 When the required SDK or runtime is unavailable, use static checks and source review first, then verify on a machine that has the matching platform toolchain.
 

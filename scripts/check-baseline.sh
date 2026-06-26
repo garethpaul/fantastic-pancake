@@ -25,6 +25,7 @@ PYTHON_PREFLIGHT_PLAN="$ROOT_DIR/docs/plans/2026-06-16-python-verification-prefl
 INTERNAL_LINK_PLAN="$ROOT_DIR/docs/plans/2026-06-16-offline-internal-link-integrity.md"
 HEADING_FRAGMENT_PLAN="$ROOT_DIR/docs/plans/2026-06-16-markdown-heading-fragment-integrity.md"
 COOKING_STATION_PLAN="$ROOT_DIR/docs/plans/2026-06-25-pancake-cooking-station.md"
+MATCHED_FENCE_PLAN="$ROOT_DIR/docs/plans/2026-06-26-matched-markdown-fences.md"
 INTERNAL_LINK_CHECKER="$ROOT_DIR/scripts/check-internal-links.py"
 INTERNAL_LINK_TEST="$ROOT_DIR/scripts/test-internal-links.py"
 CI_WORKFLOW="$ROOT_DIR/.github/workflows/check.yml"
@@ -79,6 +80,7 @@ for path in \
   "docs/plans/2026-06-16-offline-internal-link-integrity.md" \
   "docs/plans/2026-06-16-markdown-heading-fragment-integrity.md" \
   "docs/plans/2026-06-25-pancake-cooking-station.md" \
+  "docs/plans/2026-06-26-matched-markdown-fences.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md" \
   "docs/plans/2026-06-10-hosted-content-checks.md" \
   "scripts/check-internal-links.py" \
@@ -114,6 +116,9 @@ if [ "$(grep -Fxc '"$PYTHON" "$INTERNAL_LINK_TEST"' "$ROOT_DIR/scripts/check-bas
   ! grep -Fq 'local link target does not exist' "$INTERNAL_LINK_CHECKER" ||
   ! grep -Fq 'def markdown_anchors(content: str) -> set[str]:' "$INTERNAL_LINK_CHECKER" ||
   ! grep -Fq 'def visible_markdown_text(content: str) -> str:' "$INTERNAL_LINK_CHECKER" ||
+  ! grep -Fq 'FENCE_PATTERN = re.compile' "$INTERNAL_LINK_CHECKER" ||
+  ! grep -Fq 'fence[0] == fence_marker' "$INTERNAL_LINK_CHECKER" ||
+  ! grep -Fq 'len(fence) >= fence_length' "$INTERNAL_LINK_CHECKER" ||
   ! grep -Fq 'local Markdown anchor does not exist' "$INTERNAL_LINK_CHECKER" ||
   ! grep -Fq 'local link target must not be a symlink' "$INTERNAL_LINK_CHECKER" ||
   ! grep -Fq 'local link target is not a regular file' "$INTERNAL_LINK_CHECKER" ||
@@ -122,6 +127,9 @@ if [ "$(grep -Fxc '"$PYTHON" "$INTERNAL_LINK_TEST"' "$ROOT_DIR/scripts/check-bas
   ! grep -Fq 'test_rejects_missing_local_target' "$INTERNAL_LINK_TEST" ||
   ! grep -Fq 'test_rejects_repository_escape' "$INTERNAL_LINK_TEST" ||
   ! grep -Fq 'test_ignores_links_inside_fenced_examples' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_mismatched_fence_marker_does_not_close_example' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_shorter_matching_fence_does_not_close_example' "$INTERNAL_LINK_TEST" ||
+  ! grep -Fq 'test_matching_fence_restores_link_scanning_after_mismatch' "$INTERNAL_LINK_TEST" ||
   ! grep -Fq 'test_ignores_link_syntax_inside_inline_code' "$INTERNAL_LINK_TEST" ||
   ! grep -Fq 'test_generates_unique_github_style_heading_anchors' "$INTERNAL_LINK_TEST" ||
   ! grep -Fq 'test_rejects_missing_same_and_cross_document_anchors' "$INTERNAL_LINK_TEST" ||
@@ -140,6 +148,20 @@ if [ "$(grep -Fxc '"$PYTHON" "$INTERNAL_LINK_TEST"' "$ROOT_DIR/scripts/check-bas
   printf '%s\n' "Offline internal-link verification contracts are incomplete." >&2
   exit 1
 fi
+
+if ! grep -Fq 'Status: Completed' "$MATCHED_FENCE_PLAN" || \
+  ! grep -Fq 'make check' "$MATCHED_FENCE_PLAN"; then
+  printf '%s\n' "Matched Markdown fence plan must record completed verification." >&2
+  exit 1
+fi
+
+matched_fence_guidance='Fenced Markdown examples close only with the matching marker and at least the opening fence length.'
+for matched_fence_doc in "$ROOT_DIR/AGENTS.md" "$ROOT_DIR/README.md" "$ROOT_DIR/SECURITY.md" "$ROOT_DIR/VISION.md" "$ROOT_DIR/CHANGES.md"; do
+  if ! grep -Fq "$matched_fence_guidance" "$matched_fence_doc"; then
+    printf '%s\n' "$matched_fence_doc must document matched Markdown fence handling." >&2
+    exit 1
+  fi
+done
 
 if ! grep -Fq 'override ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))' "$ROOT_DIR/Makefile" ||
   ! grep -Fq 'PYTHON ?= python3' "$ROOT_DIR/Makefile" ||

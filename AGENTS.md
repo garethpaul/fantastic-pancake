@@ -50,6 +50,7 @@ food safety. It intentionally has no application or dependency scaffold.
 - Cooking-station guidance keeps raw batter tools separate from cooked-pancake utensils.
 - Preserve concrete time and temperature thresholds for storage, event holding, and reheating, and update their official sources when guidance changes.
 - Run `make check` before pushing content or documentation changes.
+- Fenced Markdown examples close only with the matching marker and at least the opening fence length.
 - Keep the no-scaffold contract in place until there is a concrete publishing plan for an app or static site.
 
 ## Agent workflow
