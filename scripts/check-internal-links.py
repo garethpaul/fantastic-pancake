@@ -19,6 +19,7 @@ REFERENCE_PATTERN = re.compile(
 )
 ATX_HEADING_PATTERN = re.compile(r"^\s{0,3}#{1,6}(?:[ \t]+|$)(?P<text>.*)$")
 SETEXT_HEADING_PATTERN = re.compile(r"^\s{0,3}(?:=+|-+)[ \t]*$")
+FENCE_PATTERN = re.compile(r"^\s{0,3}(?P<fence>`{3,}|~{3,})(?P<rest>.*)$")
 CUSTOM_ANCHOR_PATTERN = re.compile(
     r"<a\s+[^>]*\bname\s*=\s*(?:\"(?P<double>[^\"]+)\"|'(?P<single>[^']+)')[^>]*>",
     re.IGNORECASE,
@@ -68,38 +69,55 @@ def symlink_component(path: Path, root: Path) -> bool:
 
 
 def visible_markdown_lines(content: str):
-    in_fence = False
+    fence_marker = None
+    fence_length = 0
     in_comment = False
     for line_number, line in enumerate(content.splitlines(), 1):
-        if not in_fence:
-            visible_parts = []
-            position = 0
-            comment_search = without_code_spans(line)
-            while position < len(line):
-                if in_comment:
-                    comment_end = line.find("-->", position)
-                    if comment_end < 0:
-                        position = len(line)
-                        continue
-                    in_comment = False
-                    position = comment_end + 3
-                    continue
-
-                comment_start = comment_search.find("<!--", position)
-                if comment_start < 0:
-                    visible_parts.append(line[position:])
-                    break
-                visible_parts.append(line[position:comment_start])
-                in_comment = True
-                position = comment_start + 4
-            line = "".join(visible_parts)
-
-        stripped = line.lstrip()
-        if stripped.startswith("```") or stripped.startswith("~~~"):
-            in_fence = not in_fence
+        if fence_marker is not None:
+            fence_match = FENCE_PATTERN.match(line)
+            if fence_match is not None:
+                fence = fence_match.group("fence")
+                if (
+                    fence[0] == fence_marker
+                    and len(fence) >= fence_length
+                    and not fence_match.group("rest").strip()
+                ):
+                    fence_marker = None
+                    fence_length = 0
             continue
-        if not in_fence:
-            yield line_number, line
+
+        visible_parts = []
+        position = 0
+        comment_search = without_code_spans(line)
+        while position < len(line):
+            if in_comment:
+                comment_end = line.find("-->", position)
+                if comment_end < 0:
+                    position = len(line)
+                    continue
+                in_comment = False
+                position = comment_end + 3
+                continue
+
+            comment_start = comment_search.find("<!--", position)
+            if comment_start < 0:
+                visible_parts.append(line[position:])
+                break
+            visible_parts.append(line[position:comment_start])
+            in_comment = True
+            position = comment_start + 4
+        line = "".join(visible_parts)
+
+        fence_match = FENCE_PATTERN.match(line)
+        if fence_match is not None:
+            fence = fence_match.group("fence")
+            if fence[0] == "`" and "`" in fence_match.group("rest"):
+                yield line_number, line
+                continue
+            fence_marker = fence[0]
+            fence_length = len(fence)
+            continue
+        yield line_number, line
 
 
 def without_code_spans(line: str) -> str:

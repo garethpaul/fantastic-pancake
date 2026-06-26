@@ -230,6 +230,47 @@ class InternalLinkChecks(unittest.TestCase):
         )
         self.assertEqual(failures, [])
 
+    def test_mismatched_fence_marker_does_not_close_example(self):
+        failures = self.validate(
+            {
+                "README.md": (
+                    "```markdown\n"
+                    "~~~\n"
+                    "[Example](missing.md)\n"
+                    "```\n"
+                )
+            }
+        )
+        self.assertEqual(failures, [])
+
+    def test_shorter_matching_fence_does_not_close_example(self):
+        failures = self.validate(
+            {
+                "README.md": (
+                    "````markdown\n"
+                    "```\n"
+                    "[Example](missing.md)\n"
+                    "````\n"
+                )
+            }
+        )
+        self.assertEqual(failures, [])
+
+    def test_matching_fence_restores_link_scanning_after_mismatch(self):
+        failures = self.validate(
+            {
+                "README.md": (
+                    "~~~markdown\n"
+                    "```\n"
+                    "[Inside example](inside.md)\n"
+                    "~~~\n"
+                    "[Outside example](outside.md)\n"
+                )
+            }
+        )
+        self.assertEqual(len(failures), 1)
+        self.assertIn("outside.md", failures[0])
+
     def test_ignores_link_syntax_inside_inline_code(self):
         failures = self.validate(
             {"README.md": "Use `[Example](missing.md)` as sample syntax.\n"}

@@ -1,5 +1,49 @@
 # Changes
 
+## 2026-06-26 02:58 PDT - P2 - Match Markdown fence closers
+
+### Summary
+Hardened offline Markdown visibility parsing so backtick and tilde fences cannot
+close each other and a shorter fence cannot close a longer example block.
+
+### Work completed
+- Track the opening fence marker and run length.
+- Close examples only with the same marker and at least the opening length.
+- Preserve link scanning immediately after the real matching closer.
+- Keep HTML-comment and inline-code visibility behavior unchanged.
+- Added three temporary-tree regressions and static source contracts.
+- Fenced Markdown examples close only with the matching marker and at least the opening fence length.
+
+### Threads
+- Started: none.
+- Continued: offline Markdown integrity — fenced-example parsing complete.
+- Stopped: none.
+
+### Files changed
+- `scripts/check-internal-links.py` — adds marker-aware fence state.
+- `scripts/test-internal-links.py` — covers mismatched, short, and real closers.
+- `scripts/check-baseline.sh` — enforces source, test, plan, and guidance contracts.
+- Documentation and plan files — record the offline parsing boundary.
+
+### Validation
+- Red-first internal-link tests — both original mismatch cases failed, then all
+  24 tests and the maintained repository scan passed after implementation.
+- Marker-check and minimum-length removal mutations — both rejected.
+- `make lint|test|build|check` — passed under `C` and `C.UTF-8` and from `/tmp`
+  through the absolute Makefile path.
+- Python compilation, shell syntax, and `git diff --check` — passed.
+- Hosted content/CodeQL exact-head checks and review remain the next action.
+
+### Bugs / findings
+- P2: blindly toggling on either fence marker could report links inside examples
+  or hide links after the intended closing fence.
+
+### Blockers
+- None; validation is dependency-free and does not request external URLs.
+
+### Next action
+- Open the PR, run hosted exact-head validation and review, then merge.
+
 ## 2026-06-25 07:32:32 PDT
 
 - Added a repeatable cooking-station setup covering measured portions,
