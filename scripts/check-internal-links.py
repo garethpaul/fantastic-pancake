@@ -7,6 +7,7 @@ import os
 import re
 import sys
 import unicodedata
+from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote_to_bytes, urlsplit
 
@@ -33,6 +34,25 @@ EMPHASIS_PATTERN = re.compile(
 )
 MALFORMED_PERCENT_PATTERN = re.compile(r"%(?![0-9A-Fa-f]{2})")
 GITHUB_REMOVED_SYMBOLS = frozenset({"©", "®", "×", "÷"})
+
+
+class HTMLDestinationParser(HTMLParser):
+    DESTINATION_ATTRIBUTES = {"a": "href", "img": "src"}
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.destinations = []
+
+    def handle_starttag(self, tag, attributes):
+        attribute_name = self.DESTINATION_ATTRIBUTES.get(tag.lower())
+        if attribute_name is None:
+            return
+        for name, value in attributes:
+            if name.lower() == attribute_name and value:
+                self.destinations.append((self.getpos()[0], value))
+                return
+
+    handle_startendtag = handle_starttag
 
 
 def is_within_root(path: Path, root: Path) -> bool:
@@ -148,6 +168,16 @@ def visible_markdown_text(content: str) -> str:
     )
 
 
+def html_destinations(content: str):
+    source_lines = content.splitlines()
+    visible_lines = [""] * len(source_lines)
+    for line_number, line in visible_markdown_lines(content):
+        visible_lines[line_number - 1] = without_code_spans(line)
+    parser = HTMLDestinationParser()
+    parser.feed("\n".join(visible_lines))
+    return parser.destinations
+
+
 def destinations(line: str):
     visible = without_code_spans(line)
     for match in LINK_PATTERN.finditer(visible):
@@ -238,6 +268,54 @@ def validate_repository(root: Path) -> list[str]:
             anchor_cache[path] = markdown_anchors(path.read_text(encoding="utf-8"))
         return anchor_cache[path]
 
+    def validate_destination(source: Path, line_number: int, raw_destination: str) -> None:
+        destination = raw_destination.strip("<>")
+        if destination.startswith("//"):
+            return
+
+        parsed = urlsplit(destination)
+        if parsed.scheme.lower() == "file":
+            failures.append(
+                f"{source.relative_to(root)}:{line_number}: local file URL is not allowed: {destination}"
+            )
+            return
+        if parsed.scheme or parsed.netloc or parsed.path.startswith("/"):
+            return
+
+        location = f"{source.relative_to(root)}:{line_number}"
+        try:
+            decoded_path = decode_url_component(parsed.path)
+            fragment = decode_url_component(parsed.fragment)
+        except (UnicodeError, ValueError):
+            failures.append(
+                f"{location}: invalid percent-encoding in local link: {destination}"
+            )
+            return
+
+        candidate = source if not decoded_path else source.parent / decoded_path
+        lexical_target = Path(os.path.normpath(candidate))
+        if not is_within_root(lexical_target, root):
+            failures.append(
+                f"{location}: local link escapes repository: {destination}"
+            )
+        elif symlink_component(lexical_target, root):
+            failures.append(
+                f"{location}: local link target must not be a symlink: {destination}"
+            )
+        elif not lexical_target.exists():
+            failures.append(
+                f"{location}: local link target does not exist: {destination}"
+            )
+        elif not lexical_target.is_file():
+            failures.append(
+                f"{location}: local link target is not a regular file: {destination}"
+            )
+        elif fragment and lexical_target.suffix.lower() == ".md":
+            if fragment not in anchors_for(lexical_target):
+                failures.append(
+                    f"{location}: local Markdown anchor does not exist: {destination}"
+                )
+
     for source in markdown_files(root):
         location = str(source.relative_to(root))
         if source.is_symlink() or not source.is_file():
@@ -252,54 +330,10 @@ def validate_repository(root: Path) -> list[str]:
 
         for line_number, line in visible_markdown_lines(content):
             for raw_destination in destinations(line):
-                destination = raw_destination.strip("<>")
-                if destination.startswith("//"):
-                    continue
+                validate_destination(source, line_number, raw_destination)
 
-                parsed = urlsplit(destination)
-                if parsed.scheme.lower() == "file":
-                    failures.append(
-                        f"{source.relative_to(root)}:{line_number}: local file URL is not allowed: {destination}"
-                    )
-                    continue
-                if parsed.scheme or parsed.netloc:
-                    continue
-                if parsed.path.startswith("/"):
-                    continue
-
-                location = f"{source.relative_to(root)}:{line_number}"
-                try:
-                    decoded_path = decode_url_component(parsed.path)
-                    fragment = decode_url_component(parsed.fragment)
-                except (UnicodeError, ValueError):
-                    failures.append(
-                        f"{location}: invalid percent-encoding in local link: {destination}"
-                    )
-                    continue
-
-                candidate = source if not decoded_path else source.parent / decoded_path
-                lexical_target = Path(os.path.normpath(candidate))
-                if not is_within_root(lexical_target, root):
-                    failures.append(
-                        f"{location}: local link escapes repository: {destination}"
-                    )
-                elif symlink_component(lexical_target, root):
-                    failures.append(
-                        f"{location}: local link target must not be a symlink: {destination}"
-                    )
-                elif not lexical_target.exists():
-                    failures.append(
-                        f"{location}: local link target does not exist: {destination}"
-                    )
-                elif not lexical_target.is_file():
-                    failures.append(
-                        f"{location}: local link target is not a regular file: {destination}"
-                    )
-                elif fragment and lexical_target.suffix.lower() == ".md":
-                    if fragment not in anchors_for(lexical_target):
-                        failures.append(
-                            f"{location}: local Markdown anchor does not exist: {destination}"
-                        )
+        for line_number, raw_destination in html_destinations(content):
+            validate_destination(source, line_number, raw_destination)
 
     return failures
 

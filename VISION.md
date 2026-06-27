@@ -4,6 +4,7 @@ This document explains the current state and direction of the project.
 Project overview and developer docs: [`README.md`](README.md)
 Offline verification checks relative Markdown link, image, and heading-fragment targets without requesting external URLs.
 Fenced Markdown examples close only with the matching marker and at least the opening fence length.
+Raw HTML link and image destinations remain under the offline integrity gate.
 
 Fantastic Pancake is a lightweight repository about pancakes. It currently
 contains a simple `pancakes.md` outline covering a basic method, pancake types,

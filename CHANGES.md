@@ -1,5 +1,56 @@
 # Changes
 
+## 2026-06-27 00:08 UTC - P2 - Validate raw HTML link targets
+
+### Summary
+Extended offline content integrity checks to local raw HTML anchor and image
+destinations instead of validating only Markdown link syntax.
+
+### Work completed
+- Added red multiline `<a href>` and `<img src>` missing-target fixtures.
+- Parsed visible HTML with the standard library while preserving source lines.
+- Reused existing path escape, symlink, percent-decoding, file, and fragment
+  checks for HTML destinations.
+- Added positive coverage for valid local fragments, images, and external URLs.
+
+### Threads
+- Started: none.
+- Continued: offline content integrity hardening.
+- Stopped: none.
+
+### Files changed
+- `scripts/check-internal-links.py` — extracts raw HTML destinations.
+- `scripts/test-internal-links.py` — covers failing and accepted HTML cases.
+- `scripts/check-baseline.sh` — preserves source, tests, and completed plan.
+- Documentation and plan files — record the expanded offline boundary.
+
+### Validation
+- Focused red test — expected two missing targets but received zero before the
+  parser-backed destination stream.
+- `make check` — passed 26 tests and the maintained repository scan.
+- HTML destination-stream removal mutation — rejected by the missing raw HTML
+  target regression.
+- External-path `make -C /tmp -f <checkout>/Makefile check` — passed.
+- Python compilation, shell syntax, and `git diff --check` — passed.
+- Hosted `Check` runs `28272193706` and `28272194596` and CodeQL run
+  `28272193774` passed on the implementation head before this evidence-only
+  documentation amendment.
+- `codex review --base main` was attempted and stopped before analysis by the
+  environment's HTTP 401 authentication failure; an immutable manual diff
+  review found no actionable issue.
+
+### Bugs / findings
+- P2: local raw HTML links and images could bypass every maintained target and
+  fragment integrity check.
+
+### Blockers
+- Automated Codex review is unavailable because the configured OpenAI request
+  is rejected with HTTP 401 before analysis; hosted and manual review passed.
+
+### Next action
+- Merge the focused PR after the documentation-only evidence update passes the
+  same hosted gates.
+
 ## 2026-06-26 02:58 PDT - P2 - Match Markdown fence closers
 
 ### Summary

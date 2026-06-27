@@ -284,6 +284,33 @@ class InternalLinkChecks(unittest.TestCase):
         self.assertEqual(len(failures), 1)
         self.assertIn("local link target does not exist", failures[0])
 
+    def test_rejects_missing_raw_html_link_and_image_targets(self):
+        failures = self.validate(
+            {
+                "README.md": (
+                    '<a\n  href="docs/missing.md">Missing guide</a>\n'
+                    '<img\n  src="docs/missing.svg"\n  alt="Missing overview">\n'
+                )
+            }
+        )
+        self.assertEqual(len(failures), 2)
+        self.assertTrue(any("docs/missing.md" in failure for failure in failures))
+        self.assertTrue(any("docs/missing.svg" in failure for failure in failures))
+
+    def test_accepts_valid_and_external_raw_html_destinations(self):
+        failures = self.validate(
+            {
+                "README.md": (
+                    '<a href="docs/guide.md#intro">Guide</a>\n'
+                    '<img src="docs/overview.svg" alt="Overview">\n'
+                    '<a href="https://example.com/guide">External</a>\n'
+                ),
+                "docs/guide.md": "# Intro\n",
+                "docs/overview.svg": "<svg/>\n",
+            }
+        )
+        self.assertEqual(failures, [])
+
     def test_scans_uppercase_markdown_extensions(self):
         failures = self.validate({"GUIDE.MD": "[Missing](missing.md)\n"})
         self.assertEqual(len(failures), 1)
