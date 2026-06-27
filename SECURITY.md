@@ -2,6 +2,8 @@
 
 Offline verification checks relative Markdown link, image, and heading-fragment targets without requesting external URLs.
 Fenced Markdown examples close only with the matching marker and at least the opening fence length.
+Raw HTML links and images do not bypass local target, symlink, escape, or
+Markdown-fragment validation.
 
 ## Supported Versions
 

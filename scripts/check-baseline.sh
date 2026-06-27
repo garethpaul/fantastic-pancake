@@ -26,6 +26,7 @@ INTERNAL_LINK_PLAN="$ROOT_DIR/docs/plans/2026-06-16-offline-internal-link-integr
 HEADING_FRAGMENT_PLAN="$ROOT_DIR/docs/plans/2026-06-16-markdown-heading-fragment-integrity.md"
 COOKING_STATION_PLAN="$ROOT_DIR/docs/plans/2026-06-25-pancake-cooking-station.md"
 MATCHED_FENCE_PLAN="$ROOT_DIR/docs/plans/2026-06-26-matched-markdown-fences.md"
+RAW_HTML_LINK_PLAN="$ROOT_DIR/docs/plans/2026-06-27-raw-html-link-integrity.md"
 INTERNAL_LINK_CHECKER="$ROOT_DIR/scripts/check-internal-links.py"
 INTERNAL_LINK_TEST="$ROOT_DIR/scripts/test-internal-links.py"
 CI_WORKFLOW="$ROOT_DIR/.github/workflows/check.yml"
@@ -81,6 +82,7 @@ for path in \
   "docs/plans/2026-06-16-markdown-heading-fragment-integrity.md" \
   "docs/plans/2026-06-25-pancake-cooking-station.md" \
   "docs/plans/2026-06-26-matched-markdown-fences.md" \
+  "docs/plans/2026-06-27-raw-html-link-integrity.md" \
   "docs/plans/2026-06-09-no-scaffold-contract.md" \
   "docs/plans/2026-06-10-hosted-content-checks.md" \
   "scripts/check-internal-links.py" \
@@ -146,6 +148,23 @@ if [ "$(grep -Fxc '"$PYTHON" "$INTERNAL_LINK_TEST"' "$ROOT_DIR/scripts/check-bas
   ! grep -Fq 'test_rejects_malformed_or_unsafe_percent_encoding_without_crashing' "$INTERNAL_LINK_TEST" ||
   ! grep -Fq 'test_rejects_local_file_urls' "$INTERNAL_LINK_TEST"; then
   printf '%s\n' "Offline internal-link verification contracts are incomplete." >&2
+  exit 1
+fi
+
+for raw_html_contract in \
+  'class HTMLDestinationParser(HTMLParser):' \
+  'def html_destinations(content: str):' \
+  'test_rejects_missing_raw_html_link_and_image_targets' \
+  'test_accepts_valid_and_external_raw_html_destinations'; do
+  if ! grep -Fq "$raw_html_contract" "$INTERNAL_LINK_CHECKER" "$INTERNAL_LINK_TEST"; then
+    printf '%s\n' "Raw HTML link verification contract is missing: $raw_html_contract" >&2
+    exit 1
+  fi
+done
+
+if ! grep -Fq 'Status: Completed' "$RAW_HTML_LINK_PLAN" || \
+  ! grep -Fq 'make check' "$RAW_HTML_LINK_PLAN"; then
+  printf '%s\n' "Raw HTML link integrity plan must record completed verification." >&2
   exit 1
 fi
 
